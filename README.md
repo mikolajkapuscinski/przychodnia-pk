@@ -1,29 +1,39 @@
-# Create T3 App
+# Uruchamianie
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+```bash
+# instalacja pakietow
+npm install
 
-## What's next? How do I make an app with this?
+# zaktualizowanie lokalnie bazy danych
+npm run db:push
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+# uruchomienie serwera deweloperskiego
+npm run dev
+```
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+# Struktura plików
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## Backend
 
-## Learn More
+- Robimy coś w podobie IDesign, [tutaj ziomek dobrze tłumaczy](https://www.youtube.com/live/A-fOT-XMcag?si=eMuxYFdhiIUznxai&t=1318), 22:00-36:00 mozna sobie na 1.5x puscic
+- My mamy router zamiast managera, bo tRPC
+- Router waliduje input, sprawdza role, i wywoluje engine/accessy zeby cos zrobily
+- w tRPC mamy query, czyli zapytania o dane (jak GET), i mutation, czyli jakaś akcja, zmienianie czegoś (jak POST)
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+Wszystkie te cegiełki dajemy do: `src/server/api`
+Utilitiesy dajemy do: `src/server/utils`
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## Klient (Frontend)
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+- Kazdy plik w `src/pages` to jedna podstrona, dajemy tam jak najmniej logiki i wszystko przerzucamy do komponentów z których ta podstrona jest stworzona
+- Proponuje komponenty uzywane wszedzie dawac do `src/components`
+- Proponuje np hooki uzywane wszedzie dawac do `src/hooks`
+- Proponuje rzeczy zwiazane z dana funkcjonalnoscia/podstrona dawac do `src/features/{NAZWA}`
 
-## How do I deploy this?
+Przykladowo:
+src/components/Button.tsx
+src/components/Avatar.tsx
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+src/features/reservation/CreateReservationForm.tsx
+src/features/reservation/ViewReservation.tsx
+src/features/reservation/hooks/useReservation.ts
