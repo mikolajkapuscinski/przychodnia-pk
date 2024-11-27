@@ -1,7 +1,10 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { type DefaultSession, type NextAuthConfig } from "next-auth";
-
+import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "~/server/db";
+import { assert } from "~/utils/assert";
+import { type UserRole } from "@prisma/client";
+import { authorize } from "../api/user/user-auth.engine";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -11,17 +14,15 @@ import { db } from "~/server/db";
  */
 declare module "next-auth" {
   interface Session extends DefaultSession {
-    user: {
-      id: string;
-      // ...other properties
-      // role: UserRole;
-    } & DefaultSession["user"];
+    user: User & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    id?: string;
+    name?: string | null;
+    email?: string | null;
+    role?: UserRole;
+  }
 }
 
 /**
@@ -40,6 +41,33 @@ export const authConfig = {
      *
      * @see https://next-auth.js.org/providers/github
      */
+    CredentialsProvider({
+      // The name to display on the sign in form (e.g. 'Sign in with...')
+      name: "E-mail",
+      // The credentials is used to generate a suitable form on the sign in page.
+      // You can specify whatever fields you are expecting to be submitted.
+      // e.g. domain, username, password, 2FA token, etc.
+      // You can pass any HTML attribute to the <input> tag through the object.
+      credentials: {
+        email: {
+          label: "E-mail",
+          type: "text",
+          placeholder: "jakub@pk.edu.pl",
+        },
+        password: {
+          label: "Password",
+          type: "password",
+          placeholder: "*********",
+        },
+      },
+      async authorize(credentials) {
+        const { email, password } = credentials;
+        assert(typeof email === "string");
+        assert(typeof password === "string");
+
+        return await authorize(email, password);
+      },
+    }),
   ],
   adapter: PrismaAdapter(db),
   callbacks: {
