@@ -1,13 +1,12 @@
 import { z } from "zod";
 
 import {
+  adminProcedure,
   createTRPCRouter,
-  protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
 import { createUser } from "./user.access";
 import { Sex, UserRole } from "@prisma/client";
-import { assert } from "~/utils/assert";
 
 const registerUserInput = z.object({
   firstName: z.string().min(1),
@@ -30,18 +29,13 @@ export const userRouter = createTRPCRouter({
       });
     }),
 
-  registerStaff: protectedProcedure
+  registerStaff: adminProcedure
     .input(
       registerUserInput.extend({
         role: z.nativeEnum(UserRole),
       }),
     )
-    .mutation(async ({ ctx, input }) => {
-      assert(
-        ctx.session.user.role === UserRole.ADMIN,
-        "Only admins can create staff users",
-      );
-
+    .mutation(async ({ input }) => {
       return await createUser(input);
     }),
 });

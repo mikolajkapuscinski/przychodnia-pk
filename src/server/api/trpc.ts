@@ -7,6 +7,7 @@
  * need to use are documented accordingly near the end.
  */
 
+import { UserRole } from "@prisma/client";
 import { initTRPC, TRPCError } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { type Session } from "next-auth";
@@ -15,6 +16,7 @@ import { ZodError } from "zod";
 
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
+import { assert } from "~/utils/assert";
 
 /**
  * 1. CONTEXT
@@ -148,7 +150,7 @@ export const publicProcedure = t.procedure.use(timingMiddleware);
 export const protectedProcedure = t.procedure
   .use(timingMiddleware)
   .use(({ ctx, next }) => {
-    if (!ctx.session || !ctx.session.user) {
+    if (!ctx.session?.user) {
       throw new TRPCError({ code: "UNAUTHORIZED" });
     }
     return next({
@@ -158,3 +160,45 @@ export const protectedProcedure = t.procedure
       },
     });
   });
+
+export const adminProcedure = t.procedure
+  .use(timingMiddleware)
+  .use(({ ctx, next }) => {
+    assert(ctx.session?.user, "Unauthorized", "UNAUTHORIZED");
+    assert(ctx.session?.user.role === UserRole.ADMIN, "Forbidden", "FORBIDDEN");
+
+    return next({
+      ctx: {
+        // infers the `session` as non-nullable
+        session: { ...ctx.session, user: ctx.session.user },
+      },
+    });
+  });
+
+const roleGuardedProcedureFactory = (roles: UserRole[]) => {
+  return t.procedure.use(timingMiddleware).use(({ ctx, next }) => {
+    assert(ctx.session?.user, "Unauthorized", "UNAUTHORIZED");
+    const role: UserRole = ctx.session?.user?.role ?? UserRole.PATIENT;
+    assert(roles.includes(role), "Forbidden", "FORBIDDEN");
+
+    return next({
+      ctx: {
+        // infers the `session` as non-nullable
+        session: { ...ctx.session, user: ctx.session.user },
+      },
+    });
+  });
+};
+
+export const doctorProcedure = roleGuardedProcedureFactory([UserRole.DOCTOR]);
+export const patientProcedure = roleGuardedProcedureFactory([UserRole.PATIENT]);
+export const receptionistProcedure = roleGuardedProcedureFactory([
+  UserRole.RECEPTIONIST,
+]);
+export const accountantProcedure = roleGuardedProcedureFactory([
+  UserRole.ACCOUNTANT,
+]);
+export const patientReceptionistProcedure = roleGuardedProcedureFactory([
+  UserRole.PATIENT,
+  UserRole.RECEPTIONIST,
+]);
