@@ -12,8 +12,21 @@ export const createVisit = async (
   });
 };
 
+export const updateVisit = async (
+  id: number,
+  visit: Prisma.VisitUpdateInput,
+) => {
+  return await db.visit.update({
+    where: { id },
+    data: visit,
+  });
+};
+
 export const findVisitById = async (id: number) => {
-  return await db.visit.findUnique({
+  const visit = await db.visit.findUnique({
     where: { id },
   });
+  assert(visit, "Visit not found");
+
+  return visit;
 };
