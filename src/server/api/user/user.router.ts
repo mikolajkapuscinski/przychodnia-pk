@@ -1,11 +1,12 @@
 import { z } from "zod";
 
 import {
+  accountantProcedure,
   adminProcedure,
   createTRPCRouter,
   publicProcedure,
 } from "~/server/api/trpc";
-import { createUser } from "./user.access";
+import { createUser, findDoctors, findPublicUserByPesel } from "./user.access";
 import { Sex, UserRole } from "@prisma/client";
 
 const registerUserInput = z.object({
@@ -37,5 +38,19 @@ export const userRouter = createTRPCRouter({
     )
     .mutation(async ({ input }) => {
       return await createUser(input);
+    }),
+
+  findDoctors: adminProcedure.query(async () => {
+    return await findDoctors();
+  }),
+
+  findByPesel: accountantProcedure
+    .input(
+      z.object({
+        pesel: z.string().length(11),
+      }),
+    )
+    .query(async ({ input }) => {
+      return await findPublicUserByPesel(input.pesel);
     }),
 });
