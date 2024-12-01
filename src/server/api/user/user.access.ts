@@ -1,6 +1,7 @@
 import { UserRole, type Prisma } from "@prisma/client";
 import { db } from "~/server/db";
 import { hash } from "~/server/utils/hashing.util";
+import { assert } from "~/utils/assert";
 
 type CreateUser = Omit<Prisma.UserCreateInput, "passwordHash"> & {
   password: string;
@@ -29,6 +30,7 @@ export const findUserById = async (id: string) => {
   const user = await db.user.findUnique({
     where: { id },
   });
+  assert(user, "User not found");
 
   return user;
 };
@@ -37,15 +39,19 @@ export const findUserByEmail = async (email: string) => {
   const user = await db.user.findUnique({
     where: { email },
   });
+  assert(user, "User not found");
 
   return user;
 };
 
 export const findPublicUserByPesel = (pesel: string) => {
-  return db.user.findUnique({
+  const user = db.user.findUnique({
     where: { pesel },
     select: PUBLIC_USER_FIELDS,
   });
+  assert(user, "User not found");
+
+  return user;
 };
 
 export const findDoctors = async () => {
