@@ -1,19 +1,15 @@
-import { type UserRole } from "@prisma/client";
+import { type Prisma } from "@prisma/client";
 import { db } from "~/server/db";
 import { hash } from "~/server/utils/hashing.util";
 
-interface CreateUser {
-  name: string;
-  email: string;
+type CreateUser = Omit<Prisma.UserCreateInput, "passwordHash"> & {
   password: string;
-  role: UserRole;
-}
+};
 
 export const createUser = async (createUser: CreateUser) => {
   const user = await db.user.create({
     data: {
-      name: createUser.name,
-      email: createUser.email,
+      ...createUser,
       passwordHash: await hash(createUser.password),
     },
   });

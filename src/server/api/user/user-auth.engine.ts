@@ -18,7 +18,7 @@ export const authorize = async (
 
   return {
     id: user.id,
-    name: user.firstName,
+    name: `${user.firstName} ${user.lastName}`,
     email: user.email,
     role: user.role,
   };

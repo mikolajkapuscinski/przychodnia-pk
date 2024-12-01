@@ -6,18 +6,23 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 import { createUser } from "./user.access";
-import { UserRole } from "@prisma/client";
+import { Sex, UserRole } from "@prisma/client";
 import { assert } from "~/utils/assert";
+
+const registerUserInput = z.object({
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
+  pesel: z.string().length(11),
+  email: z.string().email(),
+  phoneNumber: z.string().optional(),
+  sex: z.nativeEnum(Sex),
+  address: z.string().optional(),
+  password: z.string().min(8),
+});
 
 export const userRouter = createTRPCRouter({
   registerPatient: publicProcedure
-    .input(
-      z.object({
-        name: z.string().min(1),
-        email: z.string().email(),
-        password: z.string().min(8),
-      }),
-    )
+    .input(registerUserInput)
     .mutation(async ({ input }) => {
       return await createUser({
         ...input,
@@ -27,10 +32,7 @@ export const userRouter = createTRPCRouter({
 
   registerStaff: protectedProcedure
     .input(
-      z.object({
-        name: z.string().min(1),
-        email: z.string().email(),
-        password: z.string().min(8),
+      registerUserInput.extend({
         role: z.nativeEnum(UserRole),
       }),
     )
