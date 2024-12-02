@@ -5,7 +5,7 @@ import { CreateAccountForm } from "../../features/admin/create-account/CreateAcc
 
 const CreateAccountPage: NextPage = () => {
   return (
-    <div>
+    <div className="bg-backgound flex items-center justify-center h-screen">
       <CreateAccountForm />
     </div>
   );

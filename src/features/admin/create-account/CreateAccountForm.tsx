@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { api } from "../../../utils/api";
 import { type UserRole, Sex } from "@prisma/client";
+import { InputBox } from "~/components/forms/InputBox";
+import { InputLabel } from "~/components/forms/InputLabel";
+import { Title } from "~/components/forms/Title";
+import { Select } from "~/components/forms/Select";
+import { Button } from "~/components/forms/Button";
 
 export const CreateAccountForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -59,133 +64,109 @@ export const CreateAccountForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-semibold text-center mb-4">Create Staff Account</h2>
+    <div className="w-full max-w-2xl mx-auto p-6 bg-default-white rounded-2xl">
+      <Title>Create Staff Account</Title>
       <form onSubmit={onSubmit} className="space-y-4">
         {error && <div className="text-red-500 text-sm">{error}</div>}
 
         <div className="form-group">
-          <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
-            First Name
-          </label>
-          <input
+          <InputLabel htmlFor="firstName">First Name</InputLabel>
+          <InputBox 
             type="text"
             id="firstName"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleInputChange}
+            name="firstName" 
+            value={formData.firstName} 
+            onChange={handleInputChange} 
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-            Last Name
-          </label>
-          <input
+          <InputLabel htmlFor="lastName">Last Name</InputLabel>
+          <InputBox 
             type="text"
             id="lastName"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleInputChange}
+            name="lastName" 
+            value={formData.lastName} 
+            onChange={handleInputChange} 
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-            Email
-          </label>
-          <input
+          <InputLabel htmlFor="email">Email</InputLabel>
+          <InputBox 
             type="email"
             id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
+            name="email" 
+            value={formData.email} 
+            onChange={handleInputChange} 
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-            Password
-          </label>
-          <input
+          <InputLabel htmlFor="password">Password</InputLabel>
+          <InputBox 
             type="password"
             id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
+            name="password" 
+            value={formData.password} 
+            onChange={handleInputChange} 
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="pesel" className="block text-sm font-medium text-gray-700">
-            PESEL
-          </label>
-          <input
+          <InputLabel htmlFor="pesel">PESEL</InputLabel>
+          <InputBox 
             type="text"
             id="pesel"
-            name="pesel"
-            value={formData.pesel}
-            onChange={handleInputChange}
+            name="pesel" 
+            value={formData.pesel} 
+            onChange={handleInputChange} 
             required
-            maxLength={11}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="role" className="block text-sm font-medium text-gray-700">
-            Role
-          </label>
-          <select
+          <InputLabel htmlFor="role">Role</InputLabel>
+          <Select
             id="role"
             name="role"
             value={formData.role}
             onChange={handleRoleChange}
+            options={[
+              { value: "DOCTOR", label: "Doctor" },
+              { value: "ACCOUNTANT", label: "Accountant" },
+              { value: "RECEPTIONIST", label: "Receptionist" },
+              { value: "ADMIN", label: "Admin" },
+            ]}
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-          >
-            <option value="DOCTOR">Doctor</option>
-            <option value="ACCOUNTANT">Accountant</option>
-            <option value="RECEPTIONIST">Receptionist</option>
-            <option value="ADMIN">Admin</option>
-          </select>
+          />
         </div>
 
         <div className="form-group">
-          <label htmlFor="sex" className="block text-sm font-medium text-gray-700">
-            Sex
-          </label>
-          <select
+          <InputLabel htmlFor="sex">Sex</InputLabel>
+          <Select
             id="sex"
             name="sex"
             value={formData.sex}
             onChange={handleSexChange}
+            options={[
+              { value: "MALE", label: "Male" },
+              { value: "FEMALE", label: "Female" },
+              { value: "NON_BINARY", label: "Non binary" },
+              { value: "OTHER", label: "Other" },
+            ]}
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-          >
-            <option value="MALE">Male</option>
-            <option value="FEMALE">Female</option>
-            <option value="NON_BINARY">Non binary</option>
-            <option value="OTHER">Other</option>
-          </select>
+          />
         </div>
 
-        <div className="form-group">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          >
+        <div className="form-group pt-5">
+          <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Creating..." : "Create Account"}
-          </button>
+          </Button>
         </div>
       </form>
     </div>
