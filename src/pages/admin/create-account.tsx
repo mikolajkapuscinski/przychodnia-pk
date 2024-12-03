@@ -1,6 +1,6 @@
 import React from "react";
 import { NextPage } from "next";
-import { CreateAccountForm } from "../../features/admin/create-account/CreateAccountForm"
+import { CreateAccountForm } from "../../features/admin/create-account/CreateAccountForm";
 
 
 const CreateAccountPage: NextPage = () => {

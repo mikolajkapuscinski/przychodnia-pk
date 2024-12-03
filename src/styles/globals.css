@@ -5,4 +5,5 @@
 
 body {
     @apply text-default-black;
+    @apply bg-backgound;
 }

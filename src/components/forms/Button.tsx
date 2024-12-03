@@ -12,8 +12,8 @@ export const Button = (p: ButtonProps) => {
 				w-full 
 				py-2 
 				bg-orange
-				text-default-white
-				rounded-md 
+				text-white
+				rounded-3xl 
 				hover:bg-light-orange
 				focus:outline-none 
 				focus:ring-2 

@@ -6,6 +6,7 @@ import { InputLabel } from "~/components/forms/InputLabel";
 import { Title } from "~/components/forms/Title";
 import { Select } from "~/components/forms/Select";
 import { Button } from "~/components/forms/Button";
+import { Line } from "~/components/forms/Line";
 
 export const CreateAccountForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -66,31 +67,34 @@ export const CreateAccountForm: React.FC = () => {
   return (
     <div className="w-full max-w-2xl mx-auto p-6 bg-default-white rounded-2xl">
       <Title>Create Staff Account</Title>
+      <Line />
       <form onSubmit={onSubmit} className="space-y-4">
         {error && <div className="text-red-500 text-sm">{error}</div>}
+        
+        <div className="flex items-center space-x-4">
+          <div className="form-group flex-grow-[1]">
+            <InputLabel htmlFor="firstName">First Name</InputLabel>
+            <InputBox 
+              type="text"
+              id="firstName"
+              name="firstName" 
+              value={formData.firstName} 
+              onChange={handleInputChange} 
+              required
+            />
+          </div>
 
-        <div className="form-group">
-          <InputLabel htmlFor="firstName">First Name</InputLabel>
-          <InputBox 
-            type="text"
-            id="firstName"
-            name="firstName" 
-            value={formData.firstName} 
-            onChange={handleInputChange} 
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <InputLabel htmlFor="lastName">Last Name</InputLabel>
-          <InputBox 
-            type="text"
-            id="lastName"
-            name="lastName" 
-            value={formData.lastName} 
-            onChange={handleInputChange} 
-            required
-          />
+          <div className="form-group flex-grow-[1]">
+            <InputLabel htmlFor="lastName">Last Name</InputLabel>
+            <InputBox 
+              type="text"
+              id="lastName"
+              name="lastName" 
+              value={formData.lastName} 
+              onChange={handleInputChange} 
+              required
+            />
+          </div>
         </div>
 
         <div className="form-group">

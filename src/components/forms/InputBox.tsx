@@ -19,7 +19,7 @@ export const InputBox = (p: InputBoxProps) => {
 			className="
 				w-full 
 				px-4 py-2 
-				border border-default-gray rounded-xl
+				border border-default-gray rounded-3xl
 				focus:outline-none 
 				focus:ring-2 
 				focus:ring-orange
