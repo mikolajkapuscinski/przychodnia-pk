@@ -78,3 +78,23 @@ export const findDoctors = async () => {
     };
   });
 };
+
+export const updateUser = async(userId: string,updatedUser: Prisma.UserUpdateInput) => {
+    const user = await db.user.update({
+      where: {id: userId},
+      data: updatedUser,
+    })
+
+    return user.id;
+}
+
+export const updatePassword = async(userId: string, password: string) => {
+  const user = await db.user.update({
+    where: {id: userId},
+    data: {
+      passwordHash: await hash(password)
+    },
+  })
+
+  return user.id;
+}
