@@ -7,7 +7,13 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { createUser, findDoctors, findPublicUserByPesel, updateUser, updatePassword } from "./user.access";
+import {
+  createUser,
+  findDoctors,
+  findPublicUserByPesel,
+  updateUser,
+  updatePassword,
+} from "./user.access";
 import { Sex, UserRole } from "@prisma/client";
 
 const registerUserInput = z.object({
@@ -26,12 +32,12 @@ const updateUserInput = z.object({
   email: z.string().email(),
   phoneNumber: z.string().optional(),
   address: z.string().optional(),
-})
+});
 
 const udatePasswordInput = z.object({
   id: z.string().uuid(),
   password: z.string().min(8),
-})
+});
 
 export const userRouter = createTRPCRouter({
   registerPatient: publicProcedure
@@ -53,7 +59,7 @@ export const userRouter = createTRPCRouter({
       return await createUser(input);
     }),
 
-  findDoctors: adminProcedure.query(async () => {
+  findDoctors: publicProcedure.query(async () => {
     return await findDoctors();
   }),
 
@@ -70,13 +76,12 @@ export const userRouter = createTRPCRouter({
   updateUserData: protectedProcedure
     .input(updateUserInput)
     .mutation(async ({ input }) => {
-      return await updateUser(input.id ,input);
+      return await updateUser(input.id, input);
     }),
 
   updateUserPassword: protectedProcedure
     .input(udatePasswordInput)
-    .mutation(async ({input}) => {
+    .mutation(async ({ input }) => {
       return await updatePassword(input.id, input.password);
-    })
-
+    }),
 });

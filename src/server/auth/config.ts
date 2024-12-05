@@ -65,7 +65,9 @@ export const authConfig = {
         assert(typeof email === "string");
         assert(typeof password === "string");
 
-        return await authorize(email, password);
+        const res = await authorize(email, password);
+        console.log("-- odpowiedz autoryzacji", res);
+        return res;
       },
     }),
   ],
