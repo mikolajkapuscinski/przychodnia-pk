@@ -29,9 +29,12 @@ const registerUserInput = z.object({
 
 const updateUserInput = z.object({
   id: z.string().uuid(),
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
   email: z.string().email(),
   phoneNumber: z.string().optional(),
   address: z.string().optional(),
+  sex: z.nativeEnum(Sex),
 });
 
 const udatePasswordInput = z.object({
