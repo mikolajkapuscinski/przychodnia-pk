@@ -2,6 +2,7 @@ import { UserRole, type Prisma } from "@prisma/client";
 import { db } from "~/server/db";
 import { hash } from "~/server/utils/hashing.util";
 import { assert } from "~/utils/assert";
+import { getOpinionSummary } from "../opinion/opinion.access";
 
 type CreateUser = Omit<Prisma.UserCreateInput, "passwordHash"> & {
   password: string;
@@ -79,6 +80,8 @@ export const findDoctors = async () => {
     },
   });
 
+  const opinions = await getOpinionSummary();
+
   return users.map((user) => {
     return {
       id: user.id,
@@ -87,6 +90,7 @@ export const findDoctors = async () => {
       email: user.email,
       phoneNumber: user.phoneNumber,
       specialization: user.doctor?.specialization ?? [],
+      opinions: opinions[user.id],
     };
   });
 };
