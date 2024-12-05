@@ -74,7 +74,7 @@ export const findDoctors = async () => {
       lastName: user.lastName,
       email: user.email,
       phoneNumber: user.phoneNumber,
-      specialization: user.doctor?.specialization.map((spec) => spec.name),
+      specialization: user.doctor?.specialization ?? [],
     };
   });
 };
