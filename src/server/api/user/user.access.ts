@@ -16,11 +16,23 @@ const PUBLIC_USER_FIELDS = {
 } as const satisfies Prisma.UserSelect;
 
 export const createUser = async (createUser: CreateUser) => {
+  const data: Prisma.UserCreateInput = {
+    ...createUser,
+    passwordHash: await hash(createUser.password),
+  };
+
+  if (createUser.role == UserRole.DOCTOR) {
+    data.doctor = {
+      create: {},
+    };
+  } else if (createUser.role == UserRole.PATIENT) {
+    data.patient = {
+      create: {},
+    };
+  }
+
   const user = await db.user.create({
-    data: {
-      ...createUser,
-      passwordHash: await hash(createUser.password),
-    },
+    data,
   });
 
   return user.id;
