@@ -190,15 +190,24 @@ const roleGuardedProcedureFactory = (roles: UserRole[]) => {
   });
 };
 
-export const doctorProcedure = roleGuardedProcedureFactory([UserRole.DOCTOR]);
-export const patientProcedure = roleGuardedProcedureFactory([UserRole.PATIENT]);
+export const doctorProcedure = roleGuardedProcedureFactory([
+  UserRole.DOCTOR,
+  UserRole.ADMIN,
+]);
+export const patientProcedure = roleGuardedProcedureFactory([
+  UserRole.PATIENT,
+  UserRole.ADMIN,
+]);
 export const receptionistProcedure = roleGuardedProcedureFactory([
   UserRole.RECEPTIONIST,
+  UserRole.ADMIN,
 ]);
 export const accountantProcedure = roleGuardedProcedureFactory([
   UserRole.ACCOUNTANT,
+  UserRole.ADMIN,
 ]);
 export const patientReceptionistProcedure = roleGuardedProcedureFactory([
   UserRole.PATIENT,
   UserRole.RECEPTIONIST,
+  UserRole.ADMIN,
 ]);

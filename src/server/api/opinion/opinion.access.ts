@@ -1,4 +1,13 @@
+import { type Prisma } from "@prisma/client";
 import { db } from "~/server/db";
+
+export const createOpinion = async (
+  data: Prisma.OpinionUncheckedCreateInput,
+) => {
+  return db.opinion.create({
+    data,
+  });
+};
 
 export const getOpinionsForDoctor = (doctorId: string) => {
   return db.opinion.findMany({
