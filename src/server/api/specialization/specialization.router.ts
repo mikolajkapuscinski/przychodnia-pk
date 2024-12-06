@@ -17,7 +17,7 @@ const doctorSpecializationMatch = z.object({
   specializationId: z.string(),
 });
 
-export const userRouter = createTRPCRouter({
+export const specializationRouter = createTRPCRouter({
   getAllSpecializations: publicProcedure.query(async () => {
     return await getAllSpecializations();
   }),
