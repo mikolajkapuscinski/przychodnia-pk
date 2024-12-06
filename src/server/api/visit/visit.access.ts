@@ -30,3 +30,19 @@ export const findVisitById = async (id: number) => {
 
   return visit;
 };
+
+export const findVisits = async (where: Prisma.VisitWhereInput) => {
+  const visit = await db.visit.findMany({
+    where,
+  });
+
+  return visit;
+};
+
+export const countVisits = async (where: Prisma.VisitWhereInput) => {
+  const count = await db.visit.count({
+    where,
+  });
+
+  return count;
+};
