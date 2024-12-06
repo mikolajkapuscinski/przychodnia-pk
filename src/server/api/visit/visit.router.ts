@@ -11,6 +11,7 @@ import { createVisit, findVisitById, updateVisit } from "./visit.access";
 import { assert } from "~/utils/assert";
 import { VisitStatus } from "@prisma/client";
 import { cancelVisit } from "./manage-visit.engine";
+import { addDrugsToVisit } from "../drug/drug.access";
 
 const createVisitInput = z.object({
   patientId: z.string(),
@@ -62,9 +63,20 @@ export const visitRouter = createTRPCRouter({
     }),
 
   finishVisit: doctorProcedure
-    .input(visitIdInput)
+    .input(
+      visitIdInput.extend({
+        prescription: z.string(),
+        drugIds: z.array(z.number()),
+      }),
+    )
     .mutation(async ({ input }) => {
-      // TODO
-      return await updateVisit(input.id, { status: VisitStatus.ONGOING });
+      const visit = await updateVisit(input.id, {
+        prescription: input.prescription,
+        status: VisitStatus.FINISHED,
+      });
+
+      await addDrugsToVisit(visit.id, input.drugIds);
+
+      return true;
     }),
 });
