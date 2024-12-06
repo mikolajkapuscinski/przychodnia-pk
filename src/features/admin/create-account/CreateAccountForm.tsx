@@ -65,33 +65,33 @@ export const CreateAccountForm: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-6 bg-default-white rounded-2xl">
+    <div className="mx-auto w-full max-w-2xl rounded-2xl bg-default-white p-6">
       <Title>Create Staff Account</Title>
       <Line />
       <form onSubmit={onSubmit} className="space-y-4">
-        {error && <div className="text-red-500 text-sm">{error}</div>}
-        
+        {error && <div className="text-sm text-red-500">{error}</div>}
+
         <div className="flex items-center space-x-4">
           <div className="form-group flex-grow-[1]">
             <InputLabel htmlFor="firstName">First Name</InputLabel>
-            <InputBox 
+            <InputBox
               type="text"
               id="firstName"
-              name="firstName" 
-              value={formData.firstName} 
-              onChange={handleInputChange} 
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleInputChange}
               required
             />
           </div>
 
           <div className="form-group flex-grow-[1]">
             <InputLabel htmlFor="lastName">Last Name</InputLabel>
-            <InputBox 
+            <InputBox
               type="text"
               id="lastName"
-              name="lastName" 
-              value={formData.lastName} 
-              onChange={handleInputChange} 
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleInputChange}
               required
             />
           </div>
@@ -99,36 +99,36 @@ export const CreateAccountForm: React.FC = () => {
 
         <div className="form-group">
           <InputLabel htmlFor="email">Email</InputLabel>
-          <InputBox 
+          <InputBox
             type="email"
             id="email"
-            name="email" 
-            value={formData.email} 
-            onChange={handleInputChange} 
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
             required
           />
         </div>
 
         <div className="form-group">
           <InputLabel htmlFor="password">Password</InputLabel>
-          <InputBox 
+          <InputBox
             type="password"
             id="password"
-            name="password" 
-            value={formData.password} 
-            onChange={handleInputChange} 
+            name="password"
+            value={formData.password}
+            onChange={handleInputChange}
             required
           />
         </div>
 
         <div className="form-group">
           <InputLabel htmlFor="pesel">PESEL</InputLabel>
-          <InputBox 
+          <InputBox
             type="text"
             id="pesel"
-            name="pesel" 
-            value={formData.pesel} 
-            onChange={handleInputChange} 
+            name="pesel"
+            value={formData.pesel}
+            onChange={handleInputChange}
             required
           />
         </div>

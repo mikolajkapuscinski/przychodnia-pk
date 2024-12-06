@@ -6,7 +6,7 @@ import { Specialization } from "@prisma/client";
 interface DoctorLabelProps {
     firstName: string;
     lastName: string;
-    specjalization: Specialization[];
+    specialization: Specialization[];
     opinion: string;
 }
 
@@ -18,7 +18,7 @@ export const DoctorLabel = (p: DoctorLabelProps) => {
                 {p.firstName} {p.lastName}
             </h3>
             <p className="text-sm text-gray-500">
-                {p.specjalization.map((s) => s.name).join(", ")}
+                {p.specialization.map((s) => s.name).join(", ")}
             </p>
             <p className="text-sm text-aquamarine font-small mt-1.5">
                 <span>

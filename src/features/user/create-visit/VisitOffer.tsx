@@ -7,7 +7,7 @@ import { DatePicker } from "./DatePicker";
 interface VisitOfferProps {
   firstName: string;
   lastName: string;
-  specjalization: Specialization[];
+  specialization: Specialization[];
   opinion: string;
 }
 
@@ -20,7 +20,7 @@ export const VisitOffer = (p: VisitOfferProps) => {
         <DoctorLabel
           firstName={p.firstName}
           lastName={p.lastName}
-          specjalization={p.specjalization}
+          specialization={p.specialization || []}
           opinion={p.opinion}
         />
       </div>
