@@ -8,7 +8,7 @@ import { getOpinionsForDoctor } from "./opinion.access";
 import { assert } from "~/utils/assert";
 import { postOpinion } from "./opinion.engine";
 
-export const userRouter = createTRPCRouter({
+export const opinionRouter = createTRPCRouter({
   getOpinionsForDoctor: publicProcedure
     .input(
       z.object({
