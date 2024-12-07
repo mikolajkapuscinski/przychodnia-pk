@@ -15,8 +15,8 @@ export const VisitOffer = (p: VisitOfferProps) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   return (
-    <div className="mx-auto mt-10 flex w-full max-w-4xl rounded-2xl bg-default-white">
-      <div className="flex-grow-[2] pl-4 pt-1">
+    <div className="mx-auto my-10 flex w-full max-w-4xl rounded-2xl bg-default-white">
+      <div className="w-3/5 pl-4 pt-1">
         <DoctorLabel
           firstName={p.firstName}
           lastName={p.lastName}
@@ -24,7 +24,7 @@ export const VisitOffer = (p: VisitOfferProps) => {
           opinion={p.opinion}
         />
       </div>
-      <div className="w-12 flex-grow-[3] py-6 pr-6">
+      <div className="w-2/5 flex-col py-6 pr-6">
         <DatePicker
           selectedDate={selectedDate}
           onDateChange={setSelectedDate}
