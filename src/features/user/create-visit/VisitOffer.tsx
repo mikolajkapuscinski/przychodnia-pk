@@ -8,7 +8,7 @@ interface VisitOfferProps {
   firstName: string;
   lastName: string;
   specialization: Specialization[];
-  opinion: string;
+  opinion: { rating: number, count: number };
 }
 
 export const VisitOffer = (p: VisitOfferProps) => {

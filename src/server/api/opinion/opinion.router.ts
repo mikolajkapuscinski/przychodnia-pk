@@ -4,7 +4,7 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 import { z } from "zod";
-import { getOpinionsForDoctor } from "./opinion.access";
+import { getOpinionsForDoctor, getOpinionSummary } from "./opinion.access";
 import { assert } from "~/utils/assert";
 import { postOpinion } from "./opinion.engine";
 
@@ -18,6 +18,10 @@ export const opinionRouter = createTRPCRouter({
     .query(async ({ input }) => {
       return await getOpinionsForDoctor(input.doctorId);
     }),
+
+  getOpinionSummary: publicProcedure.query(async () => {
+    return await getOpinionSummary();
+  }),
 
   postOpinion: patientProcedure
     .input(

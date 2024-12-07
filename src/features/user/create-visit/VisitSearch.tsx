@@ -46,6 +46,9 @@ export const VisitSearch: React.FC = () => {
     setFilteredDoctors(filtered || []);
   };
 
+  const opinionSummary = api.opinion.getOpinionSummary.useQuery();
+  const opinionMap = opinionSummary.data ?? {};
+
   return (
     <>
       <div className="mx-auto mt-20 w-full max-w-4xl rounded-2xl bg-default-white p-6">
@@ -79,7 +82,7 @@ export const VisitSearch: React.FC = () => {
             firstName={doctor.firstName || ""}
             lastName={doctor.lastName || ""}
             specialization={doctor.specialization || []}
-            opinion=""
+            opinion={opinionMap[doctor.id] || { rating: 0, count: 0 }}
           />
         ))}
       </div>

@@ -6,7 +6,7 @@ interface DoctorLabelProps {
   firstName: string;
   lastName: string;
   specialization: Specialization[];
-  opinion: string;
+  opinion: any;
 }
 
 export const DoctorLabel = (p: DoctorLabelProps) => {
@@ -25,10 +25,9 @@ export const DoctorLabel = (p: DoctorLabelProps) => {
           {p.specialization.map((s) => s.name).join(", ")}
         </p>
         <p className="font-small mt-1.5 text-sm text-aquamarine">
-          <span>
-            {/* TODO */}
-            <span className="font-bold">{p.opinion}</span> (2137 opinions)
-          </span>
+          <span className="font-bold">{p.opinion.rating}/5 </span>(
+          {p.opinion.count}{" "}
+          <span>{p.opinion.count == 1 ? "opinion" : "opinions"})</span>
         </p>
       </div>
     </div>
