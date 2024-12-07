@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Cell } from "~/components/callendar/Cell";
+import { Button } from "~/components/forms/Button";
+import { api } from "~/utils/api";
+import { useSession } from "next-auth/react";
 
 interface DoctorAvailabilityProps {
   selectedDate: Date;
+  doctorId: string;
 }
 
 export const DoctorAvailability = (p: DoctorAvailabilityProps) => {
   const today = new Date();
   const isToday = p.selectedDate.toDateString() === new Date().toDateString();
   const hours = Array.from({ length: 8 }, (_, index) => 8 + index);
+
+  const { data: sessionData } = useSession();
+  const newVisit = api.visit.createVisit.useMutation();
 
   const handleIsCellDisabled = (hour: number): boolean => {
     if (isToday && hour <= today.getHours()) {
@@ -27,6 +34,33 @@ export const DoctorAvailability = (p: DoctorAvailabilityProps) => {
     return false;
   };
 
+  const [selectedHour, setSelectedHour] = useState<number | null>(null);
+
+  const handleCellClick = (hour: number) => {
+    if (selectedHour === hour) {
+      setSelectedHour(null);
+    } else {
+      setSelectedHour(hour);
+    }
+  };
+
+  const createVisit = async () => {
+    if (selectedHour !== null && sessionData?.user.id) {
+      const visitTime = new Date(p.selectedDate.setHours(selectedHour));
+
+      try {
+        await newVisit.mutateAsync({
+          date: visitTime,
+          patientId: sessionData.user.id,
+          doctorId: p.doctorId,
+        });
+        alert("Created visit successfully!");
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   return (
     <div className="grid grid-rows-8 gap-2">
       {hours.map((hour, index) => (
@@ -35,10 +69,17 @@ export const DoctorAvailability = (p: DoctorAvailabilityProps) => {
           colIndex={0}
           rowIndex={index}
           isDisabled={handleIsCellDisabled(hour)}
+          isSelected={selectedHour === hour}
+          onClick={() => handleCellClick(hour)}
         >
           {`${hour < 10 ? "0" : ""}${hour}:00`}
         </Cell>
       ))}
+      {selectedHour !== null && (
+        <div className="mt-2">
+          <Button onClick={createVisit}>Book</Button>
+        </div>
+      )}
     </div>
   );
 };

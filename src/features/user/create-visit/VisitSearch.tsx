@@ -77,12 +77,14 @@ export const VisitSearch: React.FC = () => {
       </div>
 
       <div className="mt-6">
-        {filteredDoctors.map((doctor) => (
+        {filteredDoctors.map((doctor, i) => (
           <VisitOffer
+            key={i}
             firstName={doctor.firstName || ""}
             lastName={doctor.lastName || ""}
             specialization={doctor.specialization || []}
             opinion={opinionMap[doctor.id] || { rating: 0, count: 0 }}
+            doctorId={doctor.id}
           />
         ))}
       </div>

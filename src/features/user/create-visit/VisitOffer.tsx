@@ -5,10 +5,11 @@ import { DoctorAvailability } from "./DoctorAvailability";
 import { DatePicker } from "./DatePicker";
 
 interface VisitOfferProps {
+  doctorId: string;
   firstName: string;
   lastName: string;
   specialization: Specialization[];
-  opinion: { rating: number, count: number };
+  opinion: { rating: number; count: number };
 }
 
 export const VisitOffer = (p: VisitOfferProps) => {
@@ -29,7 +30,7 @@ export const VisitOffer = (p: VisitOfferProps) => {
           selectedDate={selectedDate}
           onDateChange={setSelectedDate}
         />
-        <DoctorAvailability selectedDate={selectedDate} />
+        <DoctorAvailability selectedDate={selectedDate} doctorId={p.doctorId} />
       </div>
     </div>
   );
