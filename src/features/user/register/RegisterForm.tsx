@@ -8,13 +8,12 @@ import { Select } from "~/components/forms/Select";
 import { Button } from "~/components/forms/Button";
 import { Line } from "~/components/forms/Line";
 
-export const CreateAccountForm: React.FC = () => {
+export const RegisterForm: React.FC = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    role: "DOCTOR" as UserRole,
     pesel: "",
     sex: "MALE" as Sex,
   });
@@ -22,18 +21,11 @@ export const CreateAccountForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const registerStaff = api.user.registerStaff.useMutation();
+  const registerPatient = api.user.registerPatient.useMutation();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value } = e.target;
-    if (["DOCTOR", "ACCOUNTANT", "RECEPTIONIST", "ADMIN"].includes(value)) {
-      setFormData((prev) => ({ ...prev, role: value as UserRole }));
-    }
   };
 
   const handleSexChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -46,13 +38,12 @@ export const CreateAccountForm: React.FC = () => {
     setError(null);
 
     try {
-      await registerStaff.mutateAsync(formData);
+      await registerPatient.mutateAsync(formData);
       setFormData({
         firstName: "",
         lastName: "",
         email: "",
         password: "",
-        role: "DOCTOR",
         pesel: "",
         sex: "MALE",
       });
@@ -66,7 +57,7 @@ export const CreateAccountForm: React.FC = () => {
 
   return (
     <div className="mx-auto w-full max-w-2xl rounded-2xl bg-default-white p-6">
-      <Title>Create Staff Account</Title>
+      <Title>Create Account</Title>
       <Line />
       <form onSubmit={onSubmit} className="space-y-4">
         {error && <div className="text-sm text-red-500">{error}</div>}
@@ -129,23 +120,6 @@ export const CreateAccountForm: React.FC = () => {
             name="pesel"
             value={formData.pesel}
             onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <InputLabel htmlFor="role">Role</InputLabel>
-          <Select
-            id="role"
-            name="role"
-            value={formData.role}
-            onChange={handleRoleChange}
-            options={[
-              { value: "DOCTOR", label: "Doctor" },
-              { value: "ACCOUNTANT", label: "Accountant" },
-              { value: "RECEPTIONIST", label: "Receptionist" },
-              { value: "ADMIN", label: "Admin" },
-            ]}
             required
           />
         </div>
