@@ -168,7 +168,12 @@ export const CreateStaffAccountForm: React.FC = () => {
         </div>
 
         <div className="form-group pt-5">
-          <Button type="submit" disabled={isSubmitting}>
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            variant={"primary"}
+            size={"base"}
+          >
             {isSubmitting ? "Creating..." : "Create Account"}
           </Button>
         </div>

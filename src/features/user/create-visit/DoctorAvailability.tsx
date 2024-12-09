@@ -77,7 +77,9 @@ export const DoctorAvailability = (p: DoctorAvailabilityProps) => {
       ))}
       {selectedHour !== null && (
         <div className="mt-2">
-          <Button onClick={createVisit}>Book</Button>
+          <Button onClick={createVisit} variant={"primary"} size={"base"}>
+            Book
+          </Button>
         </div>
       )}
     </div>

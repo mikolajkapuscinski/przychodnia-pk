@@ -71,7 +71,9 @@ export const VisitSearch: React.FC = () => {
             />
           </div>
           <div className="flex-grow-[1]">
-            <Button onClick={handleSearch}>Search</Button>
+            <Button onClick={handleSearch} variant={"primary"} size={"base"}>
+              Search
+            </Button>
           </div>
         </div>
       </div>

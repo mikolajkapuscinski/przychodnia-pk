@@ -142,7 +142,12 @@ export const RegisterForm: React.FC = () => {
         </div>
 
         <div className="form-group pt-5">
-          <Button type="submit" disabled={isSubmitting}>
+          <Button
+            type="submit"
+            variant="primary"
+            disabled={isSubmitting}
+            size="base"
+          >
             {isSubmitting ? "Creating..." : "Create Account"}
           </Button>
         </div>

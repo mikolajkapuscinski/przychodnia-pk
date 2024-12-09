@@ -1,9 +1,11 @@
-import { Button } from "../forms/Button"
+import { Button } from "../forms/Button";
 
 export const NavButtons: React.FC = () => {
-   return(
+  return (
     <>
-        <Button >G</Button>
+      <Button variant="primary" size="base">
+        G
+      </Button>
     </>
-   ) 
-}
+  );
+};
