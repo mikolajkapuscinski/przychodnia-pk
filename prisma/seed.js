@@ -64,6 +64,28 @@ const addUsers = async () => {
       };
     }),
   });
+
+  const doctors = await prisma.user.findMany({
+    where: { role: UserRole.DOCTOR },
+  });
+  for (const doctor of doctors) {
+    await prisma.doctor.create({
+      data: {
+        userId: doctor.id,
+      },
+    });
+  }
+
+  const patients = await prisma.user.findMany({
+    where: { role: UserRole.PATIENT },
+  });
+  for (const patient of patients) {
+    await prisma.patient.create({
+      data: {
+        userId: patient.id,
+      },
+    });
+  }
 };
 
 const add = async (table, generator) => {
