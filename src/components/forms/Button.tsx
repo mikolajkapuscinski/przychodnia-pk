@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   type?: "submit" | "reset" | "button" | undefined;
   disabled?: boolean;
   children?: string | ReactElement;
@@ -24,7 +24,7 @@ export const Button = (p: ButtonProps) => {
   return (
     <button
       type={p.type}
-      className={`${variantCss} ${sizeCss}`}
+      className={`${variantCss} ${sizeCss} ${p.className}`}
       onClick={p.onClick}
     >
       {p.children}
