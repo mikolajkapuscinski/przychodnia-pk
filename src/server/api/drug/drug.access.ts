@@ -14,3 +14,7 @@ export const addDrugsToVisit = async (visitId: number, drugIds: number[]) => {
 
   return await db.$transaction(updates);
 };
+
+export const getAllDrugs = async () => {
+  return await db.drug.findMany({});
+};
