@@ -1,4 +1,4 @@
-interface CardProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface CardProps extends React.HTMLAttributes<HTMLBaseElement> {
   title: string;
 }
 
