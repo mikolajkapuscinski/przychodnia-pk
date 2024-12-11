@@ -4,6 +4,7 @@ import { opinionRouter } from "./opinion/opinion.router";
 import { specializationRouter } from "./specialization/specialization.router";
 import { visitRouter } from "./visit/visit.router";
 import { medicalHistoryRouter } from "./medical-history/medical-history.router";
+import { drugRouter } from "./drug/drug.router";
 
 /**
  * This is the primary router for your server.
@@ -16,6 +17,7 @@ export const appRouter = createTRPCRouter({
   specialization: specializationRouter,
   visit: visitRouter,
   medicalHistory: medicalHistoryRouter,
+  drug: drugRouter,
 });
 
 // export type definition of API
