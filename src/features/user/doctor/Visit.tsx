@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Title } from "~/components/forms/Title";
 import { Button } from "~/components/forms/Button";
-import { Search } from "~/components/forms/Search";
 import { SearchDrugs } from "./SearchDrugs";
-// Załóżmy, że Searchbar jest już zaimportowany
+import { TextArea } from "~/components/forms/TextArea";
 
 export const Visit: React.FC = () => {
   const [patientCondition, setPatientCondition] = useState<string>("");
@@ -12,7 +11,16 @@ export const Visit: React.FC = () => {
   const [selectedMedicines, setSelectedMedicines] = useState<any[]>([]);
 
   const handleMedicineSelect = (medicine: any) => {
+    if (selectedMedicines.some((m) => m.name === medicine.name)) {
+      return;
+    }
     setSelectedMedicines((prevMedicines) => [...prevMedicines, medicine]);
+  };
+
+  const handleMedicineRemove = (medicineName: string) => {
+    setSelectedMedicines((prevMedicines) =>
+      prevMedicines.filter((medicine) => medicine.name !== medicineName),
+    );
   };
 
   return (
@@ -22,21 +30,18 @@ export const Visit: React.FC = () => {
 
       <div className="mt-6 flex space-x-8">
         <div className="flex-1 space-y-4">
-          {/* TODO */}
           <div>
             <h5 className="font-bold">Patient Information</h5>
             <p>Name: Mikołaj Donosiciel</p>
             <p>PESEL: 03164845622</p>
             <p>Email: mikolaj@kapus.com</p>
           </div>
-          {/* TODO */}
           <div>
             <h5 className="font-bold">Allergies</h5>
             <p>VSCode, Peanuts</p>
           </div>
 
           <div>
-            {/* TODO */}
             <Button variant="blue" size="base">
               View Medical History
             </Button>
@@ -55,11 +60,10 @@ export const Visit: React.FC = () => {
 
       <div className="mt-6">
         <h5 className="font-bold">Patient's Condition</h5>
-        <textarea
+        <TextArea
           value={patientCondition}
           onChange={(e) => setPatientCondition(e.target.value)}
           placeholder="Describe patient's condition..."
-          className="w-full rounded-md border p-2"
         />
       </div>
 
@@ -68,11 +72,20 @@ export const Visit: React.FC = () => {
           <h5 className="font-bold">Select Medicines</h5>
           <SearchDrugs onSelect={handleMedicineSelect} />
           <div className="mt-2">
-            <h6 className="font-semibold">Selected Medicines:</h6>
             <ul>
               {selectedMedicines.map((medicine, index) => (
-                <li key={index} className="text-sm">
-                  {medicine.name}
+                <li
+                  key={index}
+                  className="flex items-center justify-between text-base"
+                >
+                  <span>{medicine.name}</span>
+                  <Button
+                    onClick={() => handleMedicineRemove(medicine.name)}
+                    variant={"minimalistic"}
+                    size={"xs"}
+                  >
+                    ✕
+                  </Button>
                 </li>
               ))}
             </ul>
@@ -81,11 +94,10 @@ export const Visit: React.FC = () => {
 
         <div className="form-group flex-grow-[1]">
           <h5 className="font-bold">Recommendations</h5>
-          <textarea
+          <TextArea
             value={recommendations}
             onChange={(e) => setRecommendations(e.target.value)}
             placeholder="Provide recommendations..."
-            className="w-full rounded-md border p-2"
             rows={6}
           />
         </div>
@@ -93,11 +105,10 @@ export const Visit: React.FC = () => {
 
       <div className="mt-4">
         <h5 className="font-bold">Notes</h5>
-        <textarea
+        <TextArea
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           placeholder="Any additional notes..."
-          className="w-full rounded-md border p-2"
         />
       </div>
 
