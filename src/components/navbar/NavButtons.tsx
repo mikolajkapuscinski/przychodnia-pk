@@ -2,7 +2,7 @@ import { Button } from "../forms/Button";
 
 export const NavButtons: React.FC = () => {
   return (
-    <div className="flex gap-3 w-1/3 py-1">
+    <div className="flex w-1/3 gap-3 py-1">
       <Button variant="secondary" size="base">
         Overview
       </Button>
@@ -13,7 +13,7 @@ export const NavButtons: React.FC = () => {
         Doctors
       </Button>
       <Button variant="secondary" size="base">
-        Messages
+        Medications
       </Button>
     </div>
   );
