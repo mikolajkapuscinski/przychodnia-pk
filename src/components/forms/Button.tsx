@@ -5,7 +5,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
   children?: string | ReactElement;
   onClick?: any;
-  variant: "primary" | "secondary" | "blue";
+  variant: "primary" | "secondary" | "blue" | "minimalistic";
   size: "base" | "xs";
 }
 
@@ -15,6 +15,7 @@ export const Button = (p: ButtonProps) => {
     secondary:
       "bg-white text-default-black hover:bg-orange hover:text-white focus:ring-white",
     blue: "bg-aquamarine text-white hover:bg-[#90c5d1] hover:text-white focus:ring-white",
+    minimalistic: "text-orange bg-transparent m-0 w-6",
   }[p.variant];
 
   const sizeCss = {

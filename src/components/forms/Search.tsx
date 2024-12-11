@@ -22,7 +22,7 @@ export const Search = <T extends { id: string; name: string }>({
   const [filteredItems, setFilteredItems] = useState<T[]>([]);
 
   useEffect(() => {
-    if (query.trim().length < 3) {
+    if (query.trim().length < 2) {
       setFilteredItems([]);
     } else {
       setFilteredItems(items.filter((item) => filterFunction(item, query)));
@@ -48,7 +48,7 @@ export const Search = <T extends { id: string; name: string }>({
               key={item.id}
               onClick={() => {
                 onSelect(item);
-                setQuery(item.name);
+                setQuery("");
                 setTimeout(() => setFilteredItems([]), 0);
               }}
               className="cursor-pointer p-2 hover:bg-gray-200"
