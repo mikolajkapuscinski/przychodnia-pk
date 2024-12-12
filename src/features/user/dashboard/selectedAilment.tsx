@@ -1,16 +1,15 @@
-import { Card } from "~/components/cards/card";
 import { SectionTitle } from "~/components/dashboard/SectionTitle";
-import { VisitCard } from "~/components/cards/visitCard";
+import { AilmentCard } from "~/components/cards/ailmentCard";
 
 export const SelectedAilment: React.FC = () => {
   return (
     <div className="hidden xl:block">
       <SectionTitle>Selected Ailment</SectionTitle>
       <div className="grid grid-cols-1 place-items-center items-stretch gap-x-2 gap-y-3">
-        <VisitCard isSoon={true} title="Broken leg">
+        <AilmentCard title="Broken leg">
           You broke your leg falling from the plane 2 months ago.
-        </VisitCard>
-        <Card title="Doctor in charge">Micheal Apple</Card>
+        </AilmentCard>
+        <AilmentCard title="Doctor in charge">Micheal Apple</AilmentCard>
       </div>
     </div>
   );
