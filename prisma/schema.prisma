@@ -133,6 +133,15 @@ enum VisitStatus {
     FINISHED
 }
 
+model DoctorCalendarDay {
+    doctorId  String
+    date      DateTime
+    startHour Int
+    endHour   Int
+
+    @@id([doctorId, date])
+}
+
 model Visit {
     id        Int      @id @default(autoincrement())
     Patient   Patient? @relation(fields: [patientId], references: [userId])
