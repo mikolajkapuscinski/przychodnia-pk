@@ -3,10 +3,12 @@ import { DoctorEngine } from "./doctor.engine";
 import { VisitAccess } from "../visit/visit.access";
 import { DoctorCalendarAccess } from "../doctor-calendar/doctor-calendar.access";
 import { UserAccess } from "./user.access";
+import { UserAuthEngine } from "./user-auth.engine";
 
 export const userElements = [
   VisitAccess,
   UserAccess,
+  UserAuthEngine,
   DoctorEngine,
   DoctorCalendarAccess,
 ];
