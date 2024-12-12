@@ -1,9 +1,4 @@
-import {
-  createTRPCRouter,
-  doctorProcedure,
-  patientProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import { getAllergy } from "./allergy.access";
 
