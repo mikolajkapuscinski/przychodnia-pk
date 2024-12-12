@@ -7,14 +7,11 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import {
-  createUser,
-  findDoctors,
-  findPublicUserByPesel,
-  updateUser,
-  updatePassword,
-} from "./user.access";
+import { UserAccess } from "./user.access";
 import { Sex, UserRole } from "@prisma/client";
+import { userInjector } from "./user.module";
+
+const userAccess = userInjector.get(UserAccess) as UserAccess;
 
 const registerUserInput = z.object({
   firstName: z.string().min(1),
@@ -46,7 +43,7 @@ export const userRouter = createTRPCRouter({
   registerPatient: publicProcedure
     .input(registerUserInput)
     .mutation(async ({ input }) => {
-      return await createUser({
+      return await userAccess.createUser({
         ...input,
         role: UserRole.PATIENT,
       });
@@ -59,11 +56,11 @@ export const userRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ input }) => {
-      return await createUser(input);
+      return await userAccess.createUser(input);
     }),
 
   findDoctors: publicProcedure.query(async () => {
-    return await findDoctors();
+    return await userAccess.findDoctors();
   }),
 
   findByPesel: accountantProcedure
@@ -73,18 +70,18 @@ export const userRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input }) => {
-      return await findPublicUserByPesel(input.pesel);
+      return await userAccess.findPublicUserByPesel(input.pesel);
     }),
 
   updateUserData: protectedProcedure
     .input(updateUserInput)
     .mutation(async ({ input }) => {
-      return await updateUser(input.id, input);
+      return await userAccess.updateUser(input.id, input);
     }),
 
   updateUserPassword: protectedProcedure
     .input(udatePasswordInput)
     .mutation(async ({ input }) => {
-      return await updatePassword(input.id, input.password);
+      return await userAccess.updatePassword(input.id, input.password);
     }),
 });
