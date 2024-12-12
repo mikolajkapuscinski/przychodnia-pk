@@ -1,5 +1,7 @@
+import { ReactElement } from "react";
+
 interface SectionTitleProps {
-  title: string;
+  children: string | ReactElement;
   results?: number;
 }
 
@@ -8,7 +10,7 @@ export const SectionTitle: React.FC<SectionTitleProps> = (
 ) => {
   return (
     <div className="mb-4 flex items-center">
-      <h2 className="mr-3 text-2xl font-bold">{p.title}</h2>
+      <h2 className="mr-3 text-2xl font-bold">{p.children}</h2>
       {p.results && p.results > 0 ? (
         <a className="mt-1 cursor-pointer text-xs font-semibold text-aquamarine">
           All results ({p.results}) &#8250;
