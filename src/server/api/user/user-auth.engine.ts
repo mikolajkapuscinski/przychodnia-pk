@@ -1,9 +1,11 @@
+import "reflect-metadata";
 import { type User } from "next-auth";
 import { UserAccess } from "./user.access";
 import { compare } from "~/server/utils/hashing.util";
 import { DI } from "~/server/di";
-import { type Injector } from "injection-js";
+import { Injectable, type Injector } from "injection-js";
 
+@Injectable()
 export class UserAuthEngine extends DI {
   private userAccess: UserAccess;
 

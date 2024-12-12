@@ -1,10 +1,12 @@
-import { type Injector } from "injection-js";
+import "reflect-metadata";
+import { Injectable, type Injector } from "injection-js";
 import { DI } from "~/server/di";
 import { VisitAccess } from "../visit/visit.access";
 import { DoctorCalendarAccess } from "../doctor-calendar/doctor-calendar.access";
 import { UserAccess } from "./user.access";
 import { assert } from "~/utils/assert";
 
+@Injectable()
 export class DoctorEngine extends DI {
   private userAccess: UserAccess;
   private visitAccess: VisitAccess;

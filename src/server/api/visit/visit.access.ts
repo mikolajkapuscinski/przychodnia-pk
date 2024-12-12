@@ -1,7 +1,10 @@
+import "reflect-metadata";
 import { VisitStatus, type Prisma } from "@prisma/client";
+import { Injectable } from "injection-js";
 import { db } from "~/server/db";
 import { assert } from "~/utils/assert";
 
+@Injectable()
 export class VisitAccess {
   async createVisit(visit: Omit<Prisma.VisitUncheckedCreateInput, "status">) {
     assert(visit.date > new Date(), "Invalid time");
