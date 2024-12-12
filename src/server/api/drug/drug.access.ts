@@ -1,20 +1,25 @@
+import "reflect-metadata";
+import { Injectable } from "injection-js";
 import { db } from "~/server/db";
 
-export const addDrugsToVisit = async (visitId: number, drugIds: number[]) => {
-  const updates = drugIds.map((drugId) => {
-    return db.drug.update({
-      where: { id: drugId },
-      data: {
-        visits: {
-          connect: { id: visitId },
+@Injectable()
+export class DrugAccess {
+  async addDrugsToVisit(visitId: number, drugIds: number[]) {
+    const updates = drugIds.map((drugId) => {
+      return db.drug.update({
+        where: { id: drugId },
+        data: {
+          visits: {
+            connect: { id: visitId },
+          },
         },
-      },
+      });
     });
-  });
 
-  return await db.$transaction(updates);
-};
+    return await db.$transaction(updates);
+  }
 
-export const getAllDrugs = async () => {
-  return await db.drug.findMany({});
-};
+  async getAllDrugs() {
+    return await db.drug.findMany({});
+  }
+}

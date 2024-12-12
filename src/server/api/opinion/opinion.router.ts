@@ -4,9 +4,13 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 import { z } from "zod";
-import { getOpinionsForDoctor, getOpinionSummary } from "./opinion.access";
+import { OpinionAccess } from "./opinion.access";
 import { assert } from "~/utils/assert";
-import { postOpinion } from "./opinion.engine";
+import { OpinionEngine } from "./opinion.engine";
+import { opinionInjector } from "./opinion.module";
+
+const opinionAccess = opinionInjector.get(OpinionAccess) as OpinionEngine;
+const opinionEngine = opinionInjector.get(OpinionEngine) as OpinionAccess;
 
 export const opinionRouter = createTRPCRouter({
   getOpinionsForDoctor: publicProcedure
@@ -16,11 +20,11 @@ export const opinionRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input }) => {
-      return await getOpinionsForDoctor(input.doctorId);
+      return await opinionEngine.getOpinionsForDoctor(input.doctorId);
     }),
 
   getOpinionSummary: publicProcedure.query(async () => {
-    return await getOpinionSummary();
+    return await opinionEngine.getOpinionSummary();
   }),
 
   postOpinion: patientProcedure
@@ -35,6 +39,6 @@ export const opinionRouter = createTRPCRouter({
       const patientId = ctx.session.user.id;
       assert(patientId);
 
-      await postOpinion(patientId, input);
+      await opinionAccess.postOpinion(patientId, input);
     }),
 });

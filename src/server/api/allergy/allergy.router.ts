@@ -1,6 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
-import { getAllergy } from "./allergy.access";
+import { AllergyAccess } from "./allergy.access";
 
 export const allergyRouter = createTRPCRouter({
   getAllergiesForPatient: publicProcedure
@@ -10,6 +10,7 @@ export const allergyRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input }) => {
-      return await getAllergy(input.patientId);
+      const allergyAccess = new AllergyAccess();
+      return await allergyAccess.getAllergy(input.patientId);
     }),
 });

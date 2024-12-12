@@ -1,13 +1,18 @@
+import "reflect-metadata";
 import { db } from "~/server/db";
+import { Injectable } from "injection-js";
 
-export const getAllergy = async (patientId: string) => {
-  return await db.allergy.findMany({
-    where: {
-      patient: {
-        some: {
-          userId: patientId,
+@Injectable()
+export class AllergyAccess {
+  async getAllergy(patientId: string) {
+    return await db.allergy.findMany({
+      where: {
+        patient: {
+          some: {
+            userId: patientId,
+          },
         },
       },
-    },
-  });
-};
+    });
+  }
+}

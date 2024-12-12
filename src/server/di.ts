@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { type Injector } from "injection-js";
 
 export class DI {

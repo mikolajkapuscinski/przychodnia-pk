@@ -4,13 +4,10 @@ import {
   doctorProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import {
-  assignSpecializationToDoctor,
-  createSpecialization,
-  getAllSpecializations,
-  unassignSpecializationFromDoctor,
-} from "./specialization.access";
+import { SpecializationAccess } from "./specialization.access";
 import { z } from "zod";
+
+const specializationAccess = new SpecializationAccess();
 
 const doctorSpecializationMatch = z.object({
   doctorId: z.string(),
@@ -19,7 +16,7 @@ const doctorSpecializationMatch = z.object({
 
 export const specializationRouter = createTRPCRouter({
   getAllSpecializations: publicProcedure.query(async () => {
-    return await getAllSpecializations();
+    return await specializationAccess.getAllSpecializations();
   }),
 
   createSpecialization: adminProcedure
@@ -29,13 +26,13 @@ export const specializationRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ input }) => {
-      return await createSpecialization(input);
+      return await specializationAccess.createSpecialization(input);
     }),
 
   assignSpecializationToDoctor: doctorProcedure
     .input(doctorSpecializationMatch)
     .mutation(async ({ input }) => {
-      return await assignSpecializationToDoctor(
+      return await specializationAccess.assignSpecializationToDoctor(
         input.doctorId,
         input.specializationId,
       );
@@ -44,7 +41,7 @@ export const specializationRouter = createTRPCRouter({
   unassignSpecializationFromDoctor: doctorProcedure
     .input(doctorSpecializationMatch)
     .mutation(async ({ input }) => {
-      return await unassignSpecializationFromDoctor(
+      return await specializationAccess.unassignSpecializationFromDoctor(
         input.doctorId,
         input.specializationId,
       );

@@ -1,14 +1,10 @@
-import {
-  adminProcedure,
-  createTRPCRouter,
-  doctorProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
-import { addDrugsToVisit, getAllDrugs } from "./drug.access";
-import { z } from "zod";
+import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { DrugAccess } from "./drug.access";
+
+const drugAccess = new DrugAccess();
 
 export const drugRouter = createTRPCRouter({
   getAllDrugs: publicProcedure.query(async () => {
-    return await getAllDrugs();
+    return await drugAccess.getAllDrugs();
   }),
 });
