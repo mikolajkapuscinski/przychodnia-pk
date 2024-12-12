@@ -6,7 +6,7 @@ interface CardProps extends React.HTMLAttributes<HTMLBaseElement> {
 export const Card: React.FC<CardProps> = (p: CardProps) => {
   return (
     <div
-      className={`group relative w-52 cursor-pointer rounded-xl border-2 border-backgound p-6 shadow-lg ${p.className}`}
+      className={`group relative w-full cursor-pointer rounded-xl border-2 border-backgound bg-default-white p-6 shadow-lg ${p.className}`}
     >
       <h3 className="p-0 text-lg font-bold group-hover:text-aquamarine group-hover:underline">
         {p.title}

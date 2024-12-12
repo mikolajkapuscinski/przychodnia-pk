@@ -11,7 +11,7 @@ export const VisitCard: React.FC<VisitCardProps> = (p: VisitCardProps) => {
 
   return (
     <Card
-      className={`relative w-[480px] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:rounded-s-xl before:bg-${cardColor} before:content-[''] ${p.className}`}
+      className={`relative before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:rounded-s-xl before:bg-${cardColor} before:content-[''] ${p.className}`}
       title={p.title}
     >
       {p.children}
