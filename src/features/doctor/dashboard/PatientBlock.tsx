@@ -4,8 +4,6 @@ import { Button } from "~/components/forms/Button";
 interface PatientBlockProps {
   name: string;
   pesel: string;
-  age: number;
-  gender: string;
   onViewHistory: () => void;
 }
 
