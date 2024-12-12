@@ -1,12 +1,12 @@
 import { InfoSection } from "./infoSection";
-import { PatientMedicinesSection } from "./patientMedicinesSection";
+import { MedicinesSection } from "./MedicinesSection";
 import { SelectedAilment } from "./selectedAilment";
 
 export const RightSection: React.FC = () => {
   return (
     <div className="w-1/3">
       <SelectedAilment></SelectedAilment>
-      <PatientMedicinesSection></PatientMedicinesSection>
+      <MedicinesSection></MedicinesSection>
       <InfoSection></InfoSection>
     </div>
   );

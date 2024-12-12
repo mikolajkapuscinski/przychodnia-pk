@@ -1,9 +1,9 @@
-import { SectionTitle } from "~/components/dashboard/SectionTitle";
+import { MedicinesSection } from "~/features/user/dashboard/MedicinesSection";
 
 interface DrugsSectionProps {}
 
 export const DrugsSection: React.FC<DrugsSectionProps> = (
   p: DrugsSectionProps,
 ) => {
-  return <SectionTitle title={"Drugs"} results={1}></SectionTitle>;
+  return <MedicinesSection></MedicinesSection>;
 };

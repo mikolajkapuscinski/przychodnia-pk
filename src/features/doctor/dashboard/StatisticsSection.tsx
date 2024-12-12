@@ -5,5 +5,5 @@ interface StatisticsSectionProps {}
 export const StatisticsSection: React.FC<StatisticsSectionProps> = (
   p: StatisticsSectionProps,
 ) => {
-  return <SectionTitle title={"Statistics"}></SectionTitle>;
+  return <SectionTitle>Statistics</SectionTitle>;
 };
