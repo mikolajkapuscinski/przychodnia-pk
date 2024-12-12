@@ -1,18 +1,31 @@
+import "reflect-metadata";
+import { Injectable, type Injector } from "injection-js";
 import { type Prisma } from "@prisma/client";
-import {
-  findMedicalHistoryById,
-  updateMedicalHistory,
-} from "./medical-history.access";
+import { MedicalHistoryAccess } from "./medical-history.access";
 import { assert } from "~/utils/assert";
+import { DI } from "~/server/di";
 
-export const updateMedicalHistoryByDoctor = async (
-  doctorId: string,
-  input: Prisma.MedicalHistoryUpdateInput & { id: number },
-) => {
-  const { id, ...data } = input;
+@Injectable()
+export class MedicalHistoryEngine extends DI {
+  private medicalHistoryAccess: MedicalHistoryAccess;
 
-  const medicalHistory = await findMedicalHistoryById(id);
-  assert(medicalHistory.doctorId === doctorId, "Not authorized");
+  constructor(inj: Injector) {
+    super(inj);
 
-  return await updateMedicalHistory(id, data);
-};
+    this.medicalHistoryAccess =
+      this.get<MedicalHistoryAccess>(MedicalHistoryAccess);
+  }
+
+  async updateMedicalHistoryByDoctor(
+    doctorId: string,
+    input: Prisma.MedicalHistoryUpdateInput & { id: number },
+  ) {
+    const { id, ...data } = input;
+
+    const medicalHistory =
+      await this.medicalHistoryAccess.findMedicalHistoryById(id);
+    assert(medicalHistory.doctorId === doctorId, "Not authorized");
+
+    return await this.medicalHistoryAccess.updateMedicalHistory(id, data);
+  }
+}

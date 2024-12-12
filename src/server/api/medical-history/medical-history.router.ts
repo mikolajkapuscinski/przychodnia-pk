@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import {
   createTRPCRouter,
   doctorProcedure,
@@ -5,11 +6,9 @@ import {
 } from "~/server/api/trpc";
 import { z } from "zod";
 import { assert } from "~/utils/assert";
-import {
-  createMedicalHistory,
-  getMedicalHistory,
-} from "./medical-history.access";
-import { updateMedicalHistoryByDoctor } from "./medical-history.engine";
+import { MedicalHistoryAccess } from "./medical-history.access";
+import { MedicalHistoryEngine } from "./medical-history.engine";
+import { medicalHistoryInjector } from "./medical-history.module";
 
 const patientId = z.object({
   patientId: z.string(),
@@ -26,18 +25,25 @@ export const updateMedicalHistoryInput = z.object({
   id: z.number(),
 });
 
+const medicalHistoryAccess = medicalHistoryInjector.get(
+  MedicalHistoryAccess,
+) as MedicalHistoryAccess;
+const medicalHistoryEngine = medicalHistoryInjector.get(
+  MedicalHistoryEngine,
+) as MedicalHistoryEngine;
+
 export const medicalHistoryRouter = createTRPCRouter({
   getMyMedicalHistory: patientProcedure.query(async ({ ctx }) => {
     const patientId = ctx.session.user.id;
     assert(patientId);
 
-    return await getMedicalHistory(patientId);
+    return await medicalHistoryAccess.getMedicalHistory(patientId);
   }),
 
   getPatientMedicalHistory: doctorProcedure
     .input(patientId)
     .query(async ({ input }) => {
-      return await getMedicalHistory(input.patientId);
+      return await medicalHistoryAccess.getMedicalHistory(input.patientId);
     }),
 
   addMedicalHistory: doctorProcedure
@@ -46,7 +52,10 @@ export const medicalHistoryRouter = createTRPCRouter({
       const doctorId = ctx.session.user.id;
       assert(doctorId);
 
-      return await createMedicalHistory({ doctorId, ...input });
+      return await medicalHistoryAccess.createMedicalHistory({
+        doctorId,
+        ...input,
+      });
     }),
 
   updateMedicalHistory: doctorProcedure
@@ -55,6 +64,9 @@ export const medicalHistoryRouter = createTRPCRouter({
       const doctorId = ctx.session.user.id;
       assert(doctorId);
 
-      return await updateMedicalHistoryByDoctor(doctorId, input);
+      return await medicalHistoryEngine.updateMedicalHistoryByDoctor(
+        doctorId,
+        input,
+      );
     }),
 });

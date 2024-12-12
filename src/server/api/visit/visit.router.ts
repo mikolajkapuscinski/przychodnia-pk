@@ -10,7 +10,7 @@ import {
 import { VisitAccess } from "./visit.access";
 import { assert } from "~/utils/assert";
 import { VisitStatus } from "@prisma/client";
-import { addDrugsToVisit } from "../drug/drug.access";
+import { DrugAccess } from "../drug/drug.access";
 import { visitInjector } from "./visit.module";
 import { ManageVisitEngine } from "./manage-visit.engine";
 
@@ -25,6 +25,7 @@ const visitIdInput = z.object({
 });
 
 const visitAccess = visitInjector.get(VisitAccess) as VisitAccess;
+const drugAccess = visitInjector.get(DrugAccess) as DrugAccess;
 const manageVisitEngine = visitInjector.get(
   ManageVisitEngine,
 ) as ManageVisitEngine;
@@ -83,7 +84,7 @@ export const visitRouter = createTRPCRouter({
         status: VisitStatus.FINISHED,
       });
 
-      await addDrugsToVisit(visit.id, input.drugIds);
+      await drugAccess.addDrugsToVisit(visit.id, input.drugIds);
 
       return true;
     }),
