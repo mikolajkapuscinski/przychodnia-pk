@@ -3,15 +3,15 @@ import { Logo } from "./Logo";
 import { NavButtons } from "./NavButtons";
 import { Utilities } from "./Utilities";
 
-export const Navbar: React.FC<HTMLAttributes<HTMLBaseElement>> = (p: HTMLAttributes<HTMLBaseElement>) => {
+export const Navbar: React.FC<HTMLAttributes<HTMLBaseElement>> = (
+  p: HTMLAttributes<HTMLBaseElement>,
+) => {
   return (
-    <div className="flex max-h-16 w-full items-stretch justify-between py-1 px-12">
+    <div className="flex max-h-16 w-full items-stretch justify-between px-12 py-1">
       <div className="w-1/3">
         <Logo />
       </div>
-      <NavButtons>
-        {p.children}
-      </NavButtons>
+      <NavButtons>{p.children}</NavButtons>
       <Utilities />
     </div>
   );
