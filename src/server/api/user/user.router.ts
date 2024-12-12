@@ -63,7 +63,7 @@ export const userRouter = createTRPCRouter({
     }),
 
   findDoctors: publicProcedure.query(async () => {
-    return await userAccess.findDoctors();
+    return await doctorEngine.findDoctorsWithOpinions();
   }),
 
   getAllDoctorAvailability: publicProcedure.query(async () => {

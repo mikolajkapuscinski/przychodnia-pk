@@ -5,18 +5,21 @@ import { VisitAccess } from "../visit/visit.access";
 import { DoctorCalendarAccess } from "../doctor-calendar/doctor-calendar.access";
 import { UserAccess } from "./user.access";
 import { assert } from "~/utils/assert";
+import { OpinionAccess } from "../opinion/opinion.access";
 
 @Injectable()
 export class DoctorEngine extends DI {
   private userAccess: UserAccess;
   private visitAccess: VisitAccess;
   private doctorCalendarAccess: DoctorCalendarAccess;
+  private opinionAccess: OpinionAccess;
 
   constructor(injector: Injector) {
     super(injector);
 
     this.userAccess = this.get<UserAccess>(UserAccess);
     this.visitAccess = this.get<VisitAccess>(VisitAccess);
+    this.opinionAccess = this.get<OpinionAccess>(OpinionAccess);
     this.doctorCalendarAccess =
       this.get<DoctorCalendarAccess>(DoctorCalendarAccess);
   }
@@ -58,5 +61,17 @@ export class DoctorEngine extends DI {
     });
 
     return availability;
+  }
+
+  async findDoctorsWithOpinions() {
+    const doctors = await this.userAccess.findDoctors();
+    const opinions = await this.opinionAccess.getOpinionSummary();
+
+    return doctors.map((doctor) => {
+      return {
+        ...doctor,
+        opinions: opinions[doctor.id],
+      };
+    });
   }
 }

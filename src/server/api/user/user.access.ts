@@ -3,7 +3,6 @@ import { UserRole, type Prisma } from "@prisma/client";
 import { db } from "~/server/db";
 import { hash } from "~/server/utils/hashing.util";
 import { assert } from "~/utils/assert";
-import { getOpinionSummary } from "../opinion/opinion.access";
 import { Injectable } from "injection-js";
 
 type CreateUser = Omit<Prisma.UserCreateInput, "passwordHash"> & {
@@ -86,9 +85,6 @@ export class UserAccess {
     });
     assert(users);
 
-    const opinions = await getOpinionSummary();
-    assert(opinions);
-
     return users.map((user) => {
       return {
         id: user.id,
@@ -97,7 +93,6 @@ export class UserAccess {
         email: user.email,
         phoneNumber: user.phoneNumber,
         specialization: user.doctor?.specialization ?? [],
-        opinions: opinions[user.id],
       };
     });
   }
