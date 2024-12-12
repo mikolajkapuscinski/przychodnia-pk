@@ -25,7 +25,7 @@ export const DatePicker = (p: DatePickerProps) => {
   };
 
   return (
-    <div className="mx-auto max-w-lg">
+    <div className="mx-auto max-w-full">
       <div className="mb-4 flex items-center justify-between rounded-3xl bg-default-gray">
         <Button
           onClick={() => handleDateChange("prev")}
