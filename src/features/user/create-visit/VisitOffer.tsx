@@ -17,7 +17,7 @@ export const VisitOffer = (p: VisitOfferProps) => {
 
   return (
     <div className="mx-auto my-10 flex w-full max-w-4xl rounded-2xl bg-default-white">
-      <div className="w-3/5 pl-4 pt-1">
+      <div className="w-3/5 px-6 pt-6">
         <DoctorLabel
           firstName={p.firstName}
           lastName={p.lastName}

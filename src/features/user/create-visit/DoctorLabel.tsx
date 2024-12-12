@@ -11,9 +11,9 @@ interface DoctorLabelProps {
 
 export const DoctorLabel = (p: DoctorLabelProps) => {
   return (
-    <div className="flex p-4">
+    <div className="flex">
       <img
-        className="h-20 w-20 rounded-full object-cover"
+        className="max-h-20 max-w-20 rounded-full object-cover"
         src="/doctor.png"
         alt=""
       />
@@ -24,7 +24,7 @@ export const DoctorLabel = (p: DoctorLabelProps) => {
         <p className="text-sm text-gray-500">
           {p.specialization.map((s) => s.name).join(", ")}
         </p>
-        <p className="font-small mt-1.5 text-sm text-aquamarine">
+        <p className="font-small text-sm text-aquamarine">
           <span className="font-bold">{p.opinion.rating}/5 </span>(
           {p.opinion.count}{" "}
           <span>{p.opinion.count == 1 ? "opinion" : "opinions"})</span>
