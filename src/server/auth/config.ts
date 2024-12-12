@@ -4,7 +4,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "~/server/db";
 import { assert } from "~/utils/assert";
 import { type UserRole } from "@prisma/client";
-import { authorize } from "../api/user/user-auth.engine";
+import { UserAuthEngine } from "../api/user/user-auth.engine";
+import { userInjector } from "../api/user/user.module";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -68,7 +69,10 @@ export const authConfig = {
         assert(typeof email === "string");
         assert(typeof password === "string");
 
-        const res = await authorize(email, password);
+        const userAuthEngine = userInjector.get(
+          UserAuthEngine,
+        ) as UserAuthEngine;
+        const res = await userAuthEngine.authorize(email, password);
         console.log("-- odpowiedz autoryzacji", res);
         return res;
       },

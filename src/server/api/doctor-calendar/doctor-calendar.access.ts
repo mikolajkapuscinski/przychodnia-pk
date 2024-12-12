@@ -1,13 +1,11 @@
 import "reflect-metadata";
-import { Injectable, type Injector } from "injection-js";
+import { Injectable } from "injection-js";
 import { db } from "~/server/db";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 @Injectable()
 export class DoctorCalendarAccess {
-  constructor(private injector: Injector) {}
-
   async createCalendarEntries(doctorId: string) {
     // TODO: refactor this to engine
     const lastDay = await db.doctorCalendarDay.findFirst({
