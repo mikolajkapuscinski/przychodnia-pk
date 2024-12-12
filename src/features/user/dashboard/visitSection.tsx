@@ -1,18 +1,14 @@
 import { DatePicker } from "../create-visit/DatePicker";
 import { useState } from "react";
-import { VisitCard } from "~/components/visitCard";
+import { SectionTitle } from "~/components/dashboard/SectionTitle";
+import { VisitCard } from "~/components/cards/visitCard";
 
 export const VisitSection: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   return (
     <div className="px-12 py-4">
-      <div className="mb-4 flex items-center">
-        <h2 className="mx-3 text-2xl font-bold">Visits</h2>
-        <a className="cursor-pointer text-xs text-aquamarine underline">
-          see all
-        </a>
-      </div>
+      <SectionTitle results={3}>Your visits</SectionTitle>
       <DatePicker
         selectedDate={selectedDate}
         onDateChange={setSelectedDate}

@@ -1,4 +1,4 @@
-interface CardProps extends React.HTMLAttributes<HTMLBaseElement> {
+export interface CardProps extends React.HTMLAttributes<HTMLBaseElement> {
   title: string;
   className?: string;
 }
@@ -12,13 +12,7 @@ export const Card: React.FC<CardProps> = (p: CardProps) => {
         {p.title}
       </h3>
       <div className="text-xs">{p.children}</div>
-      <div className="absolute bottom-0 right-0 flex items-center justify-center rounded-br-xl rounded-tl-xl bg-aquamarine p-1 group-hover:bg-black">
-        <img
-          className="h-5 w-5 duration-300 group-hover:translate-x-1"
-          src="/right-arrow.png"
-          alt=""
-        ></img>
-      </div>
+
     </div>
   );
 };

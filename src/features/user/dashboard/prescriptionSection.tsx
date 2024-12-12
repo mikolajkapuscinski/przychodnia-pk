@@ -1,14 +1,10 @@
-import { Card } from "~/components/card";
+import { Card } from "~/components/cards/card";
+import { SectionTitle } from "~/components/dashboard/SectionTitle";
 
 export const PrescriptionSection: React.FC = () => {
   return (
     <div className="px-12 py-4">
-      <div className="mb-4 flex items-center">
-        <h2 className="mx-3 text-2xl font-bold">Prescriptions</h2>
-        <a className="cursor-pointer text-xs text-aquamarine underline">
-          see all
-        </a>
-      </div>
+      <SectionTitle results={2137}>Prescriptions</SectionTitle>
       <div className="grid place-items-center items-stretch gap-x-2 gap-y-3 lg:grid-cols-1 2xl:grid-cols-2">
         <Card title="Clean backdoor">
           Doctor recommend to clean your butt. It might be source of infection.
