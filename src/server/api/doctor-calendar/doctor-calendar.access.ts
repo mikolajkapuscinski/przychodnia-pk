@@ -1,10 +1,8 @@
 import "reflect-metadata";
-import { Injectable } from "injection-js";
 import { db } from "~/server/db";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-@Injectable()
 export class DoctorCalendarAccess {
   async createCalendarEntries(doctorId: string) {
     // TODO: refactor this to engine

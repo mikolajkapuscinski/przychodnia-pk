@@ -1,27 +1,25 @@
-import "reflect-metadata";
-import { Injectable, type Injector } from "injection-js";
-import { DI } from "~/server/di";
+import { Inject } from "injection-js";
 import { VisitAccess } from "../visit/visit.access";
 import { DoctorCalendarAccess } from "../doctor-calendar/doctor-calendar.access";
 import { UserAccess } from "./user.access";
 import { assert } from "~/utils/assert";
 import { OpinionAccess } from "../opinion/opinion.access";
 
-@Injectable()
-export class DoctorEngine extends DI {
-  private userAccess: UserAccess;
-  private visitAccess: VisitAccess;
-  private doctorCalendarAccess: DoctorCalendarAccess;
-  private opinionAccess: OpinionAccess;
+export class DoctorEngine {
+  constructor(
+    private userAccess: UserAccess,
+    private visitAccess: VisitAccess,
+    private doctorCalendarAccess: DoctorCalendarAccess,
+    private opinionAccess: OpinionAccess,
+  ) {}
 
-  constructor(injector: Injector) {
-    super(injector);
-
-    this.userAccess = this.get<UserAccess>(UserAccess);
-    this.visitAccess = this.get<VisitAccess>(VisitAccess);
-    this.opinionAccess = this.get<OpinionAccess>(OpinionAccess);
-    this.doctorCalendarAccess =
-      this.get<DoctorCalendarAccess>(DoctorCalendarAccess);
+  static get parameters() {
+    return [
+      new Inject(UserAccess),
+      new Inject(VisitAccess),
+      new Inject(DoctorCalendarAccess),
+      new Inject(OpinionAccess),
+    ];
   }
 
   async getAllDoctorsAvailability() {

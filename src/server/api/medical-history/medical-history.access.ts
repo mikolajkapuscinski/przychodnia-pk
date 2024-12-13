@@ -1,10 +1,7 @@
-import "reflect-metadata";
-import { Injectable } from "injection-js";
 import { type Prisma } from "@prisma/client";
 import { db } from "~/server/db";
 import { assert } from "~/utils/assert";
 
-@Injectable()
 export class MedicalHistoryAccess {
   async getMedicalHistory(patientId: string) {
     return await db.medicalHistory.findMany({

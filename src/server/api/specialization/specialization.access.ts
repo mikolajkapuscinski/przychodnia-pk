@@ -1,9 +1,6 @@
-import "reflect-metadata";
 import { type Prisma } from "@prisma/client";
 import { db } from "~/server/db";
-import { Injectable } from "injection-js";
 
-@Injectable()
 export class SpecializationAccess {
   async getAllSpecializations() {
     return db.specialization.findMany();

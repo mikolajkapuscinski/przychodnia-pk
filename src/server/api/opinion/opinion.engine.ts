@@ -1,9 +1,7 @@
-import "reflect-metadata";
-import { Injectable, type Injector } from "injection-js";
+import { Inject } from "injection-js";
 import { assert } from "~/utils/assert";
 import { VisitAccess } from "../visit/visit.access";
 import { OpinionAccess } from "./opinion.access";
-import { DI } from "~/server/di";
 
 interface CreateOpinion {
   doctorId: string;
@@ -11,16 +9,14 @@ interface CreateOpinion {
   rating: number;
 }
 
-@Injectable()
-export class OpinionEngine extends DI {
-  private visitAccess: VisitAccess;
-  private opinionAccess: OpinionAccess;
+export class OpinionEngine {
+  constructor(
+    private visitAccess: VisitAccess,
+    private opinionAccess: OpinionAccess,
+  ) {}
 
-  constructor(inj: Injector) {
-    super(inj);
-
-    this.visitAccess = this.get<VisitAccess>(VisitAccess);
-    this.opinionAccess = this.get<OpinionAccess>(OpinionAccess);
+  static get parameters() {
+    return [new Inject(VisitAccess), new Inject(OpinionAccess)];
   }
 
   async postOpinion(patientId: string, opinion: CreateOpinion) {

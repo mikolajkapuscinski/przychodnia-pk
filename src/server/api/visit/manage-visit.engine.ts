@@ -1,16 +1,13 @@
 import { UserRole, VisitStatus, type Visit } from "@prisma/client";
 import { assert } from "~/utils/assert";
 import { VisitAccess } from "./visit.access";
-import { DI } from "~/server/di";
-import { type Injector } from "injection-js";
+import { Inject } from "injection-js";
 
-export class ManageVisitEngine extends DI {
-  private visitAccess: VisitAccess;
+export class ManageVisitEngine {
+  constructor(private visitAccess: VisitAccess) {}
 
-  constructor(inj: Injector) {
-    super(inj);
-
-    this.visitAccess = this.get<VisitAccess>(VisitAccess);
+  static get parameters() {
+    return [new Inject(VisitAccess)];
   }
 
   async canCancelVisit(visit: Visit, userId: string, role: string) {

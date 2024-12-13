@@ -1,8 +1,5 @@
-import "reflect-metadata";
-import { Injectable } from "injection-js";
 import { db } from "~/server/db";
 
-@Injectable()
 export class DrugAccess {
   async addDrugsToVisit(visitId: number, drugIds: number[]) {
     const updates = drugIds.map((drugId) => {

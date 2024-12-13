@@ -1,15 +1,12 @@
-import "reflect-metadata";
 import { UserRole, type Prisma } from "@prisma/client";
 import { db } from "~/server/db";
 import { hash } from "~/server/utils/hashing.util";
 import { assert } from "~/utils/assert";
-import { Injectable } from "injection-js";
 
 type CreateUser = Omit<Prisma.UserCreateInput, "passwordHash"> & {
   password: string;
 };
 
-@Injectable()
 export class UserAccess {
   private static PUBLIC_USER_FIELDS = {
     id: true,

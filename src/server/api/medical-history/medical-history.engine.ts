@@ -1,19 +1,13 @@
-import "reflect-metadata";
-import { Injectable, type Injector } from "injection-js";
+import { Inject } from "injection-js";
 import { type Prisma } from "@prisma/client";
 import { MedicalHistoryAccess } from "./medical-history.access";
 import { assert } from "~/utils/assert";
-import { DI } from "~/server/di";
 
-@Injectable()
-export class MedicalHistoryEngine extends DI {
-  private medicalHistoryAccess: MedicalHistoryAccess;
+export class MedicalHistoryEngine {
+  constructor(private medicalHistoryAccess: MedicalHistoryAccess) {}
 
-  constructor(inj: Injector) {
-    super(inj);
-
-    this.medicalHistoryAccess =
-      this.get<MedicalHistoryAccess>(MedicalHistoryAccess);
+  static get parameters() {
+    return [new Inject(MedicalHistoryAccess)];
   }
 
   async updateMedicalHistoryByDoctor(

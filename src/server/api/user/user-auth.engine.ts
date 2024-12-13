@@ -1,18 +1,13 @@
-import "reflect-metadata";
 import { type User } from "next-auth";
 import { UserAccess } from "./user.access";
 import { compare } from "~/server/utils/hashing.util";
-import { DI } from "~/server/di";
-import { Injectable, type Injector } from "injection-js";
+import { Inject } from "injection-js";
 
-@Injectable()
-export class UserAuthEngine extends DI {
-  private userAccess: UserAccess;
+export class UserAuthEngine {
+  constructor(private userAccess: UserAccess) {}
 
-  constructor(injector: Injector) {
-    super(injector);
-
-    this.userAccess = this.get<UserAccess>(UserAccess);
+  static get parameters() {
+    return [new Inject(UserAccess)];
   }
 
   async authorize(email: string, password: string): Promise<User | null> {

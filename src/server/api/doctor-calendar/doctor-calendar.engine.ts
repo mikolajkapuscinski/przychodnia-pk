@@ -1,19 +1,17 @@
 import "reflect-metadata";
-import { Injectable, type Injector } from "injection-js";
+import { Inject, Injectable } from "injection-js";
 import { DoctorCalendarAccess } from "./doctor-calendar.access";
-import { DI } from "~/server/di";
 import { VisitAccess } from "../visit/visit.access";
 
 @Injectable()
-export class DoctorCalendarEngine extends DI {
-  private calendarAccess: DoctorCalendarAccess;
-  private visitAccess: VisitAccess;
+export class DoctorCalendarEngine {
+  constructor(
+    private calendarAccess: DoctorCalendarAccess,
+    private visitAccess: VisitAccess,
+  ) {}
 
-  constructor(inj: Injector) {
-    super(inj);
-
-    this.calendarAccess = this.get<DoctorCalendarAccess>(DoctorCalendarAccess);
-    this.visitAccess = this.get<VisitAccess>(VisitAccess);
+  static get parameters() {
+    return [new Inject(DoctorCalendarAccess), new Inject(VisitAccess)];
   }
 
   async getCalendar(doctorId: string) {

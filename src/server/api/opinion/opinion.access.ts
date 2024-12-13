@@ -1,9 +1,6 @@
-import "reflect-metadata";
-import { Injectable } from "injection-js";
 import { type Prisma } from "@prisma/client";
 import { db } from "~/server/db";
 
-@Injectable()
 export class OpinionAccess {
   async createOpinion(data: Prisma.OpinionUncheckedCreateInput) {
     return db.opinion.create({
