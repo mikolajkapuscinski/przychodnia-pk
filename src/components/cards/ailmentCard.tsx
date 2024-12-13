@@ -1,3 +1,4 @@
+import { Line } from "../forms/Line";
 import { Card, CardProps } from "./card";
 import {
   DoctorLabel,
@@ -15,6 +16,7 @@ export const AilmentCard: React.FC<AilmentCardProps> = (
         {`Day of diagnosis: ${new Date().toLocaleDateString()}`}
       </div>
       {p.children}
+      <Line></Line>
       <h2 className="font-semibold text-lg text-light-aquamarine">Doctor in charge:</h2>
       <DoctorLabel
         firstName={p.firstName}
