@@ -2,7 +2,7 @@ import { list } from "postcss";
 import React, { useState } from "react";
 import { Specialization } from "@prisma/client";
 
-interface DoctorLabelProps {
+export interface DoctorLabelProps {
   firstName: string;
   lastName: string;
   specialization: Specialization[];
