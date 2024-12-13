@@ -2,7 +2,8 @@ import React from "react";
 import { Button } from "~/components/forms/Button";
 
 interface PatientBlockProps {
-  name: string;
+  firstName: string;
+  lastName: string;
   pesel: string;
   onViewHistory: () => void;
   className?: string;
@@ -17,7 +18,9 @@ export const PatientBlock: React.FC<PatientBlockProps> = (
     >
       <div className="flex items-center justify-between p-4">
         <div className="flex-grow pr-4">
-          <h3 className="text-base font-bold">{p.name}</h3>
+          <h3 className="text-base font-bold">
+            {p.firstName} {p.lastName}
+          </h3>
           <div className="space-y-1 text-xs text-gray-600">
             <p>
               <span className="font-medium">PESEL:</span> {p.pesel}
