@@ -10,6 +10,7 @@ import { Button } from "~/components/forms/Button";
 
 const UserDashboard: NextPage = () => {
   return (
+    // Left
     <div className="flex flex-wrap px-14">
       <Navbar>
         <Button variant="secondary" size="base">
@@ -27,11 +28,14 @@ const UserDashboard: NextPage = () => {
       </Navbar>
       <div className="flex w-full flex-col gap-6 p-10 sm:w-1/3">
         <PatientSection />
+      </div>
+
+      {/* Middle */}
+      <div className="flex w-full flex-col gap-6 p-10 sm:w-1/3">
         <VisitsSection />
       </div>
 
-      <BodySchema />
-
+      {/* Right */}
       <div className="flex w-full flex-col gap-6 p-10 sm:w-1/3">
         <DrugsSection />
         <StatisticsSection />

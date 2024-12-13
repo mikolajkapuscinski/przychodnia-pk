@@ -5,14 +5,17 @@ interface PatientBlockProps {
   name: string;
   pesel: string;
   onViewHistory: () => void;
+  className?: string;
 }
 
 export const PatientBlock: React.FC<PatientBlockProps> = (
   p: PatientBlockProps,
 ) => {
   return (
-    <div className="mx-0 w-full overflow-hidden rounded-2xl bg-white shadow-md">
-      <div className="flex items-center justify-between border-b border-gray-200 p-4">
+    <div
+      className={`mx-0 w-full overflow-hidden rounded-2xl bg-default-white shadow-md ${p.className}`}
+    >
+      <div className="flex items-center justify-between p-4">
         <div className="flex-grow pr-4">
           <h3 className="text-base font-bold">{p.name}</h3>
           <div className="space-y-1 text-xs text-gray-600">

@@ -14,11 +14,7 @@ export const MedicinesSection: React.FC = () => {
           />
         </DrugCard>
         <DrugCard title="Fentanyl">
-          <img
-            className="rounded-lg"
-            src="/medicine-2.jpg"
-            alt="drug"
-          />
+          <img className="rounded-lg" src="/medicine-2.jpg" alt="drug" />
         </DrugCard>
       </div>
     </div>

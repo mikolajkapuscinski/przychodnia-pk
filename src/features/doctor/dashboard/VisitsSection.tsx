@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { SectionTitle } from "~/components/dashboard/SectionTitle";
-import { VisitCard } from "~/components/visitCard";
+
 import { DatePicker } from "~/features/user/create-visit/DatePicker";
+import { DoctorsVisitCard } from "./DoctorsVisitCard";
 
 interface VisitsSectionProps {}
 
@@ -18,18 +19,18 @@ export const VisitsSection: React.FC<VisitsSectionProps> = (
           onDateChange={setSelectedDate}
         ></DatePicker>
         <div className="grid grid-cols-1 place-items-center items-stretch gap-x-2 gap-y-3">
-          <VisitCard
+          <DoctorsVisitCard
             isSoon={true}
             title="MRI: right thigh, knee and shin"
-          ></VisitCard>
-          <VisitCard
+          ></DoctorsVisitCard>
+          <DoctorsVisitCard
             isSoon={false}
             title="Consultation: surgery preparation"
-          ></VisitCard>
-          <VisitCard
+          ></DoctorsVisitCard>
+          <DoctorsVisitCard
             isSoon={false}
             title="Consultation: physical rehabilitation before & after surgery"
-          ></VisitCard>
+          ></DoctorsVisitCard>
         </div>
       </div>
     </>
