@@ -1,5 +1,5 @@
 import React from "react";
-import { NextPage } from "next";
+import { type NextPage } from "next";
 import { VisitSearch } from "../../features/user/create-visit/VisitSearch";
 
 const CreateVisitPage: NextPage = () => {

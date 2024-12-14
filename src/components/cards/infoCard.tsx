@@ -1,4 +1,4 @@
-import { HTMLAttributes, useState } from "react";
+import { type HTMLAttributes, useState } from "react";
 
 export const InfoCard: React.FC<HTMLAttributes<HTMLBaseElement>> = (
   p: HTMLAttributes<HTMLBaseElement>,

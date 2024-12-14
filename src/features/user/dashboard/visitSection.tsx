@@ -14,7 +14,10 @@ export const VisitSection: React.FC = () => {
         onDateChange={setSelectedDate}
       ></DatePicker>
       <div className="grid grid-cols-1 place-items-center items-stretch gap-x-2 gap-y-3">
-        <VisitCard isSoon={true} title="MRI: right thigh, knee and shin"></VisitCard>
+        <VisitCard
+          isSoon={true}
+          title="MRI: right thigh, knee and shin"
+        ></VisitCard>
       </div>
     </div>
   );

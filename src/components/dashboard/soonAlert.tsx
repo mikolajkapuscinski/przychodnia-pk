@@ -1,7 +1,15 @@
-import React, { HTMLAttributes } from 'react'
+import React, { type HTMLAttributes } from "react";
 
-export const SoonAlert: React.FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...rest }) => {
+export const SoonAlert: React.FC<HTMLAttributes<HTMLDivElement>> = ({
+  className,
+  ...rest
+}) => {
   return (
-    <div {...rest} className={`bg-aquamarine rounded-xl px-2 py-1 text-default-white font-semibold uppercase ${className}`}>soon</div>
-  )
-}
+    <div
+      {...rest}
+      className={`rounded-xl bg-aquamarine px-2 py-1 font-semibold uppercase text-default-white ${className}`}
+    >
+      soon
+    </div>
+  );
+};

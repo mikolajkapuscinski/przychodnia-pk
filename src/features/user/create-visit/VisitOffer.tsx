@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { DoctorLabel } from "./DoctorLabel";
-import { Specialization } from "@prisma/client";
+import { type Specialization } from "@prisma/client";
 import { DoctorAvailability } from "./DoctorAvailability";
 import { DatePicker } from "./DatePicker";
 

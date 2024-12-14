@@ -1,6 +1,5 @@
 import { DrugCard } from "~/components/cards/drugCard";
 import { SectionTitle } from "~/components/dashboard/SectionTitle";
-import { MedicinesSection } from "~/features/user/dashboard/MedicinesSection";
 import { MedicationDatabase } from "../MedicationDatabase";
 import { CustomDialog } from "~/components/CustomDialog";
 import { useState } from "react";

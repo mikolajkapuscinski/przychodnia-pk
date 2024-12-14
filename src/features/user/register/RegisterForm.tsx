@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { api } from "../../../utils/api";
-import { type UserRole, Sex } from "@prisma/client";
+import { type Sex } from "@prisma/client";
 import { InputBox } from "~/components/forms/InputBox";
 import { InputLabel } from "~/components/forms/InputLabel";
 import { Title } from "~/components/forms/Title";

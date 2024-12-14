@@ -1,6 +1,5 @@
 import React from "react";
-import { NextPage } from "next";
-import { BodySchema } from "~/features/user/dashboard/bodySchema";
+import { type NextPage } from "next";
 import { PatientSection } from "~/features/doctor/dashboard/PatientsSection";
 import { VisitsSection } from "~/features/doctor/dashboard/VisitsSection";
 import { DrugsSection } from "~/features/doctor/dashboard/DrugsSection";

@@ -1,7 +1,13 @@
-import { HTMLAttributes } from "react";
+import { type HTMLAttributes } from "react";
 
-export const Line: React.FC<HTMLAttributes<HTMLDivElement>> = ({className ,...rest}) => {
-	return (
-        <hr {...rest} className={`border-t border-default-gray my-4 ${className}`} />
-	);
+export const Line: React.FC<HTMLAttributes<HTMLDivElement>> = ({
+  className,
+  ...rest
+}) => {
+  return (
+    <hr
+      {...rest}
+      className={`my-4 border-t border-default-gray ${className}`}
+    />
+  );
 };

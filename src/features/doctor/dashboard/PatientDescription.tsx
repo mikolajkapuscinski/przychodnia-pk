@@ -1,6 +1,5 @@
 import React from "react";
 import { Line } from "~/components/forms/Line";
-import { PatientInfoCard } from "../../../components/cards/PatientInfoCard";
 import PatientBasicInformationCard from "~/components/cards/PatientBasicInformationCard";
 import PatientMedicalInformationCard from "~/components/cards/PatientMedicalInformationCard";
 import PatientMedicalHistory from "~/components/cards/PatientMedicalHistoryCard";

@@ -1,4 +1,4 @@
-import { Card, CardProps } from "./card";
+import { Card, type CardProps } from "./card";
 
 export const DrugCard: React.FC<CardProps> = (p: CardProps) => {
   return (

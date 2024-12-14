@@ -1,5 +1,5 @@
 import React from "react";
-import { NextPage } from "next";
+import { type NextPage } from "next";
 import { CreateStaffAccountForm } from "../../features/admin/create-account/CreateStaffAccountForm";
 
 const CreateAccountPage: NextPage = () => {

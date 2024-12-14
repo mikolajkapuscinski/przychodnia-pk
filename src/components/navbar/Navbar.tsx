@@ -1,4 +1,4 @@
-import { HTMLAttributes } from "react";
+import { type HTMLAttributes } from "react";
 import { Logo } from "./Logo";
 import { NavButtons } from "./NavButtons";
 import { Utilities } from "./Utilities";

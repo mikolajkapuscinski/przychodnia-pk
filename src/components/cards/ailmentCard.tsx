@@ -1,8 +1,8 @@
 import { Line } from "../forms/Line";
-import { Card, CardProps } from "./card";
+import { Card, type CardProps } from "./card";
 import {
   DoctorLabel,
-  DoctorLabelProps,
+  type DoctorLabelProps,
 } from "~/features/user/create-visit/DoctorLabel";
 
 type AilmentCardProps = DoctorLabelProps & CardProps;
@@ -17,7 +17,9 @@ export const AilmentCard: React.FC<AilmentCardProps> = (
       </div>
       {p.children}
       <Line></Line>
-      <h2 className="font-semibold text-lg text-light-aquamarine">Doctor in charge:</h2>
+      <h2 className="text-lg font-semibold text-light-aquamarine">
+        Doctor in charge:
+      </h2>
       <DoctorLabel
         firstName={p.firstName}
         lastName=""

@@ -1,5 +1,5 @@
 import React from "react";
-import { NextPage } from "next";
+import { type NextPage } from "next";
 import { Navbar } from "~/components/navbar/Navbar";
 import { BodySchema } from "~/features/user/dashboard/bodySchema";
 import { LeftSection } from "~/features/user/dashboard/leftSection";

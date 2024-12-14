@@ -1,6 +1,5 @@
-import { list } from "postcss";
-import React, { useState } from "react";
-import { Specialization } from "@prisma/client";
+import React from "react";
+import { type Specialization } from "@prisma/client";
 
 export interface DoctorLabelProps {
   firstName: string;

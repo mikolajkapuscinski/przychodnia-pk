@@ -1,11 +1,11 @@
 interface TitleProps {
-	children: string
+  children: string;
 }
 
 export const Title = (p: TitleProps) => {
-	return (
-        <h2 className="text-2xl font-semibold text-center text-default-black mb-4">
-            {p.children}
-        </h2>
-	);
+  return (
+    <h2 className="mb-4 text-center text-2xl font-semibold text-default-black">
+      {p.children}
+    </h2>
+  );
 };

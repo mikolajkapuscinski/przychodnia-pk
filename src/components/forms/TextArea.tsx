@@ -1,4 +1,4 @@
-import { ChangeEventHandler } from "react";
+import { type ChangeEventHandler } from "react";
 
 interface TextAreaProps {
   value: string;
