@@ -2,9 +2,7 @@ import { Card } from "~/components/cards/card";
 import { SoonAlert } from "~/components/dashboard/soonAlert";
 import { VisitDetails } from "~/components/dashboard/visitDetails";
 import { Line } from "~/components/forms/Line";
-import { DoctorLabel } from "~/features/user/create-visit/DoctorLabel";
 import { PatientBlock } from "./PatientBlock";
-import { string } from "zod";
 
 interface DoctorsVisitCardProps extends React.HTMLAttributes<HTMLBaseElement> {
   title: string;
@@ -13,6 +11,7 @@ interface DoctorsVisitCardProps extends React.HTMLAttributes<HTMLBaseElement> {
   firstName: string;
   lastName: string;
   pesel: string;
+  onViewVisit: () => void;
 }
 
 export const DoctorsVisitCard: React.FC<DoctorsVisitCardProps> = (
@@ -22,6 +21,7 @@ export const DoctorsVisitCard: React.FC<DoctorsVisitCardProps> = (
 
   return (
     <Card
+      onClick={p.onViewVisit}
       className={`relative before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:rounded-s-xl before:bg-${cardColor} before:content-[''] ${p.className}`}
       title={p.title}
     >
@@ -35,9 +35,6 @@ export const DoctorsVisitCard: React.FC<DoctorsVisitCardProps> = (
         <PatientBlock
           className="shadow-none"
           pesel={p.pesel}
-          onViewHistory={function (): void {
-            throw new Error("Function not implemented.");
-          }}
           firstName={p.firstName}
           lastName={p.lastName}
         />

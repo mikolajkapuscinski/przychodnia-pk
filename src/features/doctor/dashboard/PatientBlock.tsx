@@ -5,7 +5,7 @@ interface PatientBlockProps {
   firstName: string;
   lastName: string;
   pesel: string;
-  onViewHistory: () => void;
+  onViewHistory?: () => void;
   className?: string;
 }
 
@@ -27,14 +27,18 @@ export const PatientBlock: React.FC<PatientBlockProps> = (
             </p>
           </div>
         </div>
-        <Button
-          className="flex h-8 min-w-8 items-center justify-center"
-          variant={"primary"}
-          size={"xs"}
-          onClick={p.onViewHistory}
-        >
-          <img className="w-4 invert" src="/docs.png" alt="search" />
-        </Button>
+        {p.onViewHistory ? (
+          <Button
+            className="flex h-8 min-w-8 items-center justify-center"
+            variant={"primary"}
+            size={"xs"}
+            onClick={p.onViewHistory}
+          >
+            <img className="w-4 invert" src="/docs.png" alt="search" />
+          </Button>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
