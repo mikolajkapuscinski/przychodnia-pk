@@ -1,18 +1,25 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { Button } from "~/components/forms/Button";
 import { Logo } from "~/components/navbar/Logo";
 
 export default function Home() {
   const { data: session } = useSession();
+  const router = useRouter();
 
-  const login = () => {
-    //
+  useEffect(() => {
+    console.log("session", session);
+  }, [session]);
+
+  const openDashboard = () => {
+    void router.push(`${session?.user.role}/dashboard`);
   };
 
   const register = () => {
-    //
+    void router.push(`user/register`);
   };
 
   return (
@@ -44,18 +51,58 @@ export default function Home() {
                 <div className="flex justify-center">
                   <Logo />
                 </div>
-                <h1 className="text-3xl font-bold">Welcome back!</h1>
-                <p className="text-gray-500">Please sign in to get started</p>
+
+                {session ? (
+                  <>
+                    <h1 className="text-3xl font-bold">
+                      Hello, {session.user.name}!
+                    </h1>
+                    <p className="text-gray-500">Continue to your dashboard</p>
+                  </>
+                ) : (
+                  <>
+                    <h1 className="text-3xl font-bold">Welcome back!</h1>
+                    <p className="text-gray-500">
+                      Please sign in to get started
+                    </p>
+                  </>
+                )}
               </div>
 
               <div className="space-y-4">
-                <Button variant="secondary" size="lg" onClick={login}>
-                  Log In
-                </Button>
+                {session ? (
+                  <>
+                    <Button
+                      variant="secondary"
+                      size="lg"
+                      onClick={openDashboard}
+                    >
+                      Open Dashboard
+                    </Button>
 
-                <Button variant="primary" size="lg" onClick={register}>
-                  Register as Patient
-                </Button>
+                    <Button
+                      variant="primary"
+                      size="lg"
+                      onClick={() => void signOut()}
+                    >
+                      Log out
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      variant="secondary"
+                      size="lg"
+                      onClick={() => void signIn()}
+                    >
+                      Log In
+                    </Button>
+
+                    <Button variant="primary" size="lg" onClick={register}>
+                      Register as Patient
+                    </Button>
+                  </>
+                )}
               </div>
 
               <div className="text-center text-sm">
@@ -72,23 +119,5 @@ export default function Home() {
         </div>
       </main>
     </>
-  );
-}
-
-function AuthShowcase() {
-  const { data: sessionData } = useSession();
-
-  return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      <p className="text-center text-2xl text-white">
-        {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-      </p>
-      <button
-        className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-        onClick={sessionData ? () => void signOut() : () => void signIn()}
-      >
-        {sessionData ? "Sign out" : "Sign in"}
-      </button>
-    </div>
   );
 }
