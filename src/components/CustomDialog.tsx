@@ -22,10 +22,9 @@ export const CustomDialog: React.FC<CustomDialogProps> = ({
           className="fixed inset-0 bg-black bg-opacity-50"
           aria-hidden="true"
         />
-
         {/* Dialog Panel */}
         <div className="fixed inset-0 flex items-center justify-center p-4">
-          <DialogPanel className="min-w-4xl relative w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl">
+          <DialogPanel className="min-w-4xl relative w-full max-w-4xl rounded-lg bg-default-white p-6 shadow-xl">
             {/* Close Button */}
             <Button
               onClick={onClose}
