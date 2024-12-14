@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   type?: "submit" | "reset" | "button" | undefined;
   disabled?: boolean;
-  children?: string | ReactElement;
+  children?: string | ReactElement | any;
   onClick?: any;
   variant: "primary" | "secondary" | "blue" | "minimalistic";
   size: "base" | "xs";

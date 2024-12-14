@@ -7,7 +7,7 @@ export const Navbar: React.FC<HTMLAttributes<HTMLBaseElement>> = (
   p: HTMLAttributes<HTMLBaseElement>,
 ) => {
   return (
-    <div className="flex max-h-16 w-full items-stretch justify-between px-12 py-1">
+    <div className="flex max-h-16 w-full items-stretch justify-between px-8 py-1">
       <div className="w-1/3">
         <Logo />
       </div>
