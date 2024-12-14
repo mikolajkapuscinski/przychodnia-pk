@@ -11,7 +11,7 @@ interface PatientDescriptionProps {
   pesel: string;
   email: string;
   phoneNumber?: string;
-  sex: "MALE" | "FEMALE";
+  sex: string;
   birthday?: string;
   createdAt: string;
   address?: string;

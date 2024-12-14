@@ -22,14 +22,23 @@ export const VisitsSection: React.FC<VisitsSectionProps> = (
           <DoctorsVisitCard
             isSoon={true}
             title="MRI: right thigh, knee and shin"
+            firstName={"Jan"}
+            lastName={"Brzechwa"}
+            pesel={"03321564987"}
           ></DoctorsVisitCard>
           <DoctorsVisitCard
             isSoon={false}
             title="Consultation: surgery preparation"
+            firstName={"Dariusz"}
+            lastName={"Dorota"}
+            pesel={"03321564987"}
           ></DoctorsVisitCard>
           <DoctorsVisitCard
             isSoon={false}
             title="Consultation: physical rehabilitation before & after surgery"
+            firstName={"Jan"}
+            lastName={"Kowalski"}
+            pesel={"03321564987"}
           ></DoctorsVisitCard>
         </div>
       </div>

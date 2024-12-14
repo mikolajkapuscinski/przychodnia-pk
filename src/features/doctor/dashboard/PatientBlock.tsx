@@ -31,6 +31,7 @@ export const PatientBlock: React.FC<PatientBlockProps> = (
           className="flex h-8 min-w-8 items-center justify-center"
           variant={"primary"}
           size={"xs"}
+          onClick={p.onViewHistory}
         >
           <img className="w-4 invert" src="/docs.png" alt="search" />
         </Button>
