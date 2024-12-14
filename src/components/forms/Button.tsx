@@ -19,6 +19,7 @@ export const Button = (p: ButtonProps) => {
   }[p.variant];
 
   const sizeCss = {
+    lg: "rounded-full w-full py-4 px-6 focus:outline-none focus:ring-2",
     base: "rounded-3xl w-full py-2 px-4 focus:outline-none focus:ring-2",
     xs: "m-1 w-8 rounded-full p-1 font-bold text-orange",
   }[p.size];
@@ -26,7 +27,7 @@ export const Button = (p: ButtonProps) => {
   return (
     <button
       type={p.type}
-      className={`${variantCss} ${sizeCss} ${p.className}`}
+      className={`${variantCss} ${sizeCss} ${p.className} transition-all duration-200`}
       onClick={p.onClick}
     >
       {p.children}

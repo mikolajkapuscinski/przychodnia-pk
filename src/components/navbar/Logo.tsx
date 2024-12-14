@@ -1,5 +1,12 @@
-export const Logo: React.FC<{ opacity?: string }> = ({ opacity }) => {
+export const Logo: React.FC<{ opacity?: string; height?: number }> = ({
+  opacity,
+  height = 16,
+}) => {
   return (
-    <img className={`opacity-${opacity} h-16`} src="/logo.png" alt="LOGO" />
+    <img
+      className={`opacity-${opacity} h-${height}`}
+      src="/logo.png"
+      alt="LOGO"
+    />
   );
 };
