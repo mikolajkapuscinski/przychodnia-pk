@@ -11,7 +11,7 @@ import { Button } from "~/components/forms/Button";
 const UserDashboard: NextPage = () => {
   return (
     // Left
-    <div className="flex flex-wrap px-14">
+    <div className="flex flex-wrap justify-between">
       <Navbar>
         <Button variant="secondary" size="base">
           Overview
