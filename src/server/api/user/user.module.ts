@@ -4,6 +4,7 @@ import { VisitAccess } from "../visit/visit.access";
 import { DoctorCalendarAccess } from "../doctor-calendar/doctor-calendar.access";
 import { UserAccess } from "./user.access";
 import { UserAuthEngine } from "./user-auth.engine";
+import { OpinionAccess } from "../opinion/opinion.access";
 
 export const userElements = [
   VisitAccess,
@@ -11,5 +12,6 @@ export const userElements = [
   UserAuthEngine,
   DoctorEngine,
   DoctorCalendarAccess,
+  OpinionAccess,
 ];
 export const userInjector = ReflectiveInjector.resolveAndCreate(userElements);

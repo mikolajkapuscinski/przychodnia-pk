@@ -1,9 +1,7 @@
-import "reflect-metadata";
-import { Inject, Injectable } from "injection-js";
+import { Inject } from "injection-js";
 import { DoctorCalendarAccess } from "./doctor-calendar.access";
 import { VisitAccess } from "../visit/visit.access";
 
-@Injectable()
 export class DoctorCalendarEngine {
   constructor(
     private calendarAccess: DoctorCalendarAccess,
