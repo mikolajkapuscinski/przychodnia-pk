@@ -15,7 +15,7 @@ export default function Home() {
   }, [session]);
 
   const openDashboard = () => {
-    void router.push(`${session?.user.role}/dashboard`);
+    void router.push(`${session?.user.role?.toLowerCase()}/dashboard`);
   };
 
   const register = () => {

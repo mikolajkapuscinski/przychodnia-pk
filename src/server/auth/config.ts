@@ -6,6 +6,7 @@ import { assert } from "~/utils/assert";
 import { type UserRole } from "@prisma/client";
 import { UserAuthEngine } from "../api/user/user-auth.engine";
 import { userInjector } from "../api/user/user.module";
+import { UserAccess } from "../api/user/user.access";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -80,12 +81,19 @@ export const authConfig = {
   ],
   adapter: PrismaAdapter(db),
   callbacks: {
-    session: ({ session, token }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: token.sub,
-      },
-    }),
+    session: async ({ session, token }) => {
+      assert(token.sub);
+      const userAccess = userInjector.get(UserAccess) as UserAccess;
+      const user = await userAccess.findUserById(token.sub);
+
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          role: user.role,
+          id: token.sub,
+        },
+      };
+    },
   },
 } satisfies NextAuthConfig;
