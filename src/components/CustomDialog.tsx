@@ -25,7 +25,7 @@ export const CustomDialog: React.FC<CustomDialogProps> = ({
         {/* Dialog Panel */}
         <div className="fixed inset-0 flex items-center justify-center p-4">
           <DialogPanel
-            className="min-w-4xl relative w-full max-w-4xl rounded-lg bg-default-white p-6 shadow-xl"
+            className="relative rounded-lg bg-default-white p-6 shadow-xl"
             style={{
               maxHeight: "calc(100vh - 1rem)",
               overflowY: "auto",

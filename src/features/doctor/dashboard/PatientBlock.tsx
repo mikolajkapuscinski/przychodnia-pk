@@ -14,7 +14,7 @@ export const PatientBlock: React.FC<PatientBlockProps> = (
 ) => {
   return (
     <div
-      className={`mx-0 w-full overflow-hidden rounded-2xl bg-default-white shadow-md ${p.className}`}
+      className={`mx-0 lg:w-4xl w-full overflow-hidden rounded-2xl bg-default-white shadow-md ${p.className}`}
     >
       <div className="flex items-center justify-between p-4">
         <div className="flex-grow pr-4">

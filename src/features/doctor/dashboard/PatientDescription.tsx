@@ -23,7 +23,7 @@ interface PatientDescriptionProps {
 
 export const PatientDescription: React.FC<PatientDescriptionProps> = (p) => {
   return (
-    <div className="mx-auto w-full max-w-4xl rounded-2xl bg-default-white p-6">
+    <div className="mx-auto min-w-[420px] rounded-2xl bg-default-white p-6 lg:min-w-[896px]">
       {/* Info */}
       <div className="flex items-center">
         <img
@@ -41,7 +41,7 @@ export const PatientDescription: React.FC<PatientDescriptionProps> = (p) => {
 
       <Line />
 
-      <div className="flex gap-6">
+      <div className="lg:flex lg:gap-6">
         <div className="form-group mt-2 flex-grow-[1]">
           <PatientBasicInformationCard
             sex={p.sex}
