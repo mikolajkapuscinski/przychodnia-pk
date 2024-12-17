@@ -2,13 +2,22 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { CustomDialog } from "~/components/CustomDialog";
 import { Button } from "~/components/forms/Button";
 import { Logo } from "~/components/navbar/Logo";
+import { RegisterForm } from "~/features/user/register/RegisterForm";
+import { LoginForm } from "~/features/user/login/LoginForm";
 
 export default function Home() {
   const { data: session } = useSession();
   const router = useRouter();
+
+  const [isLoginDialogOpen, setIsLoginDialogOpen] =
+      useState(false);
+
+    const [isRegisterDialogOpen, setIsRegisterDialogOpen] =
+      useState(false);
 
   useEffect(() => {
     console.log("session", session);
@@ -16,6 +25,22 @@ export default function Home() {
 
   const openDashboard = () => {
     void router.push(`${session?.user.role?.toLowerCase()}/dashboard`);
+  };
+
+  const openLoginDialog = () =>{
+    setIsLoginDialogOpen(true);
+  }
+
+  const openRegisterDialog = () =>{
+    setIsRegisterDialogOpen(true);
+  }
+
+  const closeLoginDialog = () => {
+    setIsLoginDialogOpen(false);
+  };
+
+  const closeRegisterDialog = () => {
+    setIsRegisterDialogOpen(false);
   };
 
   const register = () => {
@@ -93,12 +118,12 @@ export default function Home() {
                     <Button
                       variant="secondary"
                       size="lg"
-                      onClick={() => void signIn()}
+                      onClick = {openLoginDialog}
                     >
                       Log In
                     </Button>
 
-                    <Button variant="primary" size="lg" onClick={register}>
+                    <Button variant="primary" size="lg" onClick={openRegisterDialog}>
                       Register as Patient
                     </Button>
                   </>
@@ -118,6 +143,14 @@ export default function Home() {
           </div>
         </div>
       </main>
+
+      <CustomDialog isOpen={isLoginDialogOpen} onClose={closeLoginDialog}>
+            <LoginForm></LoginForm>
+      </CustomDialog>
+
+      <CustomDialog isOpen={isRegisterDialogOpen} onClose={closeRegisterDialog}>
+            <RegisterForm></RegisterForm>
+      </CustomDialog>
     </>
   );
 }
