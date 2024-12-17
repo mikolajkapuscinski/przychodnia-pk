@@ -6,7 +6,11 @@ import { Button } from "~/components/forms/Button";
 import { Line } from "~/components/forms/Line";
 import { signIn } from "next-auth/react";
 
-export const LoginForm: React.FC = () => {
+interface LoginFormProps {
+  onLoginSuccess: () => void;
+}
+
+export const LoginForm: React.FC<LoginFormProps> = ({onLoginSuccess}) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -15,12 +19,10 @@ export const LoginForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,11 +30,18 @@ export const LoginForm: React.FC = () => {
     setError(null);
 
     try {
-      await signIn("credentials", {...formData, redirect: false});
-      setFormData({
-        email: "",
-        password: "",
+      const success = await signIn("credentials", {
+        ...formData,
+        redirect: false,
       });
+
+      if (success) {
+        onLoginSuccess();
+        setFormData({
+          email: "",
+          password: "",
+        });
+      }
     } catch (err) {
       setError("Failed to login.");
       console.log(err);
@@ -47,7 +56,6 @@ export const LoginForm: React.FC = () => {
       <Line />
       <form onSubmit={onSubmit} className="space-y-4">
         {error && <div className="text-sm text-red-500">{error}</div>}
-
 
         <div className="form-group">
           <InputLabel htmlFor="email">Email</InputLabel>

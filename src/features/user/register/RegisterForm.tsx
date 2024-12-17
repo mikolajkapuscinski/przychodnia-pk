@@ -8,7 +8,13 @@ import { Select } from "~/components/forms/Select";
 import { Button } from "~/components/forms/Button";
 import { Line } from "~/components/forms/Line";
 
-export const RegisterForm: React.FC = () => {
+interface RegisterFormProps {
+  onRegisterSuccess: () => void;
+}
+
+export const RegisterForm: React.FC<RegisterFormProps> = ({
+  onRegisterSuccess,
+}) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -38,15 +44,20 @@ export const RegisterForm: React.FC = () => {
     setError(null);
 
     try {
-      await registerPatient.mutateAsync(formData);
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        pesel: "",
-        sex: "MALE",
-      });
+      const success = await registerPatient.mutateAsync(formData);
+
+      if(success){
+        onRegisterSuccess();
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
+          pesel: "",
+          sex: "MALE",
+        });
+
+      }
     } catch (err) {
       setError("Failed to create account.");
       console.log(err);

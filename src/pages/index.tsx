@@ -145,11 +145,11 @@ export default function Home() {
       </main>
 
       <CustomDialog isOpen={isLoginDialogOpen} onClose={closeLoginDialog}>
-            <LoginForm></LoginForm>
+            <LoginForm onLoginSuccess={closeLoginDialog}></LoginForm>
       </CustomDialog>
 
       <CustomDialog isOpen={isRegisterDialogOpen} onClose={closeRegisterDialog}>
-            <RegisterForm></RegisterForm>
+            <RegisterForm onRegisterSuccess={closeRegisterDialog}></RegisterForm>
       </CustomDialog>
     </>
   );
