@@ -12,11 +12,16 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <SessionProvider session={session}>
-      <div className={GeistSans.className}>
-        <Component {...pageProps} />
-      </div>
-    </SessionProvider>
+    <>
+      <style jsx global>{`
+        html {
+          font-family: ${GeistSans.style.fontFamily};
+        }
+      `}</style>
+      <SessionProvider session={session}>
+          <Component {...pageProps} />
+      </SessionProvider>
+    </>
   );
 };
 
