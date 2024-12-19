@@ -77,6 +77,16 @@ export const userRouter = createTRPCRouter({
       return await doctorEngine.getDoctorAvailability(input);
     }),
 
+  findById: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().uuid(),
+      }),
+    )
+    .query(async ({ input }) => {
+      return await userAccess.findUserById(input.id);
+    }),
+
   findByPesel: accountantProcedure
     .input(
       z.object({
