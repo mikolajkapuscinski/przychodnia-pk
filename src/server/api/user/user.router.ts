@@ -12,6 +12,7 @@ import { Sex, UserRole } from "@prisma/client";
 import { userInjector } from "./user.module";
 import { DoctorEngine } from "./doctor.engine";
 import { assert } from "console";
+import { hash } from "~/server/utils/hashing.util";
 
 const userAccess = userInjector.get(UserAccess) as UserAccess;
 const doctorEngine = userInjector.get(DoctorEngine) as DoctorEngine;
@@ -28,7 +29,7 @@ const registerUserInput = z.object({
 });
 
 const updateUserInput = z.object({
-  id: z.string().uuid(),
+  id: z.string().cuid(),
   firstName: z.string().min(1),
   lastName: z.string().min(1),
   email: z.string().email(),
@@ -38,8 +39,9 @@ const updateUserInput = z.object({
 });
 
 const udatePasswordInput = z.object({
-  id: z.string().uuid(),
-  password: z.string().min(8),
+  id: z.string().cuid(),
+  currentPassword: z.string(),
+  newPassword: z.string().min(8),
 });
 
 export const userRouter = createTRPCRouter({
@@ -80,7 +82,7 @@ export const userRouter = createTRPCRouter({
   findById: protectedProcedure
     .input(
       z.object({
-        id: z.string().uuid(),
+        id: z.string().cuid(),
       }),
     )
     .query(async ({ input }) => {
@@ -106,6 +108,10 @@ export const userRouter = createTRPCRouter({
   updateUserPassword: protectedProcedure
     .input(udatePasswordInput)
     .mutation(async ({ input }) => {
-      return await userAccess.updatePassword(input.id, input.password);
+      const currentPassHash = (await userAccess.findUserById(input.id)).passwordHash;
+
+      if(await hash(input.currentPassword) != currentPassHash)
+        throw new Error("Current password is not matching")
+      return await userAccess.updatePassword(input.id, input.newPassword);
     }),
 });
