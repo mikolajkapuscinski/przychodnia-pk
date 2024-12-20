@@ -13,7 +13,7 @@ export const ChangePasswordForm: React.FC = () => {
   const [currentPassword, setCurrentPassword] = useState("");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [msg, setMsg] = useState<string | null>(null);
 
   const changePassword = api.user.updateUserPassword.useMutation();
 
@@ -31,19 +31,23 @@ export const ChangePasswordForm: React.FC = () => {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setError(null);
+    setMsg(null);
 
     try {
       if (!session.data?.user.id) {
         throw new Error("User ID is undefined");
       }
-        await changePassword.mutateAsync({
+      const success = await changePassword.mutateAsync({
           id: session.data?.user.id,
           currentPassword: currentPassword,
           newPassword: password
         });
+
+        if(success){
+          setMsg("Successfully changed password")
+        }
     } catch (err) {
-      setError("Failed to change a password.");
+      setMsg("Failed to change a password");
       console.log(err);
     } finally {
       setIsSubmitting(false);
@@ -55,7 +59,7 @@ export const ChangePasswordForm: React.FC = () => {
       <Title>CHANGE PASSWORD</Title>
       <Line />
       <form onSubmit={onSubmit} className="space-y-4">
-        {error && <div className="text-sm text-red-500">{error}</div>}
+        {msg && <div className="text-sm">{msg}</div>}
 
         <div className="form-group">
           <InputLabel htmlFor="password">Current Password</InputLabel>

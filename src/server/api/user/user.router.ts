@@ -12,7 +12,7 @@ import { Sex, UserRole } from "@prisma/client";
 import { userInjector } from "./user.module";
 import { DoctorEngine } from "./doctor.engine";
 import { assert } from "console";
-import { hash } from "~/server/utils/hashing.util";
+import { compare } from "~/server/utils/hashing.util";
 
 const userAccess = userInjector.get(UserAccess) as UserAccess;
 const doctorEngine = userInjector.get(DoctorEngine) as DoctorEngine;
@@ -110,7 +110,9 @@ export const userRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       const currentPassHash = (await userAccess.findUserById(input.id)).passwordHash;
 
-      if(await hash(input.currentPassword) != currentPassHash)
+      console.log(input.currentPassword);
+
+      if(!await compare(input.currentPassword, currentPassHash))
         throw new Error("Current password is not matching")
       return await userAccess.updatePassword(input.id, input.newPassword);
     }),
