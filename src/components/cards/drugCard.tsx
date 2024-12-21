@@ -2,7 +2,7 @@ import { Card, type CardProps } from "./card";
 
 export const DrugCard: React.FC<CardProps> = (p: CardProps) => {
   return (
-    <Card title={p.title}>
+    <Card onClick={p.onClick} title={p.title}>
       {p.children}
       <div className="absolute bottom-0 right-0 flex items-center justify-center rounded-br-xl rounded-tl-xl bg-orange p-1 group-hover:bg-default-black">
         <img
