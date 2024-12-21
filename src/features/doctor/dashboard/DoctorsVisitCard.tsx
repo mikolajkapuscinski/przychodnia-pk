@@ -22,7 +22,7 @@ export const DoctorsVisitCard: React.FC<DoctorsVisitCardProps> = (
   return (
     <Card
       onClick={p.onViewVisit}
-      className={`relative before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:rounded-s-xl before:bg-${cardColor} before:content-[''] ${p.className}`}
+      className={`relative rounded-l-none border-l-0 before:absolute before:left-0 before:top-0 before:h-[calc(100%+4px)] before:w-1 before:-translate-y-[2px] before:bg-aquamarine before:content-[''] ${p.className}`}
       title={p.title}
     >
       <div className="flex items-center gap-3">

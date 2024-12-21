@@ -4,7 +4,7 @@ export const Logo: React.FC<{ opacity?: string; height?: number }> = ({
 }) => {
   return (
     <img
-      className={`opacity-${opacity} h-${height}`}
+      className={`opacity-${opacity} max-h-${height}`}
       src="/logo.png"
       alt="LOGO"
     />
