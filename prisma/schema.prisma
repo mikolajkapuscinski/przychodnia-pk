@@ -101,6 +101,16 @@ model Allergy {
     patient Patient[]
 }
 
+enum DiseaseRegion {
+    HEAD
+    CHEST
+    LEFT_LEG
+    LEFT_ARM
+    RIGHT_LEG
+    RIGHT_ARM
+    THROAT
+}
+
 model MedicalHistory {
     id        Int     @id @default(autoincrement())
     patient   Patient @relation(fields: [patientId], references: [userId])
@@ -109,6 +119,7 @@ model MedicalHistory {
     doctorId  String
 
     diseaseName   String
+    region        DiseaseRegion
     diagnosisDate DateTime  @default(now())
     recoveryDate  DateTime?
 }
