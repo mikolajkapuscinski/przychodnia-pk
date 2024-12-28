@@ -21,17 +21,17 @@ export const EditProfileForm: React.FC = () => {
     sex: "MALE" as Sex,
   });
 
-  const user = api.user.findById.useQuery({ id: userId || "" }).data;
+  const user = api.user.findById.useQuery({ id: userId ?? "" }).data;
 
   useEffect(() => {
     if (user) {
       setFormData({
-        id: userId || "",
-        firstName: user.firstName || "",
-        lastName: user.lastName || "",
-        email: user.email || "",
-        phoneNumber: user.phoneNumber || "",
-        address: user.address || "",
+        id: userId ?? "",
+        firstName: user.firstName ?? "",
+        lastName: user.lastName ?? "",
+        email: user.email ?? "",
+        phoneNumber: user.phoneNumber ?? "",
+        address: user.address ?? "",
         sex: user.sex,
       });
     }
@@ -74,7 +74,7 @@ export const EditProfileForm: React.FC = () => {
 
     try {
       await updateUserMutation.mutateAsync(formData);
-      setSuccess("Profile updated")
+      setSuccess("Profile updated");
     } catch (err) {
       setError("Failed to update profile");
       console.error(err);
@@ -88,7 +88,6 @@ export const EditProfileForm: React.FC = () => {
       <Title>EDIT PROFILE</Title>
       <Line />
       <form onSubmit={onSubmit} className="space-y-4">
-
         {error && <div className="text-sm text-red-500">{error}</div>}
         {success && <div className="text-sm text-green-500">{success}</div>}
 

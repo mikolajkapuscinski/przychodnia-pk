@@ -6,7 +6,7 @@ import { DoctorsVisitCard } from "./DoctorsVisitCard";
 import { CustomDialog } from "~/components/CustomDialog";
 import { Visit } from "../Visit";
 
-interface VisitsSectionProps {}
+type VisitsSectionProps = unknown;
 
 export const VisitsSection: React.FC<VisitsSectionProps> = (
   p: VisitsSectionProps,

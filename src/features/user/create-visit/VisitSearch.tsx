@@ -43,7 +43,7 @@ export const VisitSearch: React.FC = () => {
       doctor.specialization?.some((spec) => spec.id === selectedSpecialization),
     );
 
-    setFilteredDoctors(filtered || []);
+    setFilteredDoctors(filtered ?? []);
   };
 
   const opinionSummary = api.opinion.getOpinionSummary.useQuery();
@@ -66,7 +66,7 @@ export const VisitSearch: React.FC = () => {
                 allSpecialization.data?.map((specialization) => ({
                   value: specialization.id,
                   label: specialization.name,
-                })) || []
+                })) ?? []
               }
             />
           </div>
@@ -82,10 +82,10 @@ export const VisitSearch: React.FC = () => {
         {filteredDoctors.map((doctor, i) => (
           <VisitOffer
             key={i}
-            firstName={doctor.firstName || ""}
-            lastName={doctor.lastName || ""}
-            specialization={doctor.specialization || []}
-            opinion={opinionMap[doctor.id] || { rating: 0, count: 0 }}
+            firstName={doctor.firstName ?? ""}
+            lastName={doctor.lastName ?? ""}
+            specialization={doctor.specialization ?? []}
+            opinion={opinionMap[doctor.id] ?? { rating: 0, count: 0 }}
             doctorId={doctor.id}
           />
         ))}

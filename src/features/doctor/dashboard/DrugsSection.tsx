@@ -4,7 +4,7 @@ import { MedicationDatabase } from "../MedicationDatabase";
 import { CustomDialog } from "~/components/CustomDialog";
 import { useState } from "react";
 
-interface DrugsSectionProps {}
+type DrugsSectionProps = unknown;
 
 export const DrugsSection: React.FC<DrugsSectionProps> = (
   p: DrugsSectionProps,

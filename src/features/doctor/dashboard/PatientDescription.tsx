@@ -28,7 +28,7 @@ export const PatientDescription: React.FC<PatientDescriptionProps> = (p) => {
       <div className="flex items-center">
         <img
           className="h-20 w-20 rounded-full object-cover"
-          src={p.image || "/patient.png"}
+          src={p.image ?? "/patient.png"}
           alt={`${p.firstName} ${p.lastName}`}
         />
         <div className="ml-4">

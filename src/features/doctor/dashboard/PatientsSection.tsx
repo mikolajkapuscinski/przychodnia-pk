@@ -4,7 +4,7 @@ import { PatientBlock } from "./PatientBlock";
 import { CustomDialog } from "~/components/CustomDialog";
 import PatientDescription from "./PatientDescription";
 
-interface PatientSectionProps {}
+type PatientSectionProps = unknown;
 
 export const PatientSection: React.FC<PatientSectionProps> = () => {
   const [isPatientDescriptionOpen, setIsPatientDescriptionOpen] =

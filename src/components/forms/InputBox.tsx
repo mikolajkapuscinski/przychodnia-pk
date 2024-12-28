@@ -3,7 +3,7 @@ interface InputBoxProps {
   id: string;
   name: string;
   value: string;
-  onChange: any;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
   placeholder?: string;
 }

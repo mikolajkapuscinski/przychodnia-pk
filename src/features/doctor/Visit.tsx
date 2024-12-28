@@ -89,7 +89,7 @@ export const Visit: React.FC<VisitProps> = (p) => {
       </div>
 
       <div className="mt-6">
-        <h5 className="font-bold">Patient's Condition</h5>
+        <h5 className="font-bold">Patient&apos;s Condition</h5>
         <TextArea
           value={patientCondition}
           onChange={(e) => setPatientCondition(e.target.value)}

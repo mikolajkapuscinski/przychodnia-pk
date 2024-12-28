@@ -12,9 +12,10 @@ export const SearchDrugs: React.FC<SearchDrugsProps> = ({ onSelect }) => {
   return (
     <Search
       items={allMedicines}
-      filterFunction={(medicine, query) =>
-        medicine.name.toLowerCase().startsWith(query.toLowerCase())
-      }
+      filterFunction={(medicine: { name: string }, query) => {
+        const lowercaseMedicine = medicine.name.toLowerCase();
+        return lowercaseMedicine.startsWith(query.toLowerCase());
+      }}
       onSelect={onSelect}
       placeholder="Search for a medicine..."
       id="search-drugs"

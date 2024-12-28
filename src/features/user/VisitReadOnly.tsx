@@ -73,7 +73,7 @@ export const VisitReadOnly: React.FC<VisitReadOnlyProps> = (p) => {
       </div>
 
       <div className="mt-6">
-        <h5 className="font-bold">Patient's Condition</h5>
+        <h5 className="font-bold">Patient&apos;s Condition</h5>
       </div>
 
       <div className="mt-4 flex space-x-4">

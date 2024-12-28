@@ -67,7 +67,7 @@ export const LoggedUserOptions: React.FC<LoggedUserOptionsProps> = ({
                   className="flex w-full items-center justify-start text-red-500 hover:bg-red-500 hover:text-white"
                   onClick={() => {
                     onClose();
-                    signOut();
+                    void signOut();
                   }}
                 >
                   Log Out
@@ -77,10 +77,16 @@ export const LoggedUserOptions: React.FC<LoggedUserOptionsProps> = ({
           </PopoverPanel>
         )}
       </Popover>
-      <CustomDialog isOpen={isEditProfileOpen} onClose={() => setEditProfileOpen(false)}>
+      <CustomDialog
+        isOpen={isEditProfileOpen}
+        onClose={() => setEditProfileOpen(false)}
+      >
         <EditProfileForm></EditProfileForm>
       </CustomDialog>
-      <CustomDialog isOpen={isChangePassOpen} onClose={() => setChangePassOpen(false)}>
+      <CustomDialog
+        isOpen={isChangePassOpen}
+        onClose={() => setChangePassOpen(false)}
+      >
         <ChangePasswordForm></ChangePasswordForm>
       </CustomDialog>
     </>

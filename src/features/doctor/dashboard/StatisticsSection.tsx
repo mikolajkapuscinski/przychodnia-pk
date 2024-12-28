@@ -1,7 +1,7 @@
 import { SectionTitle } from "~/components/dashboard/SectionTitle";
 import StatisticsCard from "./StatisticsCard";
 
-interface StatisticsSectionProps {}
+type StatisticsSectionProps = unknown;
 
 export const StatisticsSection: React.FC<StatisticsSectionProps> = (
   p: StatisticsSectionProps,

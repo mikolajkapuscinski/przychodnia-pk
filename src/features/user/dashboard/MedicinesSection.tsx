@@ -54,8 +54,8 @@ export const MedicinesSection: React.FC = () => {
         onClose={() => setIsDrugModalOpen(false)}
       >
         <DrugModal
-          name={selectedDrug?.name || ""}
-          description={selectedDrug?.description || ""}
+          name={selectedDrug?.name ?? ""}
+          description={selectedDrug?.description ?? ""}
         ></DrugModal>
       </CustomDialog>
     </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Title } from "~/components/forms/Title";
-import { Drug } from "./MedicinesSection";
+import { type Drug } from "./MedicinesSection";
 
 export const DrugModal: React.FC<Drug> = (p) => {
   return (
