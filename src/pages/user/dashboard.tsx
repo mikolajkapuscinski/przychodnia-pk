@@ -23,7 +23,7 @@ const UserDashboard: NextPage = () => {
           Medications
         </Button>
       </Navbar>
-      <div className="flex w-full justify-between">
+      <div className="grid w-full grid-cols-1 justify-between md:grid-cols-3">
         <LeftSection></LeftSection>
         <BodySchema></BodySchema>
         <RightSection></RightSection>
