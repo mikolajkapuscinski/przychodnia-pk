@@ -1,0 +1,20 @@
+namePrefix: omed-staging
+labels:
+  - pairs:
+      brand: omed-staging
+    includeSelectors: true
+resources:
+  - ../../../base
+components:
+  - ../../../base/replacements
+patches:
+  - path: omed-env-secrets-sealed.json
+  - path: omed-env-cm.yaml
+configMapGenerator:
+  - name: env-config
+    behavior: merge
+    literals:
+      - host=omed-staging.local
+images:
+  - name: jabczyk/przychodnia-pk
+    digest: sha256:ffc7e63cb0a19f7203b6f6e8bca11ad98e25c0c3f1c48cf4a819d7488c77da9f

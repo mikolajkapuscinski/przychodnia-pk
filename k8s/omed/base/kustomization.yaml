@@ -1,0 +1,34 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - registry-sealed.json
+  - omed-env-cm.yaml
+  - omed-env-secrets-sealed.json
+  - omed-deployment.yaml
+  - omed-hpa.yaml
+  - omed-service.yaml
+  - ingress.yaml
+  - registry-sealed.json
+
+configMapGenerator:
+  - name: env-config
+    literals:
+      - host=replaceme
+  - name: omed-env
+    files:
+      - omed-env-cm.yaml
+    behavior: merge
+
+# This is necessary to attach an id suffix to the secret name
+# so that pods get restarted when the secret changes
+secretGenerator:
+  - name: omed-env-secrets
+    files:
+      - omed-env-secrets-sealed.json
+    options:
+      annotations:
+        config.kubernetes.io/local-config: "true"
+
+configurations:
+  - ./builtin-config.yaml
