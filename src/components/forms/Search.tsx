@@ -10,7 +10,7 @@ interface SearchProps<T> {
   name?: string;
 }
 
-export const Search = <T extends { id: string; name: string }>({
+export const Search = <T extends { id: number; name: string }>({
   items,
   filterFunction,
   onSelect,

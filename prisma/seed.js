@@ -11,12 +11,14 @@ const addDrugs = async () => {
 
   await prisma.drug.createMany({
     data: drugs
+      // @ts-ignore
       .map((d) => {
         return {
-          name: d.n,
+          name: d.n || ``,
           description: `Dosage form: ${d.df}\nPackaging: ${d.p}`,
         };
       })
+      // @ts-ignore
       .filter((d) => d.name && d.description),
   });
 };
@@ -88,7 +90,9 @@ const addUsers = async () => {
   }
 };
 
+// @ts-ignore
 const add = async (table, generator) => {
+  // @ts-ignore
   const count = await prisma[table].count();
   if (count > 0) {
     console.log(`${table}: already seeded`);

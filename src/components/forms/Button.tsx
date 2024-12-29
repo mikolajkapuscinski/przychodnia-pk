@@ -4,7 +4,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: any;
   onClick?: any;
   variant: "primary" | "secondary" | "blue" | "minimalistic";
-  size: "base" | "xs";
+  size: "lg" | "base" | "xs";
 }
 
 export const Button = (p: ButtonProps) => {

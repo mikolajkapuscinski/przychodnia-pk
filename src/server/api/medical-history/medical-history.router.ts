@@ -8,6 +8,7 @@ import { assert } from "~/utils/assert";
 import { MedicalHistoryAccess } from "./medical-history.access";
 import { MedicalHistoryEngine } from "./medical-history.engine";
 import { medicalHistoryInjector } from "./medical-history.module";
+import { DiseaseRegion } from "@prisma/client";
 
 const patientId = z.object({
   patientId: z.string(),
@@ -18,6 +19,7 @@ const medicalHistoryInput = z.object({
   diseaseName: z.string(),
   diagnosisDate: z.date(),
   recoveryDate: z.date().optional(),
+  region: z.nativeEnum(DiseaseRegion),
 });
 
 export const updateMedicalHistoryInput = z.object({
