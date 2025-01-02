@@ -1,33 +1,21 @@
+import { useRouter } from "next/router";
 import { DrugCard } from "~/components/cards/drugCard";
 import { SectionTitle } from "~/components/dashboard/SectionTitle";
-import { MedicationDatabase } from "../MedicationDatabase";
-import { CustomDialog } from "~/components/CustomDialog";
-import { useState } from "react";
 
 type DrugsSectionProps = unknown;
 
 export const DrugsSection: React.FC<DrugsSectionProps> = (
   p: DrugsSectionProps,
 ) => {
-  const [isMedicationDatabaseOpen, setIsMedicationDatabaseOpen] =
-    useState(false);
+  const router = useRouter();
 
-  const openMedicationDatabase = () => {
-    setIsMedicationDatabaseOpen(true);
+  const redirectToMedicationDatabase = () => {
+    void router.push("medication-database");
   };
-
-  const closeMedicationDatabase = () => {
-    setIsMedicationDatabaseOpen(false);
-  };
-
-  const medicines = [
-    { id: 1, name: "Aspirin", description: "Pain relief medication" },
-    { id: 2, name: "Ibuprofen", description: "Anti-inflammatory drug" },
-  ];
 
   return (
     <div className="py-4">
-      <SectionTitle results={11004} onclick={openMedicationDatabase}>
+      <SectionTitle results={11004} onclick={redirectToMedicationDatabase}>
         Medications Database
       </SectionTitle>
       <div className="grid place-items-center items-stretch gap-x-2 gap-y-3 lg:grid-cols-1 2xl:grid-cols-2">
@@ -42,12 +30,6 @@ export const DrugsSection: React.FC<DrugsSectionProps> = (
           <img className="rounded-lg" src="/medicine-2.jpg" alt="drug" />
         </DrugCard>
       </div>
-      <CustomDialog
-        isOpen={isMedicationDatabaseOpen}
-        onClose={closeMedicationDatabase}
-      >
-        <MedicationDatabase medicines={medicines} />
-      </CustomDialog>
     </div>
   );
 };
