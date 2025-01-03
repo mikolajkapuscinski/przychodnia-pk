@@ -5,14 +5,15 @@ import { Button } from "./forms/Button";
 interface CustomDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  title?: string;
   children: React.ReactNode;
+  className?: string;
 }
 
 export const CustomDialog: React.FC<CustomDialogProps> = ({
   isOpen,
   onClose,
   children,
+  className = "",
 }) => {
   return (
     <Transition show={isOpen} as={React.Fragment}>
@@ -25,7 +26,7 @@ export const CustomDialog: React.FC<CustomDialogProps> = ({
         {/* Dialog Panel */}
         <div className="fixed inset-0 flex items-center justify-center p-4">
           <DialogPanel
-            className="dialog-scrollbar relative rounded-lg bg-default-white p-6 shadow-xl"
+            className={`dialog-scrollbar relative rounded-lg bg-default-white p-6 shadow-xl ${className}`}
             style={{
               maxHeight: "calc(100vh - 1rem)",
               overflowY: "auto",
