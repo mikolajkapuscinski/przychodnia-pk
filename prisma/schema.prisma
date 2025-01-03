@@ -159,6 +159,7 @@ model Visit {
     patientId String
     Doctor    Doctor?  @relation(fields: [doctorId], references: [userId])
 
+    title        String
     date         DateTime
     status       VisitStatus
     doctorId     String
