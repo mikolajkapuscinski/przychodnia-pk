@@ -4,13 +4,14 @@ import { VisitDetails } from "~/components/dashboard/visitDetails";
 import { Line } from "~/components/forms/Line";
 import { PatientBlock } from "./PatientBlock";
 
-interface DoctorsVisitCardProps extends React.HTMLAttributes<HTMLBaseElement> {
+interface DoctorsVisitCardProps {
   title: string;
   className?: string;
   isSoon: boolean;
   firstName: string;
   lastName: string;
   pesel: string;
+  visitDate: Date;
   onViewVisit: () => void;
 }
 
@@ -27,9 +28,8 @@ export const DoctorsVisitCard: React.FC<DoctorsVisitCardProps> = (
     >
       <div className="flex items-center gap-3">
         <SoonAlert className={`${p.isSoon ? "flex" : "hidden"}`}></SoonAlert>
-        <VisitDetails date={new Date()} />
+        <VisitDetails date={p.visitDate} />
       </div>
-      {p.children}
       <Line />
       <div className="-m-3 flex h-20">
         <PatientBlock

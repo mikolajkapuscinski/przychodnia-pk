@@ -3,26 +3,18 @@ import { Title } from "~/components/forms/Title";
 import { Button } from "~/components/forms/Button";
 import { SearchDrugs } from "./SearchDrugs";
 import { TextArea } from "~/components/forms/TextArea";
+import { useSession } from "next-auth/react";
 
 interface VisitProps {
   title: string;
   date: string;
-  firstName: string;
-  lastName: string;
-  pesel: string;
-  email: string;
-  phoneNumber: string;
-  sex: string;
-  birthday: string;
-  createdAt: string;
-  image: string;
-  appointmentSchedule: string[];
-  medicalHistory: { date: string; description: string }[];
-  bloodType: string;
   allergies: string[];
+  patient: any;
 }
 
 export const Visit: React.FC<VisitProps> = (p) => {
+  const { data: session } = useSession();
+
   const [patientCondition, setPatientCondition] = useState<string>("");
   const [recommendations, setRecommendations] = useState<string>("");
   const [notes, setNotes] = useState<string>("");
@@ -42,7 +34,7 @@ export const Visit: React.FC<VisitProps> = (p) => {
   };
 
   return (
-    <div className="mx-auto w-full max-w-4xl rounded-2xl bg-default-white p-6">
+    <div className="mx-auto min-w-48 rounded-2xl bg-default-white p-6">
       <Title>{p.title}</Title>
       <h4 className="text-center">{p.date}</h4>
 
@@ -51,10 +43,10 @@ export const Visit: React.FC<VisitProps> = (p) => {
           <div>
             <h5 className="font-bold">Patient Information</h5>
             <p>
-              Name: {p.firstName} {p.lastName}
+              Name: {p.patient.firstName} {p.patient.lastName}
             </p>
-            <p>PESEL: {p.pesel}</p>
-            <p>Email: {p.email}</p>
+            <p>PESEL: {p.patient.pesel}</p>
+            <p>Email: {p.patient.email}</p>
           </div>
           <div>
             <h5 className="font-bold">Allergies</h5>
@@ -81,9 +73,8 @@ export const Visit: React.FC<VisitProps> = (p) => {
         <div className="flex-1 space-y-4">
           <div>
             <h5 className="font-bold">Doctor Information</h5>
-            <p>Name: Dr. Michael Apple</p>
-            <p>Specialization: Senior Developer</p>
-            <p>Email: antonovka@cases.gg</p>
+            <p>Name: Dr. {session?.user.name}</p>
+            <p>Email: {session?.user.email}</p>
           </div>
         </div>
       </div>

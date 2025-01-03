@@ -1,18 +1,20 @@
 import { useState } from "react";
 import { SectionTitle } from "~/components/dashboard/SectionTitle";
-
 import { DatePicker } from "~/features/user/create-visit/DatePicker";
 import { DoctorsVisitCard } from "./DoctorsVisitCard";
 import { CustomDialog } from "~/components/CustomDialog";
 import { Visit } from "../Visit";
+import { api } from "~/utils/api";
+import { useSession } from "next-auth/react";
 
 type VisitsSectionProps = unknown;
 
 export const VisitsSection: React.FC<VisitsSectionProps> = (
   p: VisitsSectionProps,
 ) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const { data: session } = useSession();
 
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [isVisitOpen, setIsVisitOpen] = useState(false);
   const [selectedVisit, setSelectedVisit] = useState<any>(null);
 
@@ -26,74 +28,49 @@ export const VisitsSection: React.FC<VisitsSectionProps> = (
     setIsVisitOpen(false);
   };
 
-  const visits = [
-    {
-      isSoon: true,
-      title: "MRI: right thigh, knee and shin",
-      firstName: "Boa",
-      lastName: "Dusiciel",
-      pesel: "02322203534",
-      email: "tajger.bonzo@interia.pl",
-      phoneNumber: "456 123 222",
-      sex: "MALE",
-      birthday: "1985-05-12",
-      createdAt: "2023-01-01",
-      image: "/patient.png",
-      appointmentSchedule: [
-        "2023-12-15 10:00 AM - Check-up",
-        "2023-12-20 2:00 PM - Follow-up",
-      ],
-      medicalHistory: [
-        { date: "2023-01-15", description: "Diagnosed with flu." },
-        { date: "2022-12-10", description: "Regular check-up." },
-      ],
-      bloodType: "O+",
-      allergies: ["Peanuts", "Dust"],
-    },
-    {
-      isSoon: false,
-      title: "Consultation: surgery preparation",
-      firstName: "Jan",
-      lastName: "Długosz",
-      pesel: "02322203534",
-      email: "jandlugi@gmail.pl",
-      phoneNumber: "456 123 222",
-      sex: "MALE",
-      birthday: "1985-05-12",
-      createdAt: "2023-01-01",
-      image: "/patient.png",
-      appointmentSchedule: [
-        "2023-12-15 10:00 AM - Check-up",
-        "2023-12-20 2:00 PM - Follow-up",
-      ],
-      medicalHistory: [
-        { date: "2023-01-15", description: "Diagnosed with flu." },
-        { date: "2022-12-10", description: "Regular check-up." },
-      ],
-      bloodType: "O+",
-      allergies: ["Peanuts", "Dust"],
-    },
-  ];
+  const visitsData = api.visit.getDoctorsVisits.useQuery({
+    doctorId: session?.user.id || "",
+  });
 
   return (
-    <div className="">
-      <SectionTitle results={1}>My Visits</SectionTitle>
-      <DatePicker
-        selectedDate={selectedDate}
-        onDateChange={setSelectedDate}
-      ></DatePicker>
+    <div>
+      <SectionTitle results={visitsData.data?.length}>My Visits</SectionTitle>
+      <DatePicker selectedDate={selectedDate} onDateChange={setSelectedDate} />
       <div className="grid-colsw-1 grid place-items-center items-stretch gap-x-2 gap-y-3">
-        {visits.map((visit, index) => (
-          <DoctorsVisitCard
-            key={index}
-            {...visit}
-            onViewVisit={() => openVisit(visit)}
-          ></DoctorsVisitCard>
-        ))}
+        {visitsData.data?.map((visit, index) => {
+          const { patient, title, date, ...visitDetails } = visit;
+          const { pesel } = patient;
+
+          const formattedDate = new Date(date).toLocaleDateString();
+
+          return (
+            <DoctorsVisitCard
+              key={index}
+              isSoon={false} // TODO: implement isSoon
+              title={title}
+              firstName={patient.firstName || ""}
+              lastName={patient.lastName || ""}
+              pesel={pesel}
+              visitDate={new Date(date)}
+              onViewVisit={() =>
+                openVisit({
+                  ...visitDetails,
+                  patient,
+                  title,
+                  date: formattedDate,
+                })
+              }
+            />
+          );
+        })}
 
         {selectedVisit && (
-          <CustomDialog isOpen={isVisitOpen} onClose={closeVisit}>
-            <Visit {...selectedVisit}></Visit>
+          <CustomDialog
+            isOpen={isVisitOpen}
+            onClose={closeVisit}
+            className="w-1/2"
+          >
+            <Visit {...selectedVisit} />
           </CustomDialog>
         )}
       </div>
