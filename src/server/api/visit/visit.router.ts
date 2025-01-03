@@ -1,5 +1,5 @@
+import { ReflectiveInjector } from "injection-js";
 import { z } from "zod";
-
 import {
   createTRPCRouter,
   doctorProcedure,
@@ -11,13 +11,26 @@ import { VisitAccess } from "./visit.access";
 import { assert } from "~/utils/assert";
 import { VisitStatus } from "@prisma/client";
 import { DrugAccess } from "../drug/drug.access";
-import { visitInjector } from "./visit.module";
 import { ManageVisitEngine } from "./manage-visit.engine";
+import { UserAccess } from "../user/user.access";
+import { AllergyAccess } from "../allergy/allergy.access";
+import { title } from "process";
+
+export const visitElements = [
+  VisitAccess,
+  ManageVisitEngine,
+  DrugAccess,
+  UserAccess,
+  AllergyAccess,
+];
+
+export const visitInjector = ReflectiveInjector.resolveAndCreate(visitElements);
 
 const createVisitInput = z.object({
   patientId: z.string(),
   doctorId: z.string(),
   date: z.date(),
+  title: z.string(),
 });
 
 const visitIdInput = z.object({
@@ -29,6 +42,8 @@ const drugAccess = visitInjector.get(DrugAccess) as DrugAccess;
 const manageVisitEngine = visitInjector.get(
   ManageVisitEngine,
 ) as ManageVisitEngine;
+const userAccess = visitInjector.get(UserAccess) as UserAccess;
+const allergyAccess = visitInjector.get(AllergyAccess) as AllergyAccess;
 
 export const visitRouter = createTRPCRouter({
   createVisit: patientProcedure
@@ -87,5 +102,36 @@ export const visitRouter = createTRPCRouter({
       await drugAccess.addDrugsToVisit(visit.id, input.drugIds);
 
       return true;
+    }),
+
+  getDoctorsVisits: protectedProcedure
+    .input(
+      z.object({
+        doctorId: z.string(),
+      }),
+    )
+    .query(async ({ input }) => {
+      const visits = await visitAccess.findVisits({
+        doctorId: input.doctorId,
+      });
+
+      const visitsWithPatientData = await Promise.all(
+        visits.map(async (visit) => {
+          const patientData = await userAccess.findUserById(visit.patientId);
+          const doctorData = await userAccess.findUserById(visit.doctorId);
+          const patientAllergies = await allergyAccess.getAllergy(
+            patientData.id,
+          );
+
+          return {
+            ...visit,
+            patient: patientData,
+            doctor: doctorData,
+            allergies: patientAllergies,
+          };
+        }),
+      );
+
+      return visitsWithPatientData;
     }),
 });
