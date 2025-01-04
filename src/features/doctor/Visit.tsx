@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Title } from "~/components/forms/Title";
 import { Button } from "~/components/forms/Button";
 import { SearchDrugs } from "./SearchDrugs";
 import { TextArea } from "~/components/forms/TextArea";
 import { useSession } from "next-auth/react";
+import { api } from "~/utils/api";
 
 interface VisitProps {
+  id: number;
   title: string;
   date: string;
   allergies: string[];
   patient: any;
+  prescription?: string;
 }
 
 export const Visit: React.FC<VisitProps> = (p) => {
@@ -20,18 +23,52 @@ export const Visit: React.FC<VisitProps> = (p) => {
   const [notes, setNotes] = useState<string>("");
   const [selectedMedicines, setSelectedMedicines] = useState<any[]>([]);
 
+  const finishVisitMutation = api.visit.finishVisit.useMutation({
+    onSuccess: () => {
+      alert("saved");
+    },
+    onError: (error) => {
+      alert(`Error finishing visit: ${error.message}`);
+    },
+  });
+
   const handleMedicineSelect = (medicine: any) => {
-    if (selectedMedicines.some((m) => m.name === medicine.name)) {
+    if (selectedMedicines.some((m) => m.id === medicine.id)) {
       return;
     }
     setSelectedMedicines((prevMedicines) => [...prevMedicines, medicine]);
   };
 
-  const handleMedicineRemove = (medicineName: string) => {
+  const handleMedicineRemove = (medicineId: number) => {
     setSelectedMedicines((prevMedicines) =>
-      prevMedicines.filter((medicine) => medicine.name !== medicineName),
+      prevMedicines.filter((medicine) => medicine.id !== medicineId),
     );
   };
+
+  const finishAppointment = () => {
+    const prescription = JSON.stringify({
+      patientCondition,
+      recommendations,
+      notes,
+    });
+
+    const drugIds = selectedMedicines.map((medicine) => medicine.id);
+    finishVisitMutation.mutate({
+      id: p.id,
+      prescription: prescription,
+      drugIds,
+    });
+  };
+
+  useEffect(() => {
+    if (p.prescription) {
+      const prescriptionData = JSON.parse(p.prescription);
+
+      setPatientCondition(prescriptionData.patientCondition || "");
+      setRecommendations(prescriptionData.recommendations || "");
+      setNotes(prescriptionData.notes || "");
+    }
+  }, [p.prescription]);
 
   return (
     <div className="mx-auto min-w-48 rounded-2xl bg-default-white p-6">
@@ -94,14 +131,14 @@ export const Visit: React.FC<VisitProps> = (p) => {
           <SearchDrugs onSelect={handleMedicineSelect} />
           <div className="mt-2">
             <ul>
-              {selectedMedicines.map((medicine, index) => (
+              {selectedMedicines.map((medicine) => (
                 <li
-                  key={index}
+                  key={medicine.id}
                   className="flex items-center justify-between text-base"
                 >
                   <span>{medicine.name}</span>
                   <Button
-                    onClick={() => handleMedicineRemove(medicine.name)}
+                    onClick={() => handleMedicineRemove(medicine.id)}
                     variant={"minimalistic"}
                     size={"xs"}
                   >
@@ -134,7 +171,7 @@ export const Visit: React.FC<VisitProps> = (p) => {
       </div>
 
       <div className="mt-6 text-center">
-        <Button variant="primary" size="base">
+        <Button variant="primary" size="base" onClick={finishAppointment}>
           Finish Appointment
         </Button>
       </div>
