@@ -5,6 +5,13 @@ import { SearchDrugs } from "./SearchDrugs";
 import { TextArea } from "~/components/forms/TextArea";
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
+import { Select } from "~/components/forms/Select";
+import { DiseaseRegion } from "@prisma/client";
+
+const diseaseRegionOptions = Object.keys(DiseaseRegion).map((key) => ({
+  value: key,
+  label: DiseaseRegion[key as keyof typeof DiseaseRegion],
+}));
 
 interface VisitProps {
   id: number;
@@ -20,17 +27,13 @@ export const Visit: React.FC<VisitProps> = (p) => {
 
   const [patientCondition, setPatientCondition] = useState<string>("");
   const [recommendations, setRecommendations] = useState<string>("");
-  const [notes, setNotes] = useState<string>("");
+  const [diagnosis, setDiagnosis] = useState<string>("");
   const [selectedMedicines, setSelectedMedicines] = useState<any[]>([]);
+  const [selectedRegion, setSelectedRegion] = useState<DiseaseRegion>();
 
-  const finishVisitMutation = api.visit.finishVisit.useMutation({
-    onSuccess: () => {
-      alert("saved");
-    },
-    onError: (error) => {
-      alert(`Error finishing visit: ${error.message}`);
-    },
-  });
+  const finishVisitMutation = api.visit.finishVisit.useMutation();
+  const addMedicalHistoryMutation =
+    api.medicalHistory.addMedicalHistory.useMutation();
 
   const handleMedicineSelect = (medicine: any) => {
     if (selectedMedicines.some((m) => m.id === medicine.id)) {
@@ -49,14 +52,22 @@ export const Visit: React.FC<VisitProps> = (p) => {
     const prescription = JSON.stringify({
       patientCondition,
       recommendations,
-      notes,
+      diagnosis,
     });
 
     const drugIds = selectedMedicines.map((medicine) => medicine.id);
+
     finishVisitMutation.mutate({
       id: p.id,
       prescription: prescription,
       drugIds,
+    });
+
+    addMedicalHistoryMutation.mutate({
+      patientId: p.patient.id,
+      diseaseName: diagnosis,
+      diagnosisDate: new Date(),
+      region: selectedRegion || DiseaseRegion.CHEST,
     });
   };
 
@@ -66,7 +77,7 @@ export const Visit: React.FC<VisitProps> = (p) => {
 
       setPatientCondition(prescriptionData.patientCondition || "");
       setRecommendations(prescriptionData.recommendations || "");
-      setNotes(prescriptionData.notes || "");
+      setDiagnosis(prescriptionData.diagnosis || "");
     }
   }, [p.prescription]);
 
@@ -107,11 +118,24 @@ export const Visit: React.FC<VisitProps> = (p) => {
           </div>
         </div>
 
-        <div className="flex-1 space-y-4">
+        <div className="flex flex-1 flex-col justify-between space-y-4">
           <div>
             <h5 className="font-bold">Doctor Information</h5>
             <p>Name: Dr. {session?.user.name}</p>
             <p>Email: {session?.user.email}</p>
+          </div>
+          <div>
+            <h5 className="font-bold">Region</h5>
+            <Select
+              id={"region"}
+              name={"region"}
+              value={selectedRegion || ""}
+              placeholder="Select region..."
+              options={diseaseRegionOptions}
+              onChange={(e) =>
+                setSelectedRegion(e.target.value as DiseaseRegion)
+              }
+            ></Select>
           </div>
         </div>
       </div>
@@ -162,11 +186,11 @@ export const Visit: React.FC<VisitProps> = (p) => {
       </div>
 
       <div className="mt-4">
-        <h5 className="font-bold">Notes</h5>
+        <h5 className="font-bold">Diagnosis</h5>
         <TextArea
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          placeholder="Any additional notes..."
+          value={diagnosis}
+          onChange={(e) => setDiagnosis(e.target.value)}
+          placeholder="Enter diagnosis..."
         />
       </div>
 
