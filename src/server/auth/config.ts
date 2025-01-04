@@ -92,6 +92,7 @@ export const authConfig = {
           ...session.user,
           role: user.role,
           id: token.sub,
+          image: user.image,
         },
       };
     },

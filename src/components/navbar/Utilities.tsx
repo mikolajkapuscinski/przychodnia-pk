@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Button } from "../forms/Button";
 import { LoggedUserOptions } from "./LoggedUserOptions";
+import { useSession } from "next-auth/react";
 
 export const Utilities: React.FC = () => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const { data: session } = useSession();
 
   return (
     <div className="flex w-1/3 items-center justify-end gap-2 px-3">
@@ -29,7 +31,11 @@ export const Utilities: React.FC = () => {
         size="xs"
       >
         <div className="ml-3 rotate-90 text-2xl">&#8250;</div>
-        <img className="ml-2 w-10 rounded-full" src="/doctor.png" alt="user" />
+        <img
+          className="ml-2 h-10 w-10 rounded-full object-cover"
+          src={session?.user.image ?? "/doctor.png"}
+          alt="user"
+        />
       </Button>
 
       <LoggedUserOptions
