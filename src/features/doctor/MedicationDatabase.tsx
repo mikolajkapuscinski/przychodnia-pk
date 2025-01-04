@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SectionTitle } from "~/components/dashboard/SectionTitle";
+import { Button } from "~/components/forms/Button";
+import { api } from "~/utils/api";
 
 interface Medication {
   id: number;
@@ -7,68 +9,59 @@ interface Medication {
   description: string;
 }
 
-interface MedicationDatabaseProps {
-  medicines: Medication[];
-}
+export const MedicationDatabase: React.FC = () => {
+  const { data: medicines = [] } = api.drug.getAllDrugs.useQuery();
+  const [displayedMedicines, setDisplayedMedicines] = useState<Medication[]>(
+    [],
+  );
 
-export const MedicationDatabase: React.FC<MedicationDatabaseProps> = ({
-  medicines,
-}) => {
-  const [sortedMedicines, setSortedMedicines] =
-    useState<Medication[]>(medicines);
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-
-  const sortMedicines = (column: keyof Medication) => {
-    const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
-    setSortOrder(newSortOrder);
-
-    const sortedData = [...medicines].sort((a, b) => {
-      if (a[column] < b[column]) return newSortOrder === "asc" ? -1 : 1;
-      if (a[column] > b[column]) return newSortOrder === "asc" ? 1 : -1;
-      return 0;
-    });
-
-    setSortedMedicines(sortedData);
+  const loadMore = () => {
+    const currentLength = displayedMedicines.length;
+    setDisplayedMedicines([
+      ...displayedMedicines,
+      ...medicines.slice(currentLength, currentLength + 100),
+    ]);
   };
+
+  useEffect(() => {
+    if (medicines.length > 0) {
+      setDisplayedMedicines(medicines.slice(0, 100));
+    }
+  }, [medicines]);
 
   return (
     <div className="overflow-hidden rounded-lg bg-default-white">
       <SectionTitle>Medication Database</SectionTitle>
-      <div className="overflow-x-auto p-4">
-        <table className="min-w-full table-auto">
-          <thead className="select-none bg-light-aquamarine text-default-white">
-            <tr>
-              <th
-                onClick={() => sortMedicines("id")}
-                className="cursor-pointer rounded-tl-lg px-4 py-2 text-sm font-semibold hover:bg-[#b6d9e1]"
-              >
-                ID
-              </th>
-              <th
-                onClick={() => sortMedicines("name")}
-                className="cursor-pointer px-4 py-2 text-sm font-semibold hover:bg-[#b6d9e1]"
-              >
-                Name
-              </th>
-              <th
-                onClick={() => sortMedicines("description")}
-                className="cursor-pointer rounded-tr-lg px-4 py-2 text-sm font-semibold hover:bg-[#b6d9e1]"
-              >
-                Description
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedMedicines.map((medication, index) => (
-              <tr key={medication.id} className="border-b border-default-gray">
-                <td className="px-4 py-2 text-sm">{medication.id}</td>
-                <td className="px-4 py-2 text-sm">{medication.name}</td>
-                <td className="px-4 py-2 text-sm">{medication.description}</td>
+      <div className="p-4">
+        <div className="overflow-x-auto">
+          <table className="min-w-full table-auto">
+            <thead className="select-none bg-light-aquamarine text-default-white">
+              <tr>
+                <th className="px-4 py-2 text-sm font-semibold">ID</th>
+                <th className="px-4 py-2 text-sm font-semibold">Name</th>
+                <th className="px-4 py-2 text-sm font-semibold">Description</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {displayedMedicines.map((medication) => (
+                <tr
+                  key={medication.id}
+                  className="border-b border-default-gray"
+                >
+                  <td className="px-4 py-2 text-sm">{medication.id}</td>
+                  <td className="px-4 py-2 text-sm">{medication.name}</td>
+                  <td className="px-4 py-2 text-sm">
+                    {medication.description}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
+      <Button onClick={loadMore} variant="blue" size="base">
+        Load More
+      </Button>
     </div>
   );
 };
