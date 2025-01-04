@@ -6,6 +6,7 @@ import { useSession, signOut } from "next-auth/react";
 import { CustomDialog } from "../CustomDialog";
 import { EditProfileForm } from "../forms/EditProfileForm";
 import { ChangePasswordForm } from "../forms/ChangePasswordForm";
+import { useRouter } from "next/router";
 
 interface LoggedUserOptionsProps {
   isOpen: boolean;
@@ -16,10 +17,17 @@ export const LoggedUserOptions: React.FC<LoggedUserOptionsProps> = ({
   isOpen,
   onClose,
 }) => {
+  const router = useRouter();
   const { data: sessionData } = useSession();
 
   const [isChangePassOpen, setChangePassOpen] = useState(false);
   const [isEditProfileOpen, setEditProfileOpen] = useState(false);
+
+  const handleLogout = async () => {
+    onClose();
+    await signOut({ redirect: false });
+    router.push("/");
+  };
 
   return (
     <>
@@ -65,10 +73,7 @@ export const LoggedUserOptions: React.FC<LoggedUserOptionsProps> = ({
                   variant="secondary"
                   size="base"
                   className="flex w-full items-center justify-start text-red-500 hover:bg-red-500 hover:text-white"
-                  onClick={() => {
-                    onClose();
-                    void signOut();
-                  }}
+                  onClick={handleLogout}
                 >
                   Log Out
                 </Button>
