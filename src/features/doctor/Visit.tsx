@@ -17,7 +17,7 @@ interface VisitProps {
   id: number;
   title: string;
   date: string;
-  allergies: string[];
+  allergies: { id: number; name: string }[];
   patient: any;
   prescription?: string;
 }
@@ -100,9 +100,9 @@ export const Visit: React.FC<VisitProps> = (p) => {
             <h5 className="font-bold">Allergies</h5>
             {p.allergies.length > 0 ? (
               <ul className="list-disc pl-5">
-                {p.allergies.map((allergy, index) => (
-                  <li key={index} className="text-base text-default-black">
-                    {allergy}
+                {p.allergies.map((allergy) => (
+                  <li key={allergy.id} className="text-base text-default-black">
+                    {allergy.name}
                   </li>
                 ))}
               </ul>
