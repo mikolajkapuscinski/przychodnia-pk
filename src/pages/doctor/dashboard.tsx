@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { type NextPage } from "next";
 import { PatientSection } from "~/features/doctor/dashboard/PatientsSection";
 import { VisitsSection } from "~/features/doctor/dashboard/VisitsSection";
@@ -6,19 +6,45 @@ import { DrugsSection } from "~/features/doctor/dashboard/DrugsSection";
 import { StatisticsSection } from "~/features/doctor/dashboard/StatisticsSection";
 import { Navbar } from "~/components/navbar/Navbar";
 import { Button } from "~/components/forms/Button";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
-const UserDashboard: NextPage = () => {
+const DoctorDashboard: NextPage = () => {
+  const router = useRouter();
+  const { data: sessionData } = useSession();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) return null;
+
   return (
-    // Left
     <div className="flex flex-wrap justify-between">
       <Navbar>
-        <Button variant="secondary" size="base">
+        <Button
+          variant="secondary"
+          size="base"
+          onClick={() => {
+            router.push(`/${sessionData?.user?.role?.toLowerCase()}/dashboard`);
+            console.log("clicked on overview");
+          }}
+        >
           Overview
         </Button>
         <Button variant="secondary" size="base">
           Calendar
         </Button>
-        <Button variant="secondary" size="base">
+        <Button
+          variant="secondary"
+          size="base"
+          onClick={() =>
+            router.push(
+              `/${sessionData?.user?.role?.toLowerCase()}/medication-database`,
+            )
+          }
+        >
           Medications
         </Button>
         <Button variant="secondary" size="base">
@@ -43,4 +69,4 @@ const UserDashboard: NextPage = () => {
   );
 };
 
-export default UserDashboard;
+export default DoctorDashboard;
