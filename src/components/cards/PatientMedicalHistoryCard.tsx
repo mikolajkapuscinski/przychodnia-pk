@@ -1,7 +1,7 @@
 import React from "react";
 
 interface PatientMedicalHistoryProps {
-  medicalHistory: { date: string; description: string }[];
+  medicalHistory: { date: string | Date; diseaseName: string }[];
 }
 
 const PatientMedicalHistory: React.FC<PatientMedicalHistoryProps> = (p) => {
@@ -12,8 +12,14 @@ const PatientMedicalHistory: React.FC<PatientMedicalHistoryProps> = (p) => {
         <ul>
           {p.medicalHistory.map((entry, index) => (
             <li key={index} className="rounded-lg bg-gray-50 pt-4">
-              <p className="font-bold">{entry.date}</p>
-              <p>{entry.description}</p>
+              <p className="font-bold">
+                {new Date(entry.date).toLocaleDateString("en-US", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}{" "}
+              </p>
+              <p>{entry.diseaseName}</p>
             </li>
           ))}
         </ul>

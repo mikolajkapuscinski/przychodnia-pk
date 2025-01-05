@@ -12,12 +12,9 @@ interface PatientDescriptionProps {
   phoneNumber?: string;
   sex: string;
   birthday?: string;
-  createdAt: string;
-  address?: string;
   image?: string;
-  appointmentSchedule: string[];
   medicalHistory: { date: string; description: string }[];
-  bloodType: string;
+  bloodType?: string;
   allergies: string[];
 }
 
@@ -46,14 +43,14 @@ export const PatientDescription: React.FC<PatientDescriptionProps> = (p) => {
           <PatientBasicInformationCard
             sex={p.sex}
             birthday={p.birthday}
-            phoneNumber={p.phoneNumber}
+            phoneNumber={p.phoneNumber == null ? "-" : p.phoneNumber}
             email={p.email}
           />
         </div>
 
         <div className="form-group mt-2 flex-grow-[1]">
           <PatientMedicalInformationCard
-            bloodType={p.bloodType}
+            bloodType={p.bloodType == null ? "-" : p.bloodType}
             allergies={p.allergies}
           />
         </div>
