@@ -13,8 +13,14 @@ import { userInjector } from "./user.module";
 import { DoctorEngine } from "./doctor.engine";
 import { assert } from "console";
 import { compare } from "~/server/utils/hashing.util";
+import { AllergyAccess } from "../allergy/allergy.access";
+import { MedicalHistoryAccess } from "../medical-history/medical-history.access";
 
 const userAccess = userInjector.get(UserAccess) as UserAccess;
+const allergyAccess = userInjector.get(AllergyAccess) as AllergyAccess;
+const medicalHistoryAccess = userInjector.get(
+  MedicalHistoryAccess,
+) as MedicalHistoryAccess;
 const doctorEngine = userInjector.get(DoctorEngine) as DoctorEngine;
 
 const registerUserInput = z.object({
@@ -108,12 +114,56 @@ export const userRouter = createTRPCRouter({
   updateUserPassword: protectedProcedure
     .input(udatePasswordInput)
     .mutation(async ({ input }) => {
-      const currentPassHash = (await userAccess.findUserById(input.id)).passwordHash;
+      const currentPassHash = (await userAccess.findUserById(input.id))
+        .passwordHash;
 
       console.log(input.currentPassword);
 
-      if(!await compare(input.currentPassword, currentPassHash))
-        throw new Error("Current password is not matching")
+      if (!(await compare(input.currentPassword, currentPassHash)))
+        throw new Error("Current password is not matching");
       return await userAccess.updatePassword(input.id, input.newPassword);
     }),
+
+  getMyPatients: protectedProcedure.query(async ({ ctx }) => {
+    const doctorId = ctx.session?.user?.id;
+    assert(doctorId, "User must be logged in as a doctor.");
+
+    const medicalHistories = await doctorEngine.getVisitsForDoctor(
+      doctorId as string,
+    );
+
+    const patientIds = Array.from(
+      new Set(medicalHistories.map((history) => history.patientId)),
+    );
+
+    const patientsData = await Promise.all(
+      patientIds.map(async (patientId) => {
+        const user = await userAccess.findUserById(patientId);
+        const allergies = await allergyAccess.getAllergy(patientId);
+        const medicalHistory =
+          await medicalHistoryAccess.getMedicalHistory(patientId);
+
+        return {
+          id: patientId,
+          firstName: user.firstName ?? "Unknown",
+          lastName: user.lastName ?? "Unknown",
+          pesel: user.pesel ?? "Unknown",
+          email: user.email ?? "Unknown",
+          phoneNumber: user.phoneNumber ?? "Unknown",
+          sex: user.sex ?? "Unknown",
+          // birthday: user.birthday ?? "Unknown",
+          image: user.image ?? "/default-avatar.png",
+          allergies: allergies.length ? allergies.map((a) => a.name) : [],
+          medicalHistory: medicalHistory.length
+            ? medicalHistory.map((m) => ({
+                date: m.diagnosisDate,
+                diseaseName: m.diseaseName,
+              }))
+            : [],
+        };
+      }),
+    );
+
+    return patientsData;
+  }),
 });

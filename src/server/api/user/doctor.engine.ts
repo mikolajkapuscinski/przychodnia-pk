@@ -4,6 +4,7 @@ import { DoctorCalendarAccess } from "../doctor-calendar/doctor-calendar.access"
 import { UserAccess } from "./user.access";
 import { assert } from "~/utils/assert";
 import { OpinionAccess } from "../opinion/opinion.access";
+import { AllergyAccess } from "../allergy/allergy.access";
 
 export class DoctorEngine {
   constructor(
@@ -71,5 +72,10 @@ export class DoctorEngine {
         opinions: opinions[doctor.id],
       };
     });
+  }
+
+  async getVisitsForDoctor(doctorId: string) {
+    assert(doctorId, "Doctor ID must be provided.");
+    return await this.visitAccess.findVisits({ doctorId });
   }
 }
