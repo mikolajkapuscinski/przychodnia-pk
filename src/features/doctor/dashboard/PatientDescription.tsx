@@ -13,7 +13,7 @@ interface PatientDescriptionProps {
   sex: string;
   birthday?: string;
   image?: string;
-  medicalHistory: { date: string; description: string }[];
+  medicalHistory: { date: string | Date; diseaseName: string }[];
   bloodType?: string;
   allergies: string[];
 }
