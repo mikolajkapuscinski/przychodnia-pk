@@ -1,10 +1,15 @@
-import { api } from "~/utils/api";
+import React from "react";
 import { BodyRegion } from "./bodyRegion";
 
-export const BodySchema: React.FC = () => {
-  const medicalHistory =
-    api.medicalHistory.getMyMedicalHistory.useQuery().data ?? [];
+interface BodySchemaProps {
+  selectedRegion: string | null;
+  onRegionClick: (region: string) => void;
+}
 
+export const BodySchema: React.FC<BodySchemaProps> = ({
+  selectedRegion,
+  onRegionClick,
+}) => {
   return (
     <div className="col-span-1 flex justify-center">
       <div
@@ -17,17 +22,13 @@ export const BodySchema: React.FC = () => {
         }}
         className="relative"
       >
-        <BodyRegion region="HEAD"></BodyRegion>
-        <BodyRegion region="CHEST"></BodyRegion>
-        <BodyRegion region="LEFT_LEG"></BodyRegion>
-        <BodyRegion region="LEFT_ARM"></BodyRegion>
-        <BodyRegion region="RIGHT_LEG"></BodyRegion>
-        <BodyRegion region="RIGHT_ARM"></BodyRegion>
-        <BodyRegion region="THROAT"></BodyRegion>
-
-        {medicalHistory.map((history) => (
-          <BodyRegion key={history.id} {...history} />
-        ))}
+        <BodyRegion region="HEAD" onClick={onRegionClick} />
+        <BodyRegion region="CHEST" onClick={onRegionClick} />
+        <BodyRegion region="LEFT_LEG" onClick={onRegionClick} />
+        <BodyRegion region="LEFT_ARM" onClick={onRegionClick} />
+        <BodyRegion region="RIGHT_LEG" onClick={onRegionClick} />
+        <BodyRegion region="RIGHT_ARM" onClick={onRegionClick} />
+        <BodyRegion region="THROAT" onClick={onRegionClick} />
       </div>
     </div>
   );

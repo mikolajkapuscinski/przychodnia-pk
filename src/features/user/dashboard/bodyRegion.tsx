@@ -16,9 +16,10 @@ const REGION_OFFSETS: Record<
 
 export interface BodyRegionProps {
   region: DiseaseRegion;
+  onClick: (region: string) => void;
 }
 
-export const BodyRegion: React.FC<BodyRegionProps> = ({ region }) => {
+export const BodyRegion: React.FC<BodyRegionProps> = ({ region, onClick }) => {
   assert(region in REGION_OFFSETS);
   const offsets = REGION_OFFSETS[region];
 
@@ -28,6 +29,9 @@ export const BodyRegion: React.FC<BodyRegionProps> = ({ region }) => {
       style={{
         top: `calc(${offsets.top} - 2px)`,
         left: `calc(${offsets.left} - 2px)`,
+      }}
+      onClick={() => {
+        onClick(region);
       }}
     >
       {" "}
