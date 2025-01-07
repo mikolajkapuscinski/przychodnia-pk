@@ -20,12 +20,7 @@ export const SectionTitle: React.FC<SectionTitleProps> = (
           All results ({p.results}) &#8250;
         </a>
       ) : (
-        <a
-          onClick={p.onclick}
-          className="mt-1 cursor-pointer text-xs font-semibold text-aquamarine"
-        >
-          No results
-        </a>
+        <></>
       )}
     </div>
   );

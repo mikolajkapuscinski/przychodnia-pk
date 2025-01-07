@@ -14,12 +14,17 @@ export const PrescriptionSection: React.FC = () => {
       </SectionTitle>
       <div className="grid place-items-center items-stretch gap-x-2 gap-y-3 lg:grid-cols-1 2xl:grid-cols-2">
         {patientPresctiptions &&
-          patientPresctiptions.map((prescription) => (
-            <Card title="Clean backdoor">
-              <Line className="my-1"></Line>
-              {/* {prescription} */}
-            </Card>
-          ))}
+          patientPresctiptions.map((p) => {
+            const data = JSON.parse(p.prescription as string);
+
+            return (
+              <Card title={`Condtion: ${data.patientCondition}`}>
+                <Line className="my-1"></Line>
+                <p>{`Recommendation: ${data.recommendations}`}</p>
+                <p>{`Diagnosis: ${data.diagnosis}`}</p>  
+              </Card>
+            );
+          })}
       </div>
     </div>
   );
