@@ -47,6 +47,7 @@ const UserDashboard: NextPage = () => {
         <LeftSection />
         <BodySchema
           selectedRegion={selectedRegion}
+          medicalHistory={medicalHistory}
           onRegionClick={handleRegionClick}
         />
         <RightSection

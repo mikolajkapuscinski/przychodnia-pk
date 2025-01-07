@@ -1,13 +1,15 @@
 import React from "react";
 import { BodyRegion } from "./bodyRegion";
+import { DiseaseRegion } from "@prisma/client";
 
 interface BodySchemaProps {
   selectedRegion: string | null;
+  medicalHistory?: any;
   onRegionClick: (region: string) => void;
 }
 
 export const BodySchema: React.FC<BodySchemaProps> = ({
-  selectedRegion,
+  medicalHistory = [],
   onRegionClick,
 }) => {
   return (
@@ -22,13 +24,21 @@ export const BodySchema: React.FC<BodySchemaProps> = ({
         }}
         className="relative"
       >
-        <BodyRegion region="HEAD" onClick={onRegionClick} />
-        <BodyRegion region="CHEST" onClick={onRegionClick} />
-        <BodyRegion region="LEFT_LEG" onClick={onRegionClick} />
-        <BodyRegion region="LEFT_ARM" onClick={onRegionClick} />
-        <BodyRegion region="RIGHT_LEG" onClick={onRegionClick} />
-        <BodyRegion region="RIGHT_ARM" onClick={onRegionClick} />
-        <BodyRegion region="THROAT" onClick={onRegionClick} />
+        {Object.keys(DiseaseRegion).map((regionKey) => {
+          const region = regionKey as DiseaseRegion;
+          const regionHistory = medicalHistory.find(
+            (history: { region: DiseaseRegion }) => history.region === region,
+          );
+
+          return (
+            <BodyRegion
+              key={region}
+              region={region}
+              onClick={onRegionClick}
+              medicalHistory={regionHistory}
+            />
+          );
+        })}
       </div>
     </div>
   );
