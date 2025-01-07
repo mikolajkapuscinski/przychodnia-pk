@@ -6,8 +6,12 @@ import { LeftSection } from "~/features/user/dashboard/leftSection";
 import { RightSection } from "~/features/user/dashboard/rightSection";
 import { Button } from "~/components/forms/Button";
 import { api } from "~/utils/api";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 const UserDashboard: NextPage = () => {
+  const router = useRouter();
+  const { data: sessionData } = useSession();
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
   const [filteredHistory, setFilteredHistory] = useState<any[]>([]);
 
@@ -30,11 +34,23 @@ const UserDashboard: NextPage = () => {
   return (
     <>
       <Navbar>
-        <Button variant="secondary" size="base">
-          Overview
+        <Button
+          variant="secondary"
+          size="base"
+          onClick={() => {
+            router.push(`/${sessionData?.user?.role?.toLowerCase()}/dashboard`);
+          }}
+        >
+          Dashboard
         </Button>
-        <Button variant="secondary" size="base">
-          Calendar
+        <Button
+          variant="primary"
+          size="base"
+          onClick={() => {
+            router.push("create-visit");
+          }}
+        >
+          Schedule&nbsp;visit
         </Button>
         <Button variant="secondary" size="base">
           Doctors
