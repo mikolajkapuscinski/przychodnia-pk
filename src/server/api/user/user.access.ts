@@ -1,4 +1,4 @@
-import { UserRole, type Prisma } from "@prisma/client";
+import { UserRole, Visit, type Prisma } from "@prisma/client";
 import { db } from "~/server/db";
 import { hash } from "~/server/utils/hashing.util";
 import { assert } from "~/utils/assert";
@@ -122,5 +122,14 @@ export class UserAccess {
     assert(user, "User not found");
 
     return user.id;
+  }
+
+  public async getUserPrescriptions(userId: string) {
+    const prescriptions = await db.visit.findMany({
+      where: { patientId: userId },
+      select: { prescription: true },
+    });
+
+    return prescriptions;
   }
 }
