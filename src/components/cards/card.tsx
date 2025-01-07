@@ -2,6 +2,7 @@ export interface CardProps extends React.HTMLAttributes<HTMLBaseElement> {
   title: string;
   className?: string;
   onClick?: () => void;
+  children?: any; 
 }
 
 export const Card: React.FC<CardProps> = (p: CardProps) => {
