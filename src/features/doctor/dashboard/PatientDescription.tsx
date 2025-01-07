@@ -18,7 +18,21 @@ interface PatientDescriptionProps {
   allergies: string[];
 }
 
+const calculateBirthdayFromPesel = (pesel: string): string => {
+  const yearBase =
+    Math.floor(parseInt(pesel.slice(2, 4), 10) / 20) * 100 + 1900;
+  const year = yearBase + parseInt(pesel.slice(0, 2), 10);
+  const month = parseInt(pesel.slice(2, 4), 10) % 20;
+  const day = parseInt(pesel.slice(4, 6), 10);
+
+  return `${year}-${month.toString().padStart(2, "0")}-${day
+    .toString()
+    .padStart(2, "0")}`;
+};
+
 export const PatientDescription: React.FC<PatientDescriptionProps> = (p) => {
+  const birthday = calculateBirthdayFromPesel(p.pesel);
+
   return (
     <div className="mx-auto min-w-[420px] rounded-2xl bg-default-white p-6 lg:min-w-[896px]">
       {/* Info */}
@@ -42,7 +56,7 @@ export const PatientDescription: React.FC<PatientDescriptionProps> = (p) => {
         <div className="form-group mt-2 flex-grow-[1]">
           <PatientBasicInformationCard
             sex={p.sex}
-            birthday={p.birthday}
+            birthday={birthday}
             phoneNumber={p.phoneNumber == null ? "-" : p.phoneNumber}
             email={p.email}
           />
