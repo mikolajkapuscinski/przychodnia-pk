@@ -1,5 +1,9 @@
 import { Line } from "~/components/forms/Line";
 import { AilmentCard } from "~/components/cards/ailmentCard";
+import { Card } from "~/components/cards/card";
+import { DoctorLabel } from "../create-visit/DoctorLabel";
+import { api } from "~/utils/api";
+import { User } from "@prisma/client";
 
 interface SelectedAilmentProps {
   medicalHistory: any[];
@@ -18,22 +22,41 @@ export const SelectedAilment: React.FC<SelectedAilmentProps> = ({
     <div className="hidden xl:block">
       <div className="grid grid-cols-1 place-items-center items-stretch gap-x-2 gap-y-3">
         {safeMedicalHistory.length > 0 ? (
-          safeMedicalHistory.map((ailment) => (
-            <AilmentCard
-              key={ailment.id}
-              title={"Ailment for " + (selectedRegion || "")}
-            >
-              <span>
-                <span className="text-gray-400">Diagnosis date:&nbsp;</span>
-                <span className="font-semibold text-aquamarine">
-                  {new Date(ailment.diagnosisDate).toLocaleDateString()}
-                </span>
-              </span>
-              <Line />
-              <p className="mb-1">MAIN DIAGNOSIS: </p>
-              <p className="text-sm font-semibold">{ailment.diseaseName}</p>
-            </AilmentCard>
-          ))
+          safeMedicalHistory.map((ailment) => {
+            const doctorInCharge: User = api.user.findById.useQuery(
+              ailment.doctorId,
+            );
+
+            return (
+              <>
+                <AilmentCard
+                  key={ailment.id}
+                  title={"Ailment for " + (selectedRegion || "")}
+                >
+                  <span>
+                    <span className="text-gray-400">Diagnosis date:&nbsp;</span>
+                    <span className="font-semibold text-aquamarine">
+                      {new Date(ailment.diagnosisDate).toLocaleDateString()}
+                    </span>
+                  </span>
+                  <Line />
+                  <p className="mb-1">MAIN DIAGNOSIS: </p>
+                  <p className="text-sm font-semibold">{ailment.diseaseName}</p>
+                </AilmentCard>
+                {doctorInCharge ? (
+                  <Card title="Doctor in charge">
+                    <Line />
+                    <DoctorLabel
+                      firstName={doctorInCharge.firstName}
+                      lastName={doctorInCharge.lastName}
+                    />
+                  </Card>
+                ) : (
+                  <></>
+                )}
+              </>
+            );
+          })
         ) : (
           <AilmentCard
             key="no-history"

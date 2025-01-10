@@ -1,9 +1,6 @@
-import { Card } from "~/components/cards/card";
 import { InfoSection } from "./infoSection";
 import { MedicinesSection } from "./MedicinesSection";
 import { SelectedAilment } from "./selectedAilment";
-import { DoctorLabel } from "../create-visit/DoctorLabel";
-import { Line } from "~/components/forms/Line";
 import { AilmentCard } from "~/components/cards/ailmentCard";
 import { SectionTitle } from "~/components/dashboard/SectionTitle";
 
@@ -33,18 +30,6 @@ export const RightSection: React.FC<RightSectionProps> = ({
           </AilmentCard>
         )}
 
-        <Card title="Doctor in charge">
-          <Line />
-          <DoctorLabel
-            firstName="Carlos"
-            lastName="Vojtíla"
-            specialization={[
-              { id: "1", name: "Cardiochirurgy" },
-              { id: "2", name: "Cardiology" },
-            ]}
-            opinion={{ rating: 0, count: 0 }}
-          />
-        </Card>
       </div>
       <MedicinesSection />
       <InfoSection />
