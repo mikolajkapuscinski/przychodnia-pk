@@ -94,6 +94,30 @@ export class UserAccess {
     });
   }
 
+  public async findDoctorById(doctorId: string) {
+    const user = await db.user.findUnique({
+      where: { role: UserRole.DOCTOR, id: doctorId },
+      select: {
+        ...UserAccess.PUBLIC_USER_FIELDS,
+        doctor: {
+          select: {
+            specialization: true,
+          },
+        },
+      },
+    });
+    assert(user);
+
+    return {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      specialization: user.doctor?.specialization ?? [],
+    };
+  }
+
   public async updateUser(
     userId: string,
     updatedUser: Prisma.UserUpdateInput,
@@ -142,12 +166,22 @@ export class UserAccess {
       where: {
         visits: {
           some: {
-            patientId: userId
-          }
-        }
-      }
+            patientId: userId,
+          },
+        },
+      },
     });
 
     return drugs;
+  }
+
+  public async getPatientVisits(userId: string) {
+    const visits = await db.visit.findMany({
+      where: {
+        patientId: userId,
+      },
+    });
+
+    return visits;
   }
 }

@@ -74,6 +74,12 @@ export const userRouter = createTRPCRouter({
     return await doctorEngine.findDoctorsWithOpinions();
   }),
 
+  findDoctorById: publicProcedure
+    .input(z.object({ doctorId: z.string().cuid() }))
+    .query(async ({ input }) => {
+      return await userAccess.findDoctorById(input.doctorId);
+    }),
+
   getAllDoctorAvailability: publicProcedure.query(async () => {
     return await doctorEngine.getAllDoctorsAvailability();
   }),
@@ -171,13 +177,20 @@ export const userRouter = createTRPCRouter({
     const patientId = ctx.session?.user?.id;
     assert(patientId, "User must be logged in as a patient.");
 
-    return await userAccess.getUserPrescriptions(patientId as string); 
+    return await userAccess.getUserPrescriptions(patientId as string);
   }),
 
   getPatientDrugs: protectedProcedure.query(async ({ ctx }) => {
     const patientId = ctx.session?.user?.id;
     assert(patientId, "User must be logged in as a patient.");
 
-    return await userAccess.getUserDrugs(patientId as string); 
+    return await userAccess.getUserDrugs(patientId as string);
+  }),
+
+  getPatientVisits: protectedProcedure.query(async ({ ctx }) => {
+    const patientId = ctx.session?.user?.id;
+    assert(patientId, "User must be logged in as a patient.");
+
+    return await userAccess.getPatientVisits(patientId as string);
   }),
 });
