@@ -3,6 +3,8 @@ import { CustomDialog } from "~/components/CustomDialog";
 import { SectionTitle } from "~/components/dashboard/SectionTitle";
 import { DrugModal } from "./DrugModal";
 import { useState } from "react";
+import { api } from "~/utils/api";
+import { COMPILER_INDEXES } from "next/dist/shared/lib/constants";
 
 export interface Drug {
   name: string;
@@ -18,24 +20,17 @@ export const MedicinesSection: React.FC = () => {
     setIsDrugModalOpen(true);
   };
 
-  const drugs = [
-    {
-      name: "Fentanyl",
-      description:
-        "Fentanyl -organiczny związek chemiczny, pochodna piperydyny; syntetyczny środek przeciwbólowy i anestezjologiczny, syntetyczny opioid. Jest agonistą receptorów opioidowych. Pobudza wytwarzanie serotoniny, zmniejsza stężenie endorfin w osoczu. Ma bezpośredni wpływ na ośrodkowy układ nerwowy.",
-    },
-    {
-      name: "Paracetamol",
-      description:
-        "Paracetamol, acetaminofen – organiczny związek chemiczny, hydroksylowa pochodna acetanilidu, stosowany jako lek o działaniu przeciwbólowym i przeciwgorączkowym. W handlu znajduje się od 1955. W Polsce stał się popularny w latach 90.",
-    },
-  ];
+  const drugsQuery = api.user.getPatientDrugs.useQuery().data;
+
+  const drugs: Drug[] = drugsQuery
+    ? drugsQuery
+    : [{ name: "test_drug", description: "test_drug" }];
 
   return (
     <div className="py-4">
       <SectionTitle>Medications</SectionTitle>
       <div className="grid place-items-center items-stretch gap-x-2 gap-y-3 lg:grid-cols-1 2xl:grid-cols-2">
-        {drugs.map((drug, idx) => (
+        {drugs.slice(0, 4).map((drug, idx) => (
           <DrugCard
             key={idx}
             title={drug.name}
@@ -43,7 +38,7 @@ export const MedicinesSection: React.FC = () => {
           >
             <img
               className="w-full rounded-lg"
-              src="/medicine-1.jpeg"
+              src={`/medicine-${idx % 4}.jpg`}
               alt="drug"
             />
           </DrugCard>
