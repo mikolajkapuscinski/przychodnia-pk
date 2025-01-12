@@ -2,16 +2,22 @@ import { DoctorLabel } from "~/features/user/create-visit/DoctorLabel";
 import { Card } from "./card";
 import { Line } from "../forms/Line";
 import { VisitDetails } from "../dashboard/visitDetails";
-import { SoonAlert } from "../dashboard/soonAlert";
+import { StatusAlert } from "../dashboard/StatusAlert";
+import { api } from "~/utils/api";
+import { doc } from "prettier";
 
 interface VisitCardProps extends React.HTMLAttributes<HTMLBaseElement> {
   title: string;
   className?: string;
-  isSoon: boolean;
+  date: Date;
+  status: string;
+  doctorId: string;
 }
 
 export const VisitCard: React.FC<VisitCardProps> = (p: VisitCardProps) => {
-  const cardColor = p.isSoon ? "black" : "default-gray";
+  const doctorData = api.user.findDoctorById.useQuery({
+    doctorId: p.doctorId,
+  }).data;
 
   return (
     <Card
@@ -19,17 +25,16 @@ export const VisitCard: React.FC<VisitCardProps> = (p: VisitCardProps) => {
       title={p.title}
     >
       <div className="flex items-center gap-3">
-        <SoonAlert className={`${p.isSoon ? "flex" : "hidden"}`}></SoonAlert>
-        <VisitDetails date={new Date()} />
+        <StatusAlert>{p.status}</StatusAlert>
+        <VisitDetails date={p.date} />
       </div>
       {p.children}
       <Line />
       <div className="flex h-20">
         <DoctorLabel
-          firstName={"Dariusz"}
-          lastName={"Dorota"}
-          specialization={[{ id: "1", name: "embedded developer" }]}
-          opinion={{ rating: 0, count: 0 }}
+          firstName={doctorData?.firstName ?? ""}
+          lastName={doctorData?.lastName ?? ""}
+          specialization={doctorData?.specialization}
         />
       </div>
     </Card>

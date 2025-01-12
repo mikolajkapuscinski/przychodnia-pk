@@ -27,7 +27,7 @@ export const DoctorLabel = (p: DoctorLabelProps) => {
         ) : (
           <></>
         )}
-        {p.specialization ? (
+        {p.opinion ? (
           <p className="font-small text-sm text-aquamarine">
             <span className="font-bold">{p.opinion.rating}/5 </span>(
             {p.opinion.count}{" "}

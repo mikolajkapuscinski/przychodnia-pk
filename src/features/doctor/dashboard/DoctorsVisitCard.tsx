@@ -1,5 +1,5 @@
 import { Card } from "~/components/cards/card";
-import { SoonAlert } from "~/components/dashboard/soonAlert";
+import { SoonAlert } from "~/components/dashboard/StatusAlert";
 import { VisitDetails } from "~/components/dashboard/visitDetails";
 import { Line } from "~/components/forms/Line";
 import { PatientBlock } from "./PatientBlock";
