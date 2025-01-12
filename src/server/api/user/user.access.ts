@@ -132,4 +132,22 @@ export class UserAccess {
 
     return prescriptions;
   }
+
+  public async getUserDrugs(userId: string) {
+    const drugs = await db.drug.findMany({
+      select: {
+        name: true,
+        description: true,
+      },
+      where: {
+        visits: {
+          some: {
+            patientId: userId
+          }
+        }
+      }
+    });
+
+    return drugs;
+  }
 }

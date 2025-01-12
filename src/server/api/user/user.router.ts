@@ -172,5 +172,12 @@ export const userRouter = createTRPCRouter({
     assert(patientId, "User must be logged in as a patient.");
 
     return await userAccess.getUserPrescriptions(patientId as string); 
-  })
+  }),
+
+  getPatientDrugs: protectedProcedure.query(async ({ ctx }) => {
+    const patientId = ctx.session?.user?.id;
+    assert(patientId, "User must be logged in as a patient.");
+
+    return await userAccess.getUserDrugs(patientId as string); 
+  }),
 });
