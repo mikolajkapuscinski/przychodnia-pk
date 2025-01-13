@@ -1,7 +1,13 @@
 /* eslint-disable */
 import bcrypt from "bcrypt";
 import { faker } from "@faker-js/faker";
-import { PrismaClient, Sex, UserRole } from "@prisma/client";
+import {
+  DiseaseRegion,
+  PrismaClient,
+  Sex,
+  UserRole,
+  VisitStatus,
+} from "@prisma/client";
 import drugs from "./drugs.json" with { type: "json" };
 
 const prisma = new PrismaClient();
@@ -90,6 +96,111 @@ const addUsers = async () => {
   }
 };
 
+const addMedicalHistory = async () => {
+  const patients = await prisma.patient.findMany();
+  const doctors = await prisma.doctor.findMany();
+
+  const medicalHistories = patients.map((patient) => ({
+    patientId: patient.userId,
+    doctorId: doctors[Math.floor(Math.random() * doctors.length)].userId,
+    diseaseName: faker.lorem.words(2),
+    region:
+      Object.values(DiseaseRegion)[
+        Math.floor(Math.random() * Object.values(DiseaseRegion).length)
+      ],
+    diagnosisDate: faker.date.past(),
+    recoveryDate: Math.random() > 0.5 ? faker.date.recent() : null,
+  }));
+
+  await prisma.medicalHistory.createMany({
+    data: medicalHistories,
+  });
+};
+
+const addOpinions = async () => {
+  const patients = await prisma.patient.findMany();
+  const doctors = await prisma.doctor.findMany();
+
+  const opinions = patients.map((patient) => ({
+    patientId: patient.userId,
+    doctorId: doctors[Math.floor(Math.random() * doctors.length)].userId,
+    opinionText: faker.lorem.sentence(),
+    rating: Math.floor(Math.random() * 5) + 1,
+  }));
+
+  await prisma.opinion.createMany({
+    data: opinions,
+  });
+};
+
+const addVisits = async () => {
+  const patients = await prisma.patient.findMany();
+  const doctors = await prisma.doctor.findMany();
+
+  const visits = [...patients, ...patients].map((patient) => ({
+    patientId: patient.userId,
+    doctorId: doctors[Math.floor(Math.random() * doctors.length)].userId,
+    title: faker.lorem.words(5),
+    date: faker.date.future(),
+    status:
+      Object.values(VisitStatus)[
+        Math.floor(Math.random() * Object.values(VisitStatus).length)
+      ],
+    prescription: JSON.stringify({
+      recommendations: faker.lorem.sentence(3),
+      diagnosis: faker.lorem.sentence(3),
+      patientCondition: faker.lorem.sentence(1),
+    }),
+  }));
+
+  await prisma.visit.createMany({
+    data: visits,
+  });
+};
+
+const addSpecializations = async () => {
+  const specializationArr = [
+    "Cardiologist",
+    "Dermatologist",
+    "Endocrinologist",
+    "Gastroenterologist",
+    "Gynecologist",
+    "Hematologist",
+    "Infectious Disease Specialist",
+    "Internal Medicine Specialist",
+    "Nephrologist",
+    "Neurologist",
+    "Oncologist",
+    "Ophthalmologist",
+    "Orthopedic Surgeon",
+    "Otolaryngologist",
+    "Pediatrician",
+    "Physiatrist",
+    "Plastic Surgeon",
+    "Podiatrist",
+    "Psychiatrist",
+    "Pulmonologist",
+    "Radiologist",
+    "Rheumatologist",
+  ];
+  const doctors = await prisma.doctor.findMany();
+
+  for (const s of specializationArr) {
+    const sp = await prisma.specialization.create({
+      data: { name: s },
+    });
+
+    await prisma.specialization.update({
+      where: { id: sp.id },
+      data: {
+        doctor: {
+          connect: doctors.map((d) => ({ userId: d.userId })),
+        },
+      },
+    });
+  }
+};
+
 // @ts-ignore
 const add = async (table, generator) => {
   // @ts-ignore
@@ -106,7 +217,12 @@ const add = async (table, generator) => {
 };
 
 const main = async () => {
-  await Promise.all([add("drug", addDrugs), add("user", addUsers)]);
+  await add("drug", addDrugs);
+  await add("user", addUsers);
+  await add("medicalHistory", addMedicalHistory);
+  await add("opinion", addOpinions);
+  await add("visit", addVisits);
+  await add("specialization", addSpecializations);
   await prisma.$disconnect();
 };
 main();
