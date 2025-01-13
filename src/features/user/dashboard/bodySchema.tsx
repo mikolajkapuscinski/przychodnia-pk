@@ -13,7 +13,7 @@ export const BodySchema: React.FC<BodySchemaProps> = ({
   onRegionClick,
 }) => {
   return (
-    <div className="col-span-1 flex justify-center">
+    <div className="w-1/3 justify-center xl:flex">
       <div
         style={{
           backgroundImage: "url(/human.png)",
@@ -22,7 +22,7 @@ export const BodySchema: React.FC<BodySchemaProps> = ({
           backgroundPosition: "center",
           aspectRatio: "1464 / 3156",
         }}
-        className="relative"
+        className="relative h-[calc(100vh-4rem)]"
       >
         {Object.keys(DiseaseRegion).map((regionKey) => {
           const region = regionKey as DiseaseRegion;

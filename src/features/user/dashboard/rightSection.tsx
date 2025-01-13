@@ -14,7 +14,7 @@ export const RightSection: React.FC<RightSectionProps> = ({
   filteredHistory,
 }) => {
   return (
-    <div className="col-span-1 px-12 py-4">
+    <div className="w-1/3 px-12 py-4">
       <div className="space-y-3">
         <SectionTitle>Selected Ailment</SectionTitle>
 
@@ -29,7 +29,6 @@ export const RightSection: React.FC<RightSectionProps> = ({
             that body part.
           </AilmentCard>
         )}
-
       </div>
       <MedicinesSection />
       <InfoSection />

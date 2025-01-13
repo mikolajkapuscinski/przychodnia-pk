@@ -59,7 +59,7 @@ const UserDashboard: NextPage = () => {
           Medications
         </Button>
       </Navbar>
-      <div className="grid w-full grid-cols-1 justify-between md:grid-cols-3">
+      <div className="flex w-full justify-between">
         <LeftSection />
         <BodySchema
           selectedRegion={selectedRegion}
