@@ -1,5 +1,5 @@
 import { Card } from "~/components/cards/card";
-import { SoonAlert } from "~/components/dashboard/StatusAlert";
+import { StatusAlert } from "~/components/dashboard/StatusAlert";
 import { VisitDetails } from "~/components/dashboard/visitDetails";
 import { Line } from "~/components/forms/Line";
 import { PatientBlock } from "./PatientBlock";
@@ -27,7 +27,7 @@ export const DoctorsVisitCard: React.FC<DoctorsVisitCardProps> = (
       title={p.title}
     >
       <div className="flex items-center gap-3">
-        <SoonAlert className={`${p.isSoon ? "flex" : "hidden"}`}></SoonAlert>
+        <StatusAlert>Finished</StatusAlert>
         <VisitDetails date={p.visitDate} />
       </div>
       <Line />
