@@ -7,19 +7,17 @@ import { PatientBlock } from "./PatientBlock";
 interface DoctorsVisitCardProps {
   title: string;
   className?: string;
-  isSoon: boolean;
   firstName: string;
   lastName: string;
   pesel: string;
   visitDate: Date;
+  visitStatus: string;
   onViewVisit: () => void;
 }
 
 export const DoctorsVisitCard: React.FC<DoctorsVisitCardProps> = (
   p: DoctorsVisitCardProps,
 ) => {
-  const cardColor = p.isSoon ? "aquamarine" : "default-gray";
-
   return (
     <Card
       onClick={p.onViewVisit}
@@ -27,7 +25,7 @@ export const DoctorsVisitCard: React.FC<DoctorsVisitCardProps> = (
       title={p.title}
     >
       <div className="flex items-center gap-3">
-        <StatusAlert>Finished</StatusAlert>
+        <StatusAlert>{p.visitStatus}</StatusAlert>
         <VisitDetails date={p.visitDate} />
       </div>
       <Line />

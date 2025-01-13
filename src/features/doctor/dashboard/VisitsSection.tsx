@@ -37,32 +37,34 @@ export const VisitsSection: React.FC<VisitsSectionProps> = (
       <SectionTitle results={visitsData.data?.length}>My Visits</SectionTitle>
       <DatePicker selectedDate={selectedDate} onDateChange={setSelectedDate} />
       <div className="grid-colsw-1 grid place-items-center items-stretch gap-x-2 gap-y-3">
-        {visitsData.data?.map((visit, index) => {
-          const { patient, title, date, ...visitDetails } = visit;
-          const { pesel } = patient;
+        {visitsData.data
+          ?.filter((v) => v.date.getDate() === selectedDate.getDate())
+          .map((visit, index) => {
+            const { patient, title, date, ...visitDetails } = visit;
+            const { pesel } = patient;
 
-          const formattedDate = new Date(date).toLocaleDateString();
+            const formattedDate = new Date(date).toLocaleDateString();
 
-          return (
-            <DoctorsVisitCard
-              key={index}
-              isSoon={false} // TODO: implement isSoon
-              title={title}
-              firstName={patient.firstName || ""}
-              lastName={patient.lastName || ""}
-              pesel={pesel}
-              visitDate={new Date(date)}
-              onViewVisit={() =>
-                openVisit({
-                  ...visitDetails,
-                  patient,
-                  title,
-                  date: formattedDate,
-                })
-              }
-            />
-          );
-        })}
+            return (
+              <DoctorsVisitCard
+                key={index}
+                title={title}
+                firstName={patient.firstName || ""}
+                lastName={patient.lastName || ""}
+                pesel={pesel}
+                visitDate={new Date(date)}
+                visitStatus={visitDetails.status}
+                onViewVisit={() =>
+                  openVisit({
+                    ...visitDetails,
+                    patient,
+                    title,
+                    date: formattedDate,
+                  })
+                }
+              />
+            );
+          })}
 
         {selectedVisit && (
           <CustomDialog

@@ -20,14 +20,14 @@ export const VisitSection: React.FC = () => {
       <div className="grid grid-cols-1 place-items-center items-stretch gap-x-2 gap-y-3">
         {visits
           ?.filter((v) => v.date.getDate() === selectedDate.getDate())
-          .map((v) => 
+          .map((v) => (
             <VisitCard
               status={v.status}
               title={v.title}
               date={v.date}
               doctorId={v.doctorId}
             ></VisitCard>
-          )}
+          ))}
       </div>
     </div>
   );
