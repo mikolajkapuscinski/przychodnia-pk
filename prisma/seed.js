@@ -53,8 +53,8 @@ const addUsers = async () => {
       role: UserRole.ACCOUNTANT,
       sex: Sex.NON_BINARY,
     },
-    ...new Array(10).fill({ role: UserRole.DOCTOR }),
-    ...new Array(20).fill({ role: UserRole.PATIENT }),
+    ...new Array(100).fill({ role: UserRole.DOCTOR }),
+    ...new Array(5000).fill({ role: UserRole.PATIENT }),
   ];
 
   await prisma.user.createMany({
@@ -100,17 +100,20 @@ const addMedicalHistory = async () => {
   const patients = await prisma.patient.findMany();
   const doctors = await prisma.doctor.findMany();
 
-  const medicalHistories = patients.map((patient) => ({
-    patientId: patient.userId,
-    doctorId: doctors[Math.floor(Math.random() * doctors.length)].userId,
-    diseaseName: faker.lorem.words(2),
-    region:
-      Object.values(DiseaseRegion)[
-        Math.floor(Math.random() * Object.values(DiseaseRegion).length)
-      ],
-    diagnosisDate: faker.date.past(),
-    recoveryDate: Math.random() > 0.5 ? faker.date.recent() : null,
-  }));
+  const medicalHistories = new Array(100)
+    .fill(patients)
+    .flat()
+    .map((patient) => ({
+      patientId: patient.userId,
+      doctorId: doctors[Math.floor(Math.random() * doctors.length)].userId,
+      diseaseName: faker.lorem.words(2),
+      region:
+        Object.values(DiseaseRegion)[
+          Math.floor(Math.random() * Object.values(DiseaseRegion).length)
+        ],
+      diagnosisDate: faker.date.past(),
+      recoveryDate: Math.random() > 0.5 ? faker.date.recent() : null,
+    }));
 
   await prisma.medicalHistory.createMany({
     data: medicalHistories,
