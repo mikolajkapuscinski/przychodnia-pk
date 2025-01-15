@@ -72,7 +72,7 @@ export const VisitsSection: React.FC<VisitsSectionProps> = (
             onClose={closeVisit}
             className="w-1/2"
           >
-            <Visit {...selectedVisit} />
+            <Visit {...selectedVisit} closeDialog={closeVisit} />
           </CustomDialog>
         )}
       </div>

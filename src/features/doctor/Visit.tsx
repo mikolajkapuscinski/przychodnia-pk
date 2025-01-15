@@ -20,6 +20,7 @@ interface VisitProps {
   allergies: { id: number; name: string }[];
   patient: any;
   prescription?: string;
+  closeDialog: () => void;
 }
 
 export const Visit: React.FC<VisitProps> = (p) => {
@@ -69,6 +70,8 @@ export const Visit: React.FC<VisitProps> = (p) => {
       diagnosisDate: new Date(),
       region: selectedRegion || DiseaseRegion.CHEST,
     });
+
+    p.closeDialog();
   };
 
   useEffect(() => {

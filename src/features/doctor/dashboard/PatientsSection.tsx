@@ -12,11 +12,13 @@ export const PatientSection: React.FC<PatientSectionProps> = () => {
     useState(false);
   const [selectedPatient, setSelectedPatient] = useState<any>(null);
 
+  // Otwieranie dialogu z pacjentem
   const openPatientDescription = (patient: any) => {
     setSelectedPatient(patient);
     setIsPatientDescriptionOpen(true);
   };
 
+  // Zamknięcie dialogu
   const closePatientDescription = () => {
     setSelectedPatient(null);
     setIsPatientDescriptionOpen(false);
@@ -41,9 +43,12 @@ export const PatientSection: React.FC<PatientSectionProps> = () => {
       {selectedPatient && (
         <CustomDialog
           isOpen={isPatientDescriptionOpen}
-          onClose={closePatientDescription}
+          onClose={closePatientDescription} 
         >
-          <PatientDescription {...selectedPatient} />
+          <PatientDescription
+            {...selectedPatient}
+            closeDialog={closePatientDescription}
+          />
         </CustomDialog>
       )}
     </div>

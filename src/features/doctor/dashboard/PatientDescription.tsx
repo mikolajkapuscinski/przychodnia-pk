@@ -13,9 +13,15 @@ interface PatientDescriptionProps {
   sex: string;
   birthday?: string;
   image?: string;
-  medicalHistory: { date: string | Date; diseaseName: string }[];
+  medicalHistory: {
+    id: number;
+    date: string | Date;
+    diseaseName: string;
+    recoveryDate: string | Date;
+  }[];
   bloodType?: string;
   allergies: string[];
+  closeDialog: () => void;
 }
 
 const calculateBirthdayFromPesel = (pesel: string): string => {
@@ -71,7 +77,10 @@ export const PatientDescription: React.FC<PatientDescriptionProps> = (p) => {
       </div>
 
       <div className="form-group mt-7">
-        <PatientMedicalHistory medicalHistory={p.medicalHistory} />
+        <PatientMedicalHistory
+          medicalHistory={p.medicalHistory}
+          closeDialog={p.closeDialog}
+        />
       </div>
     </div>
   );

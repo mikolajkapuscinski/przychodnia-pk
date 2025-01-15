@@ -70,4 +70,15 @@ export const medicalHistoryRouter = createTRPCRouter({
         input,
       );
     }),
+
+  closeTreatment: doctorProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ input, ctx }) => {
+      const doctorId = ctx.session.user.id;
+      assert(doctorId);
+
+      return await medicalHistoryAccess.updateMedicalHistory(input.id, {
+        recoveryDate: new Date(),
+      });
+    }),
 });
