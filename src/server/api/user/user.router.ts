@@ -157,13 +157,14 @@ export const userRouter = createTRPCRouter({
           email: user.email ?? "Unknown",
           phoneNumber: user.phoneNumber ?? "Unknown",
           sex: user.sex ?? "Unknown",
-          // birthday: user.birthday ?? "Unknown",
           image: user.image ?? "/default-avatar.png",
           allergies: allergies.length ? allergies.map((a) => a.name) : [],
           medicalHistory: medicalHistory.length
             ? medicalHistory.map((m) => ({
+                id: m.id,
                 date: m.diagnosisDate,
                 diseaseName: m.diseaseName,
+                recoveryDate: m.recoveryDate,
               }))
             : [],
         };
