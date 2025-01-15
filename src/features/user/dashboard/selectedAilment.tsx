@@ -23,9 +23,8 @@ export const SelectedAilment: React.FC<SelectedAilmentProps> = ({
       <div className="grid grid-cols-1 place-items-center items-stretch gap-x-2 gap-y-3">
         {safeMedicalHistory.length > 0 ? (
           safeMedicalHistory.map((ailment) => {
-            const doctorInCharge: User = api.user.findById.useQuery(
-              ailment.doctorId,
-            );
+            const { data: doctorInCharge, isLoading } =
+              api.user.findById.useQuery(ailment.doctorId);
 
             return (
               <>
@@ -43,12 +42,12 @@ export const SelectedAilment: React.FC<SelectedAilmentProps> = ({
                   <p className="mb-1">MAIN DIAGNOSIS: </p>
                   <p className="text-sm font-semibold">{ailment.diseaseName}</p>
                 </AilmentCard>
-                {doctorInCharge ? (
+                {!isLoading && doctorInCharge ? (
                   <Card title="Doctor in charge">
                     <Line />
                     <DoctorLabel
-                      firstName={doctorInCharge.firstName}
-                      lastName={doctorInCharge.lastName}
+                      firstName={doctorInCharge.firstName || ""}
+                      lastName={doctorInCharge.lastName || ""}
                     />
                   </Card>
                 ) : (

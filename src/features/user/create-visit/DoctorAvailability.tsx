@@ -3,6 +3,7 @@ import { Cell } from "~/components/callendar/Cell";
 import { Button } from "~/components/forms/Button";
 import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 interface DoctorAvailabilityProps {
   selectedDate: Date;
@@ -16,6 +17,8 @@ export const DoctorAvailability = (p: DoctorAvailabilityProps) => {
 
   const { data: sessionData } = useSession();
   const newVisit = api.visit.createVisit.useMutation();
+
+  const router = useRouter();
 
   const handleIsCellDisabled = (hour: number): boolean => {
     if (isToday && hour <= today.getHours()) {
@@ -53,8 +56,10 @@ export const DoctorAvailability = (p: DoctorAvailabilityProps) => {
           date: visitTime,
           patientId: sessionData.user.id,
           doctorId: p.doctorId,
+          title: "New Appointment",
         });
-        alert("Created visit successfully!");
+
+        router.push(`/${sessionData?.user?.role?.toLowerCase()}/dashboard`);
       } catch (error) {
         console.error(error);
       }
