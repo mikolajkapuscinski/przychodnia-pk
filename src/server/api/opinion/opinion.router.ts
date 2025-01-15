@@ -9,8 +9,8 @@ import { assert } from "~/utils/assert";
 import { OpinionEngine } from "./opinion.engine";
 import { opinionInjector } from "./opinion.module";
 
-const opinionAccess = opinionInjector.get(OpinionAccess) as OpinionEngine;
-const opinionEngine = opinionInjector.get(OpinionEngine) as OpinionAccess;
+const opinionAccess = opinionInjector.get(OpinionAccess) as OpinionAccess;
+const opinionEngine = opinionInjector.get(OpinionEngine) as OpinionEngine;
 
 export const opinionRouter = createTRPCRouter({
   getOpinionsForDoctor: publicProcedure
@@ -20,11 +20,11 @@ export const opinionRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input }) => {
-      return await opinionEngine.getOpinionsForDoctor(input.doctorId);
+      return await opinionAccess.getOpinionsForDoctor(input.doctorId);
     }),
 
   getOpinionSummary: publicProcedure.query(async () => {
-    return await opinionEngine.getOpinionSummary();
+    return await opinionAccess.getOpinionSummary();
   }),
 
   postOpinion: patientProcedure
@@ -39,6 +39,6 @@ export const opinionRouter = createTRPCRouter({
       const patientId = ctx.session.user.id;
       assert(patientId);
 
-      await opinionAccess.postOpinion(patientId, input);
+      await opinionEngine.postOpinion(patientId, input);
     }),
 });
