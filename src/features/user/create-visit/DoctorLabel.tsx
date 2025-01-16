@@ -5,7 +5,14 @@ export interface DoctorLabelProps {
   firstName: string;
   lastName: string;
   specialization?: Specialization[];
-  opinion?: any;
+  opinion?: {
+    id: number;
+    patientId: String;
+    doctorId: String;
+    opinionText?: String;
+    rating: number;
+    count: number;
+  };
 }
 
 export const DoctorLabel = (p: DoctorLabelProps) => {
@@ -22,15 +29,20 @@ export const DoctorLabel = (p: DoctorLabelProps) => {
         </h3>
         {p.specialization ? (
           <p className="text-sm text-gray-500">
-            {p.specialization.map((s) => s.name).join(", ")}
+            {p.specialization
+              .slice(0, 3)
+              .map((s) => s.name)
+              .join(", ")}
           </p>
         ) : (
           <></>
         )}
         {p.opinion ? (
           <p className="font-small text-sm text-aquamarine">
-            <span className="font-bold">{p.opinion.rating}/5 </span>(
-            {p.opinion.count}{" "}
+            <span className="font-bold">
+              {p.opinion.rating.toPrecision(2)}/5{" "}
+            </span>
+            ({p.opinion.count}{" "}
             <span>{p.opinion.count == 1 ? "opinion" : "opinions"})</span>
           </p>
         ) : (

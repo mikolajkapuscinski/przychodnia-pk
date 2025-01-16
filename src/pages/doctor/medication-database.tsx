@@ -28,7 +28,7 @@ const MedicationDatabasePage: NextPage = () => {
             console.log("clicked on overview");
           }}
         >
-          Overview
+          Dashboard
         </Button>
         <Button variant="secondary" size="base">
           Calendar
