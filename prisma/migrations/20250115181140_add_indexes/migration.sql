@@ -5,10 +5,10 @@
 
 */
 -- CreateIndex
-CREATE INDEX "Drug_name_idx" ON "Drug"(lower("name"));
+CREATE INDEX "Drug_name_idx" ON "Drug"("name");
 
 -- CreateIndex
-CREATE INDEX "MedicalHistory_diseaseName_idx" ON "MedicalHistory"(lower("diseaseName"));
+CREATE INDEX "MedicalHistory_diseaseName_idx" ON "MedicalHistory"("diseaseName");
 
 -- CreateIndex
 CREATE INDEX "MedicalHistory_region_idx" ON "MedicalHistory"("region");
