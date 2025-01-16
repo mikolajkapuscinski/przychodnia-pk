@@ -3,7 +3,6 @@ import { AilmentCard } from "~/components/cards/ailmentCard";
 import { Card } from "~/components/cards/card";
 import { DoctorLabel } from "../create-visit/DoctorLabel";
 import { api } from "~/utils/api";
-import { User } from "@prisma/client";
 
 interface SelectedAilmentProps {
   medicalHistory: any[];
@@ -22,7 +21,7 @@ export const SelectedAilment: React.FC<SelectedAilmentProps> = ({
     <div className="hidden xl:block">
       <div className="grid grid-cols-1 place-items-center items-stretch gap-x-2 gap-y-3">
         {safeMedicalHistory.length > 0 ? (
-          safeMedicalHistory.map((ailment) => {
+          safeMedicalHistory.slice(0,2).map((ailment) => {
             const { data: doctorInCharge, isLoading } =
               api.user.findById.useQuery(ailment.doctorId);
 

@@ -39,7 +39,7 @@ export const VisitsSection: React.FC<VisitsSectionProps> = (
       <div className="grid-colsw-1 grid place-items-center items-stretch gap-x-2 gap-y-3">
         {visitsData.data
           ?.filter((v) => v.date.getDate() === selectedDate.getDate())
-          .map((visit, index) => {
+          .slice(0,2).map((visit, index) => {
             const { patient, title, date, ...visitDetails } = visit;
             const { pesel } = patient;
 

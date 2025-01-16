@@ -31,7 +31,7 @@ export const PatientSection: React.FC<PatientSectionProps> = () => {
       <SectionTitle results={patientsData?.length}>My Patients</SectionTitle>
       <div className="flex flex-col gap-y-2">
         {patientsData &&
-          patientsData.map((patient: any, index: number) => (
+          patientsData.slice(0,7).map((patient: any, index: number) => (
             <PatientBlock
               key={index}
               {...patient}
