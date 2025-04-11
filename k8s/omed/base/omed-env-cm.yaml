@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: omed-env
-data:
-  NUM_INSTANCES: "1"
