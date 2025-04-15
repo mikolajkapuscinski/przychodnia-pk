@@ -26,7 +26,7 @@ export const LoggedUserOptions: React.FC<LoggedUserOptionsProps> = ({
   const handleLogout = async () => {
     onClose();
     await signOut({ redirect: false });
-    router.push("/");
+    await router.push("/");
   };
 
   return (

@@ -27,6 +27,7 @@ export const VisitSection: React.FC = () => {
           })
           .map((v) => (
             <VisitCard
+              key={v.id}
               status={v.status}
               title={v.title}
               date={v.date}

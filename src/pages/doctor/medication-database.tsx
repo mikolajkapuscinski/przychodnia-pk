@@ -23,8 +23,8 @@ const MedicationDatabasePage: NextPage = () => {
         <Button
           variant="secondary"
           size="base"
-          onClick={() => {
-            router.push(`/${sessionData?.user?.role?.toLowerCase()}/dashboard`);
+          onClick={async () => {
+            await router.push(`/${sessionData?.user?.role?.toLowerCase()}/dashboard`);
             console.log("clicked on overview");
           }}
         >
@@ -36,8 +36,8 @@ const MedicationDatabasePage: NextPage = () => {
         <Button
           variant="secondary"
           size="base"
-          onClick={() =>
-            router.push(
+          onClick={async () =>
+            await router.push(
               `/${sessionData?.user?.role?.toLowerCase()}/medication-database`,
             )
           }

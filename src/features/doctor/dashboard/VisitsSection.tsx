@@ -29,7 +29,7 @@ export const VisitsSection: React.FC<VisitsSectionProps> = (
   };
 
   const visitsData = api.visit.getDoctorsVisits.useQuery({
-    doctorId: session?.user.id || "",
+    doctorId: session?.user.id ?? "",
   });
 
   return (
@@ -49,8 +49,8 @@ export const VisitsSection: React.FC<VisitsSectionProps> = (
               <DoctorsVisitCard
                 key={index}
                 title={title}
-                firstName={patient.firstName || ""}
-                lastName={patient.lastName || ""}
+                firstName={patient.firstName ?? ""}
+                lastName={patient.lastName ?? ""}
                 pesel={pesel}
                 visitDate={new Date(date)}
                 visitStatus={visitDetails.status}

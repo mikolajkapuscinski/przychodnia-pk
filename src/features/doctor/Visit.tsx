@@ -68,7 +68,7 @@ export const Visit: React.FC<VisitProps> = (p) => {
       patientId: p.patient.id,
       diseaseName: diagnosis,
       diagnosisDate: new Date(),
-      region: selectedRegion || DiseaseRegion.CHEST,
+      region: selectedRegion ?? DiseaseRegion.CHEST,
     });
 
     p.closeDialog();
@@ -132,7 +132,7 @@ export const Visit: React.FC<VisitProps> = (p) => {
             <Select
               id={"region"}
               name={"region"}
-              value={selectedRegion || ""}
+              value={selectedRegion ?? ""}
               placeholder="Select region..."
               options={diseaseRegionOptions}
               onChange={(e) =>

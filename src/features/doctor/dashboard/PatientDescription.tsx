@@ -63,14 +63,14 @@ export const PatientDescription: React.FC<PatientDescriptionProps> = (p) => {
           <PatientBasicInformationCard
             sex={p.sex}
             birthday={birthday}
-            phoneNumber={p.phoneNumber == null ? "-" : p.phoneNumber}
+            phoneNumber={p.phoneNumber ?? "-"}
             email={p.email}
           />
         </div>
 
         <div className="form-group mt-2 flex-grow-[1]">
           <PatientMedicalInformationCard
-            bloodType={p.bloodType == null ? "-" : p.bloodType}
+            bloodType={p.bloodType ?? "-"}
             allergies={p.allergies}
           />
         </div>

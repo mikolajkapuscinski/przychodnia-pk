@@ -37,8 +37,8 @@ const UserDashboard: NextPage = () => {
         <Button
           variant="secondary"
           size="base"
-          onClick={() => {
-            router.push(`/${sessionData?.user?.role?.toLowerCase()}/dashboard`);
+          onClick={async () => {
+            await router.push(`/${sessionData?.user?.role?.toLowerCase()}/dashboard`);
           }}
         >
           Dashboard
@@ -46,8 +46,8 @@ const UserDashboard: NextPage = () => {
         <Button
           variant="primary"
           size="base"
-          onClick={() => {
-            router.push("create-visit");
+          onClick={async () => {
+            await router.push("create-visit");
           }}
         >
           Schedule&nbsp;visit

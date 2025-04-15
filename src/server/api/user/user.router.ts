@@ -135,7 +135,7 @@ export const userRouter = createTRPCRouter({
     assert(doctorId, "User must be logged in as a doctor.");
 
     const medicalHistories = await doctorEngine.getVisitsForDoctor(
-      doctorId as string,
+      doctorId!,
     );
 
     const patientIds = Array.from(
@@ -178,20 +178,20 @@ export const userRouter = createTRPCRouter({
     const patientId = ctx.session?.user?.id;
     assert(patientId, "User must be logged in as a patient.");
 
-    return await userAccess.getUserPrescriptions(patientId as string);
+    return await userAccess.getUserPrescriptions(patientId!);
   }),
 
   getPatientDrugs: protectedProcedure.query(async ({ ctx }) => {
     const patientId = ctx.session?.user?.id;
     assert(patientId, "User must be logged in as a patient.");
 
-    return await userAccess.getUserDrugs(patientId as string);
+    return await userAccess.getUserDrugs(patientId!);
   }),
 
   getPatientVisits: protectedProcedure.query(async ({ ctx }) => {
     const patientId = ctx.session?.user?.id;
     assert(patientId, "User must be logged in as a patient.");
 
-    return await userAccess.getPatientVisits(patientId as string);
+    return await userAccess.getPatientVisits(patientId!);
   }),
 });

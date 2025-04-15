@@ -23,7 +23,7 @@ export const PrescriptionSection: React.FC = () => {
             if (!data) return null;
 
             return (
-              <Card title={`Condition: ${data.patientCondition}`}>
+              <Card key={data.id} title={`Condition: ${data.patientCondition}`}>
                 <Line className="my-1"></Line>
                 <p>{`Recommendation: ${data.recommendations}`}</p>
                 <p>{`Diagnosis: ${data.diagnosis}`}</p>

@@ -7,9 +7,9 @@ export interface DoctorLabelProps {
   specialization?: Specialization[];
   opinion?: {
     id: number;
-    patientId: String;
-    doctorId: String;
-    opinionText?: String;
+    patientId: string;
+    doctorId: string;
+    opinionText?: string;
     rating: number;
     count: number;
   };

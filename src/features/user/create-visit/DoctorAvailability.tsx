@@ -59,7 +59,7 @@ export const DoctorAvailability = (p: DoctorAvailabilityProps) => {
           title: "New Appointment",
         });
 
-        router.push(`/${sessionData?.user?.role?.toLowerCase()}/dashboard`);
+        await router.push(`/${sessionData?.user?.role?.toLowerCase()}/dashboard`);
       } catch (error) {
         console.error(error);
       }

@@ -29,7 +29,7 @@ export const SelectedAilment: React.FC<SelectedAilmentProps> = ({
               <>
                 <AilmentCard
                   key={ailment.id}
-                  title={"Ailment for " + (selectedRegion || "")}
+                  title={"Ailment for " + (selectedRegion ?? "")}
                 >
                   <span>
                     <span className="text-gray-400">Diagnosis date:&nbsp;</span>
@@ -45,8 +45,8 @@ export const SelectedAilment: React.FC<SelectedAilmentProps> = ({
                   <Card title="Doctor in charge">
                     <Line />
                     <DoctorLabel
-                      firstName={doctorInCharge.firstName || ""}
-                      lastName={doctorInCharge.lastName || ""}
+                      firstName={doctorInCharge.firstName ?? ""}
+                      lastName={doctorInCharge.lastName ?? ""}
                     />
                   </Card>
                 ) : (
@@ -58,10 +58,10 @@ export const SelectedAilment: React.FC<SelectedAilmentProps> = ({
         ) : (
           <AilmentCard
             key="no-history"
-            title={`No ailments for ${selectedRegion || "unknown"}`}
+            title={`No ailments for ${selectedRegion ?? "unknown"}`}
           >
             {`There is no medical history for the ${
-              selectedRegion || "unknown"
+              selectedRegion ?? "unknown"
             } region.`}
           </AilmentCard>
         )}
