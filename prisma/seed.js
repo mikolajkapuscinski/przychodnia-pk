@@ -140,25 +140,45 @@ const addVisits = async () => {
   const patients = await prisma.patient.findMany();
   const doctors = await prisma.doctor.findMany();
 
-  const visits = [...patients, ...patients].map((patient) => ({
-    patientId: patient.userId,
-    doctorId: doctors[Math.floor(Math.random() * doctors.length)].userId,
-    title: faker.lorem.words(5),
-    date: faker.date.future(),
-    status:
-      Object.values(VisitStatus)[
-        Math.floor(Math.random() * Object.values(VisitStatus).length)
-      ],
-    prescription: JSON.stringify({
-      recommendations: faker.lorem.sentence(3),
-      diagnosis: faker.lorem.sentence(3),
-      patientCondition: faker.lorem.sentence(1),
-    }),
-  }));
+  const visits = new Array(10)
+    .fill(patients)
+    .flat()
+    .map((patient) => ({
+      patientId: patient.userId,
+      doctorId: doctors[Math.floor(Math.random() * doctors.length)].userId,
+      title: faker.lorem.words(5),
+      date: faker.date.future(),
+      status:
+        Object.values(VisitStatus)[
+          Math.floor(Math.random() * Object.values(VisitStatus).length)
+        ],
+      prescription: JSON.stringify({
+        recommendations: faker.lorem.sentence(3),
+        diagnosis: faker.lorem.sentence(3),
+        patientCondition: faker.lorem.sentence(1),
+      }),
+    }));
 
   await prisma.visit.createMany({
     data: visits,
   });
+
+  const drugs = await prisma.drug.findMany();
+  for (let i = 1; i < visits.length; i++) {
+    const druga = drugs[Math.floor(Math.random() * drugs.length)].id;
+    const drugb = drugs[Math.floor(Math.random() * drugs.length)].id;
+    const out = [{ id: druga }];
+    if (druga !== drugb) {
+      out.push({ id: drugb });
+    }
+
+    const payload = {
+      where: { id: i },
+      data: { drugs: { connect: out } },
+    };
+    console.log(JSON.stringify(payload, null, 2));
+    await prisma.visit.update(payload);
+  }
 };
 
 const addSpecializations = async () => {
@@ -197,7 +217,9 @@ const addSpecializations = async () => {
       where: { id: sp.id },
       data: {
         doctor: {
-          connect: doctors.map((d) => ({ userId: d.userId })),
+          connect: doctors
+            .filter(() => Math.random() > 0.85)
+            .map((d) => ({ userId: d.userId })),
         },
       },
     });
@@ -224,7 +246,9 @@ const main = async () => {
   await add("user", addUsers);
   await add("medicalHistory", addMedicalHistory);
   await add("opinion", addOpinions);
+  await prisma.visit.deleteMany();
   await add("visit", addVisits);
+  await prisma.specialization.deleteMany();
   await add("specialization", addSpecializations);
   await prisma.$disconnect();
 };

@@ -16,10 +16,8 @@ export const PrescriptionSection: React.FC = () => {
 
       {patientPrescriptions && patientPrescriptions.length > 0 ? (
         <div className="grid place-items-center items-stretch gap-x-2 gap-y-3 lg:grid-cols-1 2xl:grid-cols-2">
-          {patientPrescriptions.map((p) => {
-            const data = p.prescription
-              ? JSON.parse(p.prescription as string)
-              : null;
+          {patientPrescriptions.slice(0, 5).map((p) => {
+            const data = p.prescription ? JSON.parse(p.prescription) : null;
             if (!data) return null;
 
             return (
