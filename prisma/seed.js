@@ -11,6 +11,7 @@ import {
 import drugs from "./drugs.json" with { type: "json" };
 
 const prisma = new PrismaClient();
+const defaultUserIdx = "1";
 
 const addDrugs = async () => {
   // cat drug-ndc-0001-of-0001.json| jq -c '.results[] | { n: .generic_name, p: .packaging[0].description, df: .dosage_form }' | jq -s > drugs.json
@@ -105,12 +106,14 @@ const addMedicalHistory = async () => {
     .flat()
     .map((patient) => ({
       patientId: patient.userId,
-      doctorId: doctors[Math.floor(Math.random() * doctors.length)].userId,
+      doctorId:
+        doctors[Math.floor(Math.random() * doctors.length)]?.userId ||
+        defaultUserIdx,
       diseaseName: faker.lorem.words(2),
       region:
         Object.values(DiseaseRegion)[
           Math.floor(Math.random() * Object.values(DiseaseRegion).length)
-        ],
+        ] || "HEAD",
       diagnosisDate: faker.date.past(),
       recoveryDate: Math.random() > 0.5 ? faker.date.recent() : null,
     }));
@@ -126,7 +129,7 @@ const addOpinions = async () => {
 
   const opinions = patients.map((patient) => ({
     patientId: patient.userId,
-    doctorId: doctors[Math.floor(Math.random() * doctors.length)].userId,
+    doctorId: doctors[Math.floor(Math.random() * doctors.length)]?.userId || defaultUserIdx,
     opinionText: faker.lorem.sentence(),
     rating: Math.floor(Math.random() * 5) + 1,
   }));
@@ -145,13 +148,13 @@ const addVisits = async () => {
     .flat()
     .map((patient) => ({
       patientId: patient.userId,
-      doctorId: doctors[Math.floor(Math.random() * doctors.length)].userId,
+      doctorId: doctors[Math.floor(Math.random() * doctors.length)]?.userId || defaultUserIdx,
       title: faker.lorem.words(5),
       date: faker.date.future(),
       status:
         Object.values(VisitStatus)[
           Math.floor(Math.random() * Object.values(VisitStatus).length)
-        ],
+        ] || "FINISHED",
       prescription: JSON.stringify({
         recommendations: faker.lorem.sentence(3),
         diagnosis: faker.lorem.sentence(3),
@@ -165,8 +168,8 @@ const addVisits = async () => {
 
   const drugs = await prisma.drug.findMany();
   for (let i = 1; i < visits.length; i++) {
-    const druga = drugs[Math.floor(Math.random() * drugs.length)].id;
-    const drugb = drugs[Math.floor(Math.random() * drugs.length)].id;
+    const druga = drugs[Math.floor(Math.random() * drugs.length)]?.id;
+    const drugb = drugs[Math.floor(Math.random() * drugs.length)]?.id;
     const out = [{ id: druga }];
     if (druga !== drugb) {
       out.push({ id: drugb });

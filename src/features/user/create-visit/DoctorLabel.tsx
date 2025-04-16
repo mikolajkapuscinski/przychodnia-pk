@@ -6,10 +6,6 @@ export interface DoctorLabelProps {
   lastName: string;
   specialization?: Specialization[];
   opinion?: {
-    id: number;
-    patientId: string;
-    doctorId: string;
-    opinionText?: string;
     rating: number;
     count: number;
   };
